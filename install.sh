@@ -1,3 +1,22 @@
+#!/bin/bash
+typessh() {
+    text="$1"
+    delay="$2"
+    for ((i=0; i<${#text}; i++)); do
+        echo -n "${text:$i:1}"
+        sleep $delay
+    done
+    echo
+}
+function isRoot() {
+	if [ "$EUID" -ne 0 ]; then
+		return 1
+	fi
+}
+if ! isRoot; then
+	echo "Sorry, you need to run this as root"
+	exit 1
+fi
 clear
 echo ""
 typessh "SSH Panel Installation :) By Sami4387" 0.4
