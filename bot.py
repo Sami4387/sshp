@@ -100,26 +100,26 @@ def User_Tools_keys():
         [InlineKeyboardButton("🆘 آموزش", callback_data='help')]
     ]
     settings = get_settings()
-    if settings['buy'] == 'on':
+    if settings['buy'] == 'روشن':
         keyboard.insert(0, [InlineKeyboardButton("♻ تمدید", callback_data='upgrade'), InlineKeyboardButton("🛒 خرید اشتراک", callback_data='buy')])
-    if settings['list_status'] == "on":
+    if settings['list_status'] == "روشن":
         for i in range(len(keyboard)):
             if InlineKeyboardButton("💵کیف پول", callback_data='UWM') in keyboard[i]:
                 keyboard[i].insert(1, InlineKeyboardButton("💸 قیمت سرویس ها", callback_data='price'))
                 break
-    if settings['info_service'] == "on":
+    if settings['info_service'] == "روشن":
         for i in range(len(keyboard)):
             if InlineKeyboardButton("📱 سرویس های من", callback_data='service') in keyboard[i]:
                 keyboard[i].insert(0, InlineKeyboardButton("❗️ اطلاعات سرویس", callback_data='config'))
                 break
-    if settings['test'] == "on":
+    if settings['test'] == "روشن":
         keyboard.insert(1, [InlineKeyboardButton("🗒 اکانت تست", callback_data='test')])
-    if settings['buy-traffic'] == 'on':
+    if settings['buy-traffic'] == 'روشن':
         keyboard.insert(1, [InlineKeyboardButton("🩸 خرید ترافیک", callback_data='traffic')])
     if settings['proxy'] != "None":
         keyboard.insert(-1, [InlineKeyboardButton("🆓 پروکسی تلگرام", callback_data='FREEPX')])
     inv = True
-    if settings['invite'] == "on":
+    if settings['invite'] == "روشن":
         for i in range(len(keyboard)):
             if InlineKeyboardButton("🆓 پروکسی تلگرام", callback_data='FREEPX') in keyboard[i]:
                 keyboard[i].insert(0, InlineKeyboardButton("🎁 دریافت هدیه", callback_data='referral'))
@@ -129,7 +129,7 @@ def User_Tools_keys():
                 inv = False
     if inv is False:
         keyboard.append([InlineKeyboardButton("🎁 دریافت هدیه", callback_data='referral')])
-    if settings['support_status'] == "on":
+    if settings['support_status'] == "روشن":
         for i in range(len(keyboard)):
             if InlineKeyboardButton("🆘 آموزش", callback_data='help') in keyboard[i]:
                 keyboard[i].insert(0, InlineKeyboardButton("👥 پشتیبانی", callback_data='support'))
@@ -496,7 +496,7 @@ def get_shortcut_of_price(price):
 
 def get_random_number_if_on():
     settings = get_settings()
-    if settings['random_price'] == "on":
+    if settings['random_price'] == "روشن":
         range_num = randint(0, ((settings['random_price_max'] - settings['random_price_min']) // 100))
         return range_num * 100
     else:
@@ -505,7 +505,7 @@ def get_random_number_if_on():
 
 def get_password_by_settings():
     settings = get_settings()
-    if settings['default_password_status'] == "on":
+    if settings['default_password_status'] == "روشن":
         password = settings['default_password']
     else:
         F, L = ("",)*2
@@ -1565,7 +1565,7 @@ def forward(bot, message):
 def start_admin(bot, message):
     if botusername == []:
         botusername.append((bot.get_me()).username)
-    text = '🔻<b>Tools</b>\n\n/backup'
+    text = '<b>پنل ربات</b>\n\n/backup'
     chat_id = message.chat.id
     if check_cache(chat_id) is True:
         delete_cache(chat_id)
@@ -1584,7 +1584,7 @@ def start_user(bot, message):
         if chat_id in seller_id:
             delete_collector(chat_id)
     if chat_id in seller_id:
-        text = '🔻<b>Tools</b>'
+        text = '<b>پنل ربات</b>'
         message.reply_text(text, reply_markup=Seller_Tools_keys(), parse_mode=enums.ParseMode.HTML)
     else:
         settings = get_settings()
@@ -1597,7 +1597,7 @@ def start_user(bot, message):
         if len(link) >= 7:
             try:
                 ref_chat_id = int(link.split('/start ')[1])
-                if ((check_referral_exists(ref_chat_id) is True) and (chat_id != ref_chat_id)) and (settings['invite'] == "on"):
+                if ((check_referral_exists(ref_chat_id) is True) and (chat_id != ref_chat_id)) and (settings['invite'] == "روشن"):
                     name, referrals = get_referral_info(ref_chat_id)
                     if (chat_id not in referrals):
                         if len(referrals) < settings['invitation_limit']:
@@ -1614,7 +1614,7 @@ def start_user(bot, message):
             add_referral(chat_id, name, username, [])
         if check_user_exists_in_clients_table(chat_id) is False:
             add_client_db(chat_id, name, username, 'None', 0)
-            if settings['notification'] == "on":
+            if settings['notification'] == "روشن":
                 for admin in admin_id:
                     try:
                         mention = "<a href='tg://user?id=" + str(chat_id) + "'>" + name + "</a>"
@@ -1630,20 +1630,20 @@ def start_user(bot, message):
         reply_markup = ReplyKeyboardMarkup(Buttons, resize_keyboard=True)
         text = "لطفا برای استفاده از ربات دکمه پایین کلیک کنین و شمارتون بفرستین👇"
         if settings['sponser'] == "None":
-            if (settings['phone'] == "on") and (check_user_phone_exist(chat_id) is False):
+            if (settings['phone'] == "روشن") and (check_user_phone_exist(chat_id) is False):
                 message.reply_text(text, reply_markup=reply_markup)
             else:
                 message.reply_text(settings['start'], reply_markup=User_Tools_keys(), parse_mode=enums.ParseMode.HTML)
         else:
             try:
                 chat_member = bot.get_chat_member(settings['sponser'], chat_id)
-                if (settings['phone'] == "on") and (check_user_phone_exist(chat_id) is False):
+                if (settings['phone'] == "روشن") and (check_user_phone_exist(chat_id) is False):
                     message.reply_text(text, reply_markup=reply_markup)
                 else:
                     message.reply_text(settings['start'], reply_markup=User_Tools_keys(), parse_mode=enums.ParseMode.HTML)
 
             except NotAcceptable:
-                if (settings['phone'] == "on") and (check_user_phone_exist(chat_id) is False):
+                if (settings['phone'] == "روشن") and (check_user_phone_exist(chat_id) is False):
                     message.reply_text(text, reply_markup=reply_markup)
                 else:
                     message.reply_text(settings['start'], reply_markup=User_Tools_keys(), parse_mode=enums.ParseMode.HTML)
@@ -1655,7 +1655,7 @@ def start_user(bot, message):
                     reply_markup = InlineKeyboardMarkup(keyboard)
                     message.reply_text(text, reply_markup=reply_markup)
                 else:
-                    if (settings['phone'] == "on") and (check_user_phone_exist(chat_id) is False):
+                    if (settings['phone'] == "روشن") and (check_user_phone_exist(chat_id) is False):
                         message.reply_text(text, reply_markup=reply_markup)
                     else:
                         message.reply_text(settings['start'], reply_markup=User_Tools_keys(), parse_mode=enums.ParseMode.HTML)
@@ -1746,13 +1746,13 @@ def text_private(bot, message):
                                     [InlineKeyboardButton("🔑تغییر پسورد", callback_data=('SELFCPA_' + cb))],
                                     [InlineKeyboardButton("📲 کد QR و لینک اتصال", callback_data=f'QRCODE_{cb}')]
                                 ]
-                                if (settings['buy'] == 'on') or (chat_id in seller_id):
+                                if (settings['buy'] == 'روشن') or (chat_id in seller_id):
                                     keyboard[0].insert(1, InlineKeyboardButton("♻ تمدید سرویس", callback_data=("UPG_" + cb)))
-                                if (settings['buy-traffic'] == 'on') or (chat_id in seller_id):
+                                if (settings['buy-traffic'] == 'روشن') or (chat_id in seller_id):
                                     keyboard[1].insert(1, InlineKeyboardButton("🩸 افزایش حجم سرویس", callback_data=("UTGB_" + cb)))
-                                if (settings['delete_user'] == 'on') or (chat_id in seller_id):
+                                if (settings['delete_user'] == 'روشن') or (chat_id in seller_id):
                                     keyboard.append([InlineKeyboardButton("❌حذف اکانت ", callback_data=("DJVYS_" + cb))])
-                                if (settings['online_access'] == 'on') or (chat_id in seller_id):
+                                if (settings['online_access'] == 'روشن') or (chat_id in seller_id):
                                     keyboard.append([InlineKeyboardButton("🟢 کاربران آنلاین", callback_data=("BDKSC_" + cb))])
                                 keyboard.append([InlineKeyboardButton("⤵️ برگرد به منوی قبلی ", callback_data='back')])
                                 password_retry_del(chat_id)
@@ -1857,13 +1857,13 @@ def text_private(bot, message):
                                     [InlineKeyboardButton("🔑تغییر پسورد", callback_data=('SELFCPA_' + cb))],
                                     [InlineKeyboardButton("📲 کد QR و لینک اتصال", callback_data=f'QRCODE_{cb}')]
                                 ]
-                                if (settings['buy'] == 'on') or (chat_id in seller_id):
+                                if (settings['buy'] == 'روشن') or (chat_id in seller_id):
                                     keyboard[0].insert(1, InlineKeyboardButton("♻ تمدید سرویس", callback_data=("UPG_" + cb)))
-                                if (settings['buy-traffic'] == 'on') or (chat_id in seller_id):
+                                if (settings['buy-traffic'] == 'روشن') or (chat_id in seller_id):
                                     keyboard[1].insert(1, InlineKeyboardButton("🩸 افزایش حجم سرویس", callback_data=("UTGB_" + cb)))
-                                if (settings['delete_user'] == 'on') or (chat_id in seller_id):
+                                if (settings['delete_user'] == 'روشن') or (chat_id in seller_id):
                                     keyboard.append([InlineKeyboardButton("❌حذف اکانت ", callback_data=("DJVYS_" + cb))])
-                                if (settings['online_access'] == 'on') or (chat_id in seller_id):
+                                if (settings['online_access'] == 'روشن') or (chat_id in seller_id):
                                     keyboard.append([InlineKeyboardButton("🟢 کاربران آنلاین", callback_data=("BDKSC_" + cb))])
                                 keyboard.append([InlineKeyboardButton("⤵️ برگرد به منوی قبلی ", callback_data='back')])
                                 password_retry_del(chat_id)
@@ -1925,15 +1925,15 @@ def text_private(bot, message):
                         else:
                             settings = get_settings()
                             keyboard = [[InlineKeyboardButton("💵کیف پول", callback_data=cb_bl)]]
-                            if settings['card_buy'] == "on":
+                            if settings['card_buy'] == "روشن":
                                 keyboard.append([InlineKeyboardButton("💳کارت به کارت", callback_data=cb_cc)])
-                            if settings['trx_buy'] == "on":
+                            if settings['trx_buy'] == "روشن":
                                 keyboard.append([InlineKeyboardButton("💲ترون", callback_data=cb_tr)])
-                            if (settings['zarinpal'] == "on") and (settings['zarinpal_address'] != "None"):
+                            if (settings['zarinpal'] == "روشن") and (settings['zarinpal_address'] != "None"):
                                 keyboard.append([InlineKeyboardButton("💳 درگاه زرین پال", callback_data=cb_zp)])
-                            if (settings['idpay'] == "on") and (settings['idpay_address'] != "None"):
+                            if (settings['idpay'] == "روشن") and (settings['idpay_address'] != "None"):
                                 keyboard.append([InlineKeyboardButton("💳 درگاه آیدی پی", callback_data=cb_pd)])
-                            if (settings['nextpay'] == "on") and (settings['nextpay_address'] != "None"):
+                            if (settings['nextpay'] == "روشن") and (settings['nextpay_address'] != "None"):
                                 keyboard.append([InlineKeyboardButton("💳 درگاه نکست پی", callback_data=cb_nx)])
                         keyboard.append([InlineKeyboardButton("⤵️ برگرد به منوی قبلی ", callback_data='buy')])
                         reply_markup = InlineKeyboardMarkup(keyboard)
@@ -2014,17 +2014,17 @@ def text_private(bot, message):
                         cb_nx = "NUWPD_" + str(deposit)
                         settings = get_settings()
                         keyboard = []
-                        if settings['card_buy'] == "on":
+                        if settings['card_buy'] == "روشن":
                             keyboard.append([InlineKeyboardButton("💳کارت به کارت", callback_data=cb_cc)])
-                        if settings['trx_buy'] == "on":
+                        if settings['trx_buy'] == "روشن":
                             keyboard.append([InlineKeyboardButton("💲ترون", callback_data=cb_tr)])
-                        if (settings['plisio'] == "on") and (settings['plisio_API'] != "None"):
+                        if (settings['plisio'] == "روشن") and (settings['plisio_API'] != "None"):
                             keyboard.append([InlineKeyboardButton("💳 درگاه  Plisio", callback_data=cb_pl)])
-                        if (settings['zarinpal'] == "on") and (settings['zarinpal_address'] != "None"):
+                        if (settings['zarinpal'] == "روشن") and (settings['zarinpal_address'] != "None"):
                             keyboard.append([InlineKeyboardButton("💳 درگاه زرین پال", callback_data=cb_zp)])
-                        if (settings['idpay'] == "on") and (settings['idpay_address'] != "None"):
+                        if (settings['idpay'] == "روشن") and (settings['idpay_address'] != "None"):
                             keyboard.append([InlineKeyboardButton("💳 درگاه آیدی پی", callback_data=cb_pd)])
-                        if (settings['nextpay'] == "on") and (settings['nextpay_address'] != "None"):
+                        if (settings['nextpay'] == "روشن") and (settings['nextpay_address'] != "None"):
                             keyboard.append([InlineKeyboardButton("💳 درگاه نکست پی", callback_data=cb_nx)])
                         keyboard.append([InlineKeyboardButton("برگشت 🔙", callback_data='UWM')])
                         reply_markup = InlineKeyboardMarkup(keyboard)
@@ -5023,20 +5023,20 @@ def call_Join(bot, query):
     reply_markup = ReplyKeyboardMarkup(Buttons, resize_keyboard=True)
     text = "لطفا برای استفاده از ربات دکمه پایین کلیک کنین و شمارتون بفرستین👇"
     if (get_settings())['sponser'] == "None":
-        if ((get_settings())['phone'] == "on") and (check_user_phone_exist(chat_id) is False):
+        if ((get_settings())['phone'] == "روشن") and (check_user_phone_exist(chat_id) is False):
             bot.send_message(chat_id, text, reply_markup=reply_markup)
         else:
             query.edit_message_text((get_settings())['start'], reply_markup=User_Tools_keys(), parse_mode=enums.ParseMode.HTML)
     else:
         try:
             chat_member = bot.get_chat_member((get_settings())['sponser'], query.message.chat.id)
-            if ((get_settings())['phone'] == "on") and (check_user_phone_exist(chat_id) is False):
+            if ((get_settings())['phone'] == "روشن") and (check_user_phone_exist(chat_id) is False):
                 bot.send_message(chat_id, text, reply_markup=reply_markup)
             else:
                 query.edit_message_text((get_settings())['start'], reply_markup=User_Tools_keys(), parse_mode=enums.ParseMode.HTML)
 
         except NotAcceptable:
-            if ((get_settings())['phone'] == "on") and (check_user_phone_exist(chat_id) is False):
+            if ((get_settings())['phone'] == "روشن") and (check_user_phone_exist(chat_id) is False):
                 bot.send_message(chat_id, text, reply_markup=reply_markup)
             else:
                 query.edit_message_text((get_settings())['start'], reply_markup=User_Tools_keys(), parse_mode=enums.ParseMode.HTML)
@@ -5045,7 +5045,7 @@ def call_Join(bot, query):
             if "USER_NOT_PARTICIPANT" in str(e):
                 query.answer("جوین نشدی😑", show_alert=True)
             else:
-                if ((get_settings())['phone'] == "on") and (check_user_phone_exist(chat_id) is False):
+                if ((get_settings())['phone'] == "روشن") and (check_user_phone_exist(chat_id) is False):
                     bot.send_message(chat_id, text, reply_markup=reply_markup)
                 else:
                     query.edit_message_text((get_settings())['start'], reply_markup=User_Tools_keys(), parse_mode=enums.ParseMode.HTML)
@@ -5463,7 +5463,7 @@ def call_create(bot, query):
             accounts, hosts, status = get_all_accounts_by_chat_id(chat_id)
             if (Limit == 0) or (Limit >= len(accounts)):
                 settings = get_settings()
-                if settings['seller_custom'] == "off":
+                if settings['seller_custom'] == "خاموش":
                     keyboard = [[InlineKeyboardButton("🌎Direct", callback_data='buy')]]
                 else:
                     keyboard = [[InlineKeyboardButton("🌎Direct", callback_data="SCC_D")]]
@@ -5485,7 +5485,7 @@ def call_SCC(bot, query):
     chat_id = query.message.chat.id
     status = data.split("SCC_")[1]
     settings = get_settings()
-    if settings['select_server_sellers'] == "on":
+    if settings['select_server_sellers'] == "روشن":
         query.edit_message_text(text="سرور مورد نظر انتخاب کنین:", reply_markup=server_cb_creator("DMNONE_"))
     else:
         hosts, remarks = samisshbot.HOSTS()
@@ -6507,7 +6507,7 @@ def call_price(bot, query):
         query.answer("🔴 چیزی وجود نداره. ", show_alert=True)
         return
     keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back')]]
-    if settings['buy'] == 'on':
+    if settings['buy'] == 'روشن':
         keyboard[0].insert(1, InlineKeyboardButton("🛒 خرید اشتراک", callback_data='buy'))
     reply_markup = InlineKeyboardMarkup(keyboard)
     text = settings['list']
@@ -6808,7 +6808,7 @@ def call_UTGB(bot, query):
             else:
                 text += "\n\nبرای افزایش ترافیک یکی از گزینه هارو انتخاب کنین🙂"
                 if chat_id in seller_id:
-                    if settings['seller_custom'] == "on":
+                    if settings['seller_custom'] == "روشن":
                         cache_list = [host, user]
                         add_collector(chat_id, "plus", cache_list, [])
                         delete_cache(chat_id)
@@ -6974,7 +6974,7 @@ def call_TTPB(bot, query):
         cache_list = [GB, price, user, host, "💲ترون"]
         add_code_buy(chat_id, Code, "traffic", cache_list)
         settings = get_settings()
-        if settings['currency_usdt'] == "on":
+        if settings['currency_usdt'] == "روشن":
             price = str("{:.2f}".format(float(int(price) / Toman_USD()))) + " USDT تتر"
         else:
             price = trx_price(price)
@@ -7168,7 +7168,7 @@ def call_TR(bot, query):
         cache_list = [days, GB, client, price, query.message.chat.first_name, UNAME, Selected_host, "💲 ترون"]
         add_code_buy(chat_id, Code, "add", cache_list)
         settings = get_settings()
-        if settings['currency_usdt'] == "on":
+        if settings['currency_usdt'] == "روشن":
             price = str("{:.2f}".format(float(int(price) / Toman_USD()))) + " USDT تتر"
         else:
             price = trx_price(price)
@@ -7314,7 +7314,7 @@ def call_BL(bot, query):
                 else:
                     creator = "USER"
                 description = f"[ Bot - {creator} ] Date: ( {str(jdatetime.datetime.now()).split('.')[0]} ), userID: {str(chat_id)}, Username: {USERNAME}"
-                if settings['first_connect'] == 'on':
+                if settings['first_connect'] == 'روشن':
                     first_connect = True
                 else:
                     first_connect = False
@@ -7341,7 +7341,7 @@ def call_BL(bot, query):
                         bot.send_message(chat_id, settings['server_custom_caption'][host])
                     sleep(0.1)
                     bot.send_message(chat_id, settings['after_buy'], reply_markup=reply_markup)
-                    if settings['buy_notification'] == "on":
+                    if settings['buy_notification'] == "روشن":
                         keyboard = [[InlineKeyboardButton("ℹ️ اطلاعات کامل", callback_data=f"IDADMIN_{host}${user}")], [InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back')]]
                         reply_markup = InlineKeyboardMarkup(keyboard)
                         for admin in admin_id:
@@ -7533,7 +7533,7 @@ def call_Confirmed(bot, query):
             else:
                 creator = "USER"
             description = f"[ Bot - {creator} ] Date: ( {str(jdatetime.datetime.now()).split('.')[0]} ), userID: {str(chat_id)}, Username: {USERNAME}"
-            if settings['first_connect'] == 'on':
+            if settings['first_connect'] == 'روشن':
                 first_connect = True
             else:
                 first_connect = False
@@ -7652,7 +7652,7 @@ def call_UPG(bot, query):
                 text += "\n\nبرای تمدید یکی از گزینه هارو انتخاب کنین🙂"
                 keyboard = []
                 if chat_id in seller_id:
-                    if settings['seller_custom'] == "on":
+                    if settings['seller_custom'] == "روشن":
                         cache_list = [host, user]
                         delete_cache(chat_id)
                         add_collector(chat_id, "update", cache_list, [])
@@ -9419,13 +9419,13 @@ def call_ID(bot, query):
                 [InlineKeyboardButton("🔑تغییر پسورد", callback_data=('SELFCPA_' + cb))],
                 [InlineKeyboardButton("📲 کد QR و لینک اتصال", callback_data=f'QRCODE_{cb}')]
             ]
-            if (settings['buy'] == 'on') or (chat_id in seller_id):
+            if (settings['buy'] == 'روشن') or (chat_id in seller_id):
                 keyboard[0].insert(1, InlineKeyboardButton("♻ تمدید سرویس", callback_data=("UPG_" + cb)))
-            if (settings['buy-traffic'] == 'on') or (chat_id in seller_id):
+            if (settings['buy-traffic'] == 'روشن') or (chat_id in seller_id):
                 keyboard[1].insert(1, InlineKeyboardButton("🩸 افزایش حجم سرویس", callback_data=("UTGB_" + cb)))
-            if (settings['delete_user'] == 'on') or (chat_id in seller_id):
+            if (settings['delete_user'] == 'روشن') or (chat_id in seller_id):
                 keyboard.append([InlineKeyboardButton("❌حذف اکانت ", callback_data=("DJVYS_" + cb))])
-            if (settings['online_access'] == 'on') or (chat_id in seller_id):
+            if (settings['online_access'] == 'روشن') or (chat_id in seller_id):
                 keyboard.append([InlineKeyboardButton("🟢 کاربران آنلاین", callback_data=("BDKSC_" + cb))])
             keyboard.append([InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='service')])
             reply_markup = InlineKeyboardMarkup(keyboard)
@@ -9449,7 +9449,7 @@ def call_support(bot, query):
             query.answer("🔴 پشتیبانی غیرفعال هست. ", show_alert=True)
             return
         keyboard = []
-        if settings['support_chat'] == "on":
+        if settings['support_chat'] == "روشن":
             randomize = []
             for i in range(len(admin_id)*100):
                 if len(admin_id) != len(randomize):
@@ -9549,7 +9549,7 @@ def call_test(bot, query):
                     ]
                     reply_markup = InlineKeyboardMarkup(keyboard)
                     bot.send_message(chat_id, "برای آموزش وصل شدن به سرویس دکمه پایینو بزنین", reply_markup=reply_markup)
-                    if settings['notify_test_account'] == "on":
+                    if settings['notify_test_account'] == "روشن":
                         name, USERNAME, phone, old_value = get_full_user_data_id(chat_id)
                         keyboard = [[InlineKeyboardButton("ℹ️ اطلاعات کامل", callback_data=f"IDADMIN_{host}${user}")], [InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back')]]
                         reply_markup = InlineKeyboardMarkup(keyboard)
@@ -9574,22 +9574,22 @@ def call_test(bot, query):
 @app.on_callback_query(filters.regex('help'))
 def call_help(bot, query):
     settings = get_settings()
-    if settings['tutorial_windows'] == "on" and settings['tutorial_android'] == "on" and settings['tutorial_ios'] == "on" and settings['tutorial_mac'] == "on":
+    if settings['tutorial_windows'] == "روشن" and settings['tutorial_android'] == "روشن" and settings['tutorial_ios'] == "روشن" and settings['tutorial_mac'] == "روشن":
         keyboard = [
             [InlineKeyboardButton("IOS🍏", callback_data='IOS'), InlineKeyboardButton("Android🤖", callback_data='Android')],
             [InlineKeyboardButton("Mac🍎", callback_data='Mac'), InlineKeyboardButton("Windows💻", callback_data='Windows')]
         ]
     else:
         keyboard = []
-        if settings['tutorial_windows'] == "on":
+        if settings['tutorial_windows'] == "روشن":
             keyboard.append([InlineKeyboardButton("Windows💻", callback_data='Windows')])
-        if settings['tutorial_android'] == "on":
+        if settings['tutorial_android'] == "روشن":
             keyboard.append([InlineKeyboardButton("Android🤖", callback_data='Android')])
-        if settings['tutorial_ios'] == "on":
+        if settings['tutorial_ios'] == "روشن":
             keyboard.append([InlineKeyboardButton("IOS🍏", callback_data='IOS')])
-        if settings['tutorial_mac'] == "on":
+        if settings['tutorial_mac'] == "روشن":
             keyboard.append([InlineKeyboardButton("Mac🍎", callback_data='Mac')])
-    if settings['custom_tutorial_only_button'] == "on":
+    if settings['custom_tutorial_only_button'] == "روشن":
         keyboard.append([InlineKeyboardButton(settings['custom_tutorial_only_button_name'], callback_data='CtSAELF')])
     keyboard.append([InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back')])
     reply_markup = InlineKeyboardMarkup(keyboard)
@@ -9734,13 +9734,13 @@ def call_PAUB(bot, query):
 @app.on_callback_query(filters.regex('voucher'))
 def call_voucher(bot, query):
     settings = get_settings()
-    if settings['buy'] == 'on':
+    if settings['buy'] == 'روشن':
         chat_id = query.message.chat.id
         if check_cache(chat_id) is True:
             delete_cache(chat_id)
         keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='UWM')]]
         reply_markup = InlineKeyboardMarkup(keyboard)
-        if (settings['perfect_money'] == "on") and (settings['perfect_money_account_id'] != "None"):
+        if (settings['perfect_money'] == "روشن") and (settings['perfect_money_account_id'] != "None"):
             add_cache(chat_id, "voucher")
             query.edit_message_text(text="کد e-Voucher بصورت عدد بفرستین:", reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
         else:
@@ -9752,12 +9752,12 @@ def call_voucher(bot, query):
 @app.on_callback_query(filters.regex('UWPM'))
 def call_UWPM(bot, query):
     settings = get_settings()
-    if settings['buy'] == 'on':
+    if settings['buy'] == 'روشن':
         chat_id = query.message.chat.id
         if check_cache(chat_id) is True:
             delete_cache(chat_id)
         data = query.data
-        if (settings['perfect_money'] == "on") and (settings['perfect_money_account_id'] != "None") and ("!" not in data):
+        if (settings['perfect_money'] == "روشن") and (settings['perfect_money_account_id'] != "None") and ("!" not in data):
             keyboard = [
                 [InlineKeyboardButton("🔴 پرفکت مانی", callback_data='voucher')],
                 [InlineKeyboardButton("دیگر روش های پرداخت ", callback_data='UWPM!')],
@@ -12269,7 +12269,7 @@ def contact_update(bot, message):
     phone_number = str(message.contact.phone_number)
     settings = get_settings()
     notify = False
-    if settings['phone_notification'] == 'on':
+    if settings['phone_notification'] == 'روشن':
         notify = True
     if chat_id == message.contact.user_id:
         name = message.from_user.first_name
@@ -12277,7 +12277,7 @@ def contact_update(bot, message):
             username = "@" + message.from_user.username
         except:
             username = 'Null'
-        if (get_settings()['irphone'] == 'on'):
+        if (get_settings()['irphone'] == 'روشن'):
             if ("+98" in phone_number) or ("+ 98" in phone_number) or (phone_number[0:3] == "+98") or (phone_number[0:2] == "98"):
                 message.reply_text("‎✅", reply_markup=ReplyKeyboardRemove())
                 message.reply_text(settings['start'], reply_markup=User_Tools_keys(), parse_mode=enums.ParseMode.HTML)
