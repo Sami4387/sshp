@@ -5848,7 +5848,7 @@ def call_perfectmoney(bot, query):
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     settings = get_settings()
-    if settings['perfect_money'] == "off":
+    if settings['perfect_money'] == "خاموش":
         status = "🔴 خاموش"
     else:
         status = "🟢 روشن"
@@ -5944,7 +5944,7 @@ def call_idpay(bot, query):
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     settings = get_settings()
-    if settings['idpay'] == "off":
+    if settings['idpay'] == "خاموش":
         status = "🔴 خاموش"
     else:
         status = "🟢 روشن"
@@ -6015,7 +6015,7 @@ def call_zarinpal(bot, query):
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     settings = get_settings()
-    if settings['zarinpal'] == "off":
+    if settings['zarinpal'] == "خاموش":
         status = "🔴 خاموش"
     else:
         status = "🟢 روشن"
@@ -6086,7 +6086,7 @@ def call_plisio(bot, query):
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     settings = get_settings()
-    if settings['plisio'] == "off":
+    if settings['plisio'] == "خاموش":
         status = "🔴 خاموش"
     else:
         status = "🟢 روشن"
@@ -6214,12 +6214,12 @@ def call_wallet(bot, query):
         settings['currency_usdt'] = data
         update_settings(settings)
     settings = get_settings()
-    if settings['currency_usdt'] == "on":
+    if settings['currency_usdt'] == "روشن":
         emoji = "🟢"
-        cb = 'off'
+        cb = 'خاموش'
     else:
         emoji = "🔴"
-        cb = 'on'
+        cb = 'روشن'
     keyboard = [
         [InlineKeyboardButton("🔧تغییر دادن", callback_data='ChangeWallet')],
         [InlineKeyboardButton("🔴 خاموش", callback_data='OFT'), InlineKeyboardButton("🟢 روشن", callback_data='ONT')],
@@ -6229,7 +6229,7 @@ def call_wallet(bot, query):
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     name, username, wallet, crypto = get_wallet_info()
-    if settings['trx_buy'] == "off":
+    if settings['trx_buy'] == "خاموش":
         status = "🔴 خاموش"
     else:
         status = "🟢 روشن"
@@ -6286,7 +6286,7 @@ def call_card(bot, query):
     reply_markup = InlineKeyboardMarkup(keyboard)
     name, username, card = get_card_info()
     settings = get_settings()
-    if settings['card_buy'] == "off":
+    if settings['card_buy'] == "خاموش":
         status = "🔴 خاموش"
     else:
         status = "🟢 روشن"
@@ -9212,7 +9212,7 @@ def call_SMT(bot, query):
     ]
     keyboard.append([InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back_admin')])
     reply_markup = InlineKeyboardMarkup(keyboard)
-    text = '<b>🖥 Server Manager</b>' + "\n\n-دکمه مانیتور و اطلاعات کامل یک سرور:\nمیتونین اطلاعات کامل سرور ببینین و کاربرای آنلاین و غیرفعال و نزدیک به منقضی شدن ببینین. اگه سرور شما لایسنس دار باشه امکانات بیشتری داره\n-دکمه ظرفیت سرورها:\nبهتون میگه رو هر سرور چند کاربر وجود داره\nتغییر تغییر پورت اس اس اچ و یو دی پی فقط برای ایکس پنل هست\n\nبرای تغییر سرور هم کافیه دکمه تغییر آدرس و یوزنیم و پسورد بزنین که کاربرارو انتقال بدین به اون آدرس... دقت کنین که فقط کاربرای داخل ربات آدرس سرورشون عوض میشه مواقعی که انتقال دادین کاربرا به ی سرور دیگه از این گزینه استفاده کنین یا یوزرنیم و پسورد یا آدرس سرور رو تغییر دادین"
+    text = '<b>🖥 مدیریت سرور ها</b>' + "\n\n-دکمه مانیتور و اطلاعات کامل یک سرور:\nمیتونین اطلاعات کامل سرور ببینین و کاربرای آنلاین و غیرفعال و نزدیک به منقضی شدن ببینین. اگه سرور شما لایسنس دار باشه امکانات بیشتری داره\n-دکمه ظرفیت سرورها:\nبهتون میگه رو هر سرور چند کاربر وجود داره\nتغییر تغییر پورت اس اس اچ و یو دی پی فقط برای ایکس پنل هست\n\nبرای تغییر سرور هم کافیه دکمه تغییر آدرس و یوزنیم و پسورد بزنین که کاربرارو انتقال بدین به اون آدرس... دقت کنین که فقط کاربرای داخل ربات آدرس سرورشون عوض میشه مواقعی که انتقال دادین کاربرا به ی سرور دیگه از این گزینه استفاده کنین یا یوزرنیم و پسورد یا آدرس سرور رو تغییر دادین"
     query.edit_message_text(text=text, reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
 
 
@@ -9973,9 +9973,9 @@ def call_backup(bot, query):
     ]
     settings = get_settings()
     if backup[0] is False:
-        backup_status = "OFF ❌"
+        backup_status = "خاموش ❌"
     else:
-        backup_status = "ON ✅"
+        backup_status = "روشن ✅"
     text = '<b>تنظیمات بکاب گیری</b>\n\n(فقط برای ادمینی که این گزینه رو روشن میکنه کار میکنه)' + "\n\nآموزش انتقال ربات به سرور جدید:\n-اول کامند /backup داخل بات بزنید\n-وارد سروری که همین الان ربات رانه بشین و این کامندو بزنین:\npkill -9 python3\nوارد سرور جدید بشین و ربات نصب کنین اطلاعات ایدی عددی ادمین و توکن ربات...\nبعد برید به قسمت تنظیمات > بکاپ > آپلود بکاپ فایلای درخواستی رو فوروارد کنین" + "\n\n🔄Status\n\n" + "Backup: " + backup_status + "\n" + "🕔Timer: " + str(settings['backup']) + " hours"
     keyboard.append([InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='settings')])
     reply_markup = InlineKeyboardMarkup(keyboard)
@@ -10020,17 +10020,17 @@ def call_WLMSG(bot, query):
         return
     delete_cache(chat_id)
     settings = get_settings()
-    if settings['list_status'] == "on":
+    if settings['list_status'] == "روشن":
         emoji = "🟢"
-        cb = 'off'
+        cb = 'خاموش'
         emoji_cb = "🔴"
     else:
         emoji = "🔴"
-        cb = 'on'
+        cb = 'روشن'
         emoji_cb = "🟢"
     keyboard = [
         [InlineKeyboardButton("ویرایش ✏️", callback_data='ELMSG')],
-        [InlineKeyboardButton(f"Show Button: {cb} {emoji_cb}", callback_data=f'OWQZQ_{cb}')]
+        [InlineKeyboardButton(f"نمایش دکمه: {cb} {emoji_cb}", callback_data=f'OWQZQ_{cb}')]
     ]
     text = '<b>Price MSG Settings</b>\n\n' + "Text:\n\n" + settings['list'] + "\n\nStatus: " + settings['list_status'] + " " + emoji
     keyboard.append([InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='settings')])
@@ -10216,7 +10216,7 @@ def call_ZQUC(bot, query):
         query.answer("Access denied", show_alert=True)
         return
     settings = get_settings()
-    if settings['upgrade_days'] == "on":
+    if settings['upgrade_days'] == "روشن":
         emoji = "🟢"
         cb = 'خاموش'
         emoji_cb = "🔴"
@@ -10286,7 +10286,7 @@ def call_ZBSHP(bot, query):
         query.answer("Access denied", show_alert=True)
         return
     settings = get_settings()
-    if settings['first_connect'] == "on":
+    if settings['first_connect'] == "روشن":
         emoji = "🟢"
         cb = 'خاموش'
         emoji_cb = "🔴"
@@ -10308,7 +10308,7 @@ def call_ZBSHP(bot, query):
         [InlineKeyboardButton("🔑تنظیم پسورد", callback_data='DKSJJHJ')]
     ]
     t0 = "\n\nCurrent: " + settings['first_connect'] + " " + emoji
-    text = '<b>تنظیمات فروشگاه</b>\n\n' + "تنظیمات خرید و تمدید اکانت و ترافیک\n\nاگه گزینه روشن باشه 🟢 on کاربر یا فروشنده وقتی اکانتی رو میخره از اولین اتصال روز اکانت درست میشه و اگه خاموش باشه از همون لحظه شروع میشه " + t0
+    text = '<b>تنظیمات فروشگاه</b>\n\n' + "تنظیمات خرید و تمدید اکانت و ترافیک\n\nاگه گزینه روشن باشه 🟢 روشن کاربر یا فروشنده وقتی اکانتی رو میخره از اولین اتصال روز اکانت درست میشه و اگه خاموش باشه از همون لحظه شروع میشه " + t0
     keyboard.append([InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='settings')])
     reply_markup = InlineKeyboardMarkup(keyboard)
     query.edit_message_text(text=text, reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
@@ -10328,7 +10328,7 @@ def call_CSNDF(bot, query):
             settings['random_price'] = data
         update_settings(settings)
     settings = get_settings()
-    if settings['random_price'] == "on":
+    if settings['random_price'] == "روشن":
         emoji = "🟢"
         cb = 'خاموش'
     else:
@@ -10381,7 +10381,7 @@ def call_DKSJJHJ(bot, query):
                 settings['password_method'] = "عدد"
         update_settings(settings)
     settings = get_settings()
-    if settings['default_password_status'] == "on":
+    if settings['default_password_status'] == "روشن":
         emoji = "🟢"
         cb = 'خاموش'
     else:
@@ -10459,7 +10459,7 @@ def call_BSOPtion(bot, query):
         query.answer("Access denied", show_alert=True)
         return
     settings = get_settings()
-    if settings['buy'] == "on":
+    if settings['buy'] == "روشن":
         emoji = "🟢"
         cb = 'خاموش'
         emoji_cb = "🔴"
@@ -10467,7 +10467,7 @@ def call_BSOPtion(bot, query):
         emoji = "🔴"
         cb = 'روشن'
         emoji_cb = "🟢"
-    if settings['buy_only_customers'] == "on":
+    if settings['buy_only_customers'] == "روشن":
         emoji_2 = "🟢"
         cb_2 = 'خاموش'
         emoji_cb_2 = "🔴"
@@ -10802,7 +10802,7 @@ def call_NUSYS(bot, query):
         return
     keyboard = [
         [InlineKeyboardButton("روشن 🟢", callback_data='SNON')],
-        [InlineKeyboardButton("OFF 🔴", callback_data='SNFF')]
+        [InlineKeyboardButton("خاموش 🔴", callback_data='SNFF')]
     ]
     if notify_system[0] is False:
         status = "خاموش ❌"
@@ -10944,7 +10944,7 @@ def call_INVS(bot, query):
         return
     delete_cache(chat_id)
     settings = get_settings()
-    if settings['invite'] == "on":
+    if settings['invite'] == "روشن":
         emoji = "🟢"
         cb = 'خاموش'
         emoji_cb = "🔴"
@@ -11018,7 +11018,7 @@ def call_SID(bot, query):
     if check_cache(chat_id) is True:
         delete_cache(chat_id)
     settings = get_settings()
-    if settings['support_status'] == "on":
+    if settings['support_status'] == "روشن":
         emoji = "🟢"
         cb = 'خاموش'
         emoji_cb = "🔴"
@@ -11026,7 +11026,7 @@ def call_SID(bot, query):
         emoji = "🔴"
         cb = 'روشن'
         emoji_cb = "🟢"
-    if settings['support_chat'] == "on":
+    if settings['support_chat'] == "روشن":
         emoji_2 = "🟢"
         cb_2 = 'خاموش'
         emoji_cb_2 = "🔴"
@@ -11139,7 +11139,7 @@ def call_CVM(bot, query):
         data = data.split("_")[1]
         settings['custom_tutorial_only_button'] = data
         update_settings(settings)
-    if settings['custom_tutorial_only_button'] == "on":
+    if settings['custom_tutorial_only_button'] == "روشن":
         emoji = "🟢"
         cb = 'خاموش'
     else:
@@ -11205,7 +11205,7 @@ def call_CTI(bot, query):
         data = data.split("_")[1]
         settings['tutorial_ios'] = data
         update_settings(settings)
-    if settings['tutorial_ios'] == "on":
+    if settings['tutorial_ios'] == "روشن":
         emoji = "🟢"
         cb = 'خاموش'
     else:
@@ -11250,7 +11250,7 @@ def call_CTA(bot, query):
         data = data.split("_")[1]
         settings['tutorial_android'] = data
         update_settings(settings)
-    if settings['tutorial_android'] == "on":
+    if settings['tutorial_android'] == "روشن":
         emoji = "🟢"
         cb = 'خاموش'
     else:
@@ -11295,7 +11295,7 @@ def call_CTM(bot, query):
         data = data.split("_")[1]
         settings['tutorial_mac'] = data
         update_settings(settings)
-    if settings['tutorial_mac'] == "on":
+    if settings['tutorial_mac'] == "روشن":
         emoji = "🟢"
         cb = 'خاموش'
     else:
@@ -11340,7 +11340,7 @@ def call_CTW(bot, query):
         data = data.split("_")[1]
         settings['tutorial_windows'] = data
         update_settings(settings)
-    if settings['tutorial_windows'] == "on":
+    if settings['tutorial_windows'] == "روشن":
         emoji = "🟢"
         cb = 'خاموش'
     else:
@@ -11378,7 +11378,7 @@ def call_TASET(bot, query):
         query.answer("Access denied", show_alert=True)
         return
     settings = get_settings()
-    if settings['test'] == "on":
+    if settings['test'] == "روشن":
         emoji = "🟢"
         cb = 'خاموش'
         emoji_cb = "🔴"
@@ -11462,7 +11462,7 @@ def call_BTOPtion(bot, query):
         query.answer("Access denied", show_alert=True)
         return
     settings = get_settings()
-    if settings['buy-traffic'] == "on":
+    if settings['buy-traffic'] == "روشن":
         emoji = "🟢"
         cb = 'خاموش'
         emoji_cb = "🔴"
@@ -11577,7 +11577,7 @@ def call_PNS(bot, query):
         query.answer("Access denied", show_alert=True)
         return
     settings = get_settings()
-    if settings['phone'] == "on":
+    if settings['phone'] == "روشن":
         emoji = "🟢"
         cb = 'خاموش'
         emoji_cb = "🔴"
@@ -11586,7 +11586,7 @@ def call_PNS(bot, query):
         cb = 'روشن'
         emoji_cb = "🟢"
 
-    if settings['irphone'] == "on":
+    if settings['irphone'] == "روشن":
         emoji_2 = "🟢"
         cb_2 = 'خاموش'
         emoji_cb_2 = "🔴"
@@ -11643,21 +11643,21 @@ def call_XSM(bot, query):
         query.answer("Access denied", show_alert=True)
         return
     settings = get_settings()
-    if settings['seller_custom'] == "on":
+    if settings['seller_custom'] == "روشن":
         emoji = "🟢"
-        cb = 'off'
+        cb = 'خاموش'
         emoji_cb = "🔴"
     else:
         emoji = "🔴"
-        cb = 'on'
+        cb = 'روشن'
         emoji_cb = "🟢"
-    if settings['select_server_sellers'] == "on":
+    if settings['select_server_sellers'] == "روشن":
         emoji_2 = "🟢"
-        cb_2 = 'off'
+        cb_2 = 'خاموش'
         emoji_cb_2 = "🔴"
     else:
         emoji_2 = "🔴"
-        cb_2 = 'on'
+        cb_2 = 'روشن'
         emoji_cb_2 = "🟢"
     keyboard = [
         [InlineKeyboardButton(f"آزادانه: {cb} {emoji_cb}", callback_data=f'ESM_{cb}')],
@@ -11875,7 +11875,7 @@ def call_NSCLS(bot, query):
         query.answer("Access denied", show_alert=True)
         return
     settings = get_settings()
-    if settings['notification'] == "on":
+    if settings['notification'] == "روشن":
         emoji = "🟢"
         cb = 'خاموش'
         emoji_cb = "🔴"
@@ -11883,7 +11883,7 @@ def call_NSCLS(bot, query):
         emoji = "🔴"
         cb = 'روشن'
         emoji_cb = "🟢"
-    if settings['phone_notification'] == "on":
+    if settings['phone_notification'] == "روشن":
         emoji_2 = "🟢"
         cb_2 = 'خاموش'
         emoji_cb_2 = "🔴"
@@ -11891,7 +11891,7 @@ def call_NSCLS(bot, query):
         emoji_2 = "🔴"
         cb_2 = 'روشن'
         emoji_cb_2 = "🟢"
-    if settings['buy_notification'] == "on":
+    if settings['buy_notification'] == "روشن":
         emoji_3 = "🟢"
         cb_3 = 'خاموش'
         emoji_cb_3 = "🔴"
@@ -11899,7 +11899,7 @@ def call_NSCLS(bot, query):
         emoji_3 = "🔴"
         cb_3 = 'روشن'
         emoji_cb_3 = "🟢"
-    if settings['notify_test_account'] == "on":
+    if settings['notify_test_account'] == "روشن":
         emoji_4 = "🟢"
         cb_4 = 'خاموش'
         emoji_cb_4 = "🔴"
@@ -12042,7 +12042,7 @@ def call_RWUAD(bot, query):
         query.answer("Access denied", show_alert=True)
         return
     settings = get_settings()
-    if settings['delete_user'] == "on":
+    if settings['delete_user'] == "روشن":
         emoji = "🟢"
         cb = 'خاموش'
         emoji_cb = "🔴"
@@ -12050,7 +12050,7 @@ def call_RWUAD(bot, query):
         emoji = "🔴"
         cb = 'روشن'
         emoji_cb = "🟢"
-    if settings['select_server_users'] == "on":
+    if settings['select_server_users'] == "روشن":
         emoji_2 = "🟢"
         cb_2 = 'خاموش'
         emoji_cb_2 = "🔴"
@@ -12058,7 +12058,7 @@ def call_RWUAD(bot, query):
         emoji_2 = "🔴"
         cb_2 = 'روشن'
         emoji_cb_2 = "🟢"
-    if settings['dropbear'] == "on":
+    if settings['dropbear'] == "روشن":
         emoji_3 = "🟢"
         cb_3 = 'خاموش'
         emoji_cb_3 = "🔴"
@@ -12066,7 +12066,7 @@ def call_RWUAD(bot, query):
         emoji_3 = "🔴"
         cb_3 = 'روشن'
         emoji_cb_3 = "🟢"
-    if settings['info_service'] == "on":
+    if settings['info_service'] == "روشن":
         emoji_4 = "🟢"
         cb_4 = 'خاموش'
         emoji_cb_4 = "🔴"
@@ -12074,7 +12074,7 @@ def call_RWUAD(bot, query):
         emoji_4 = "🔴"
         cb_4 = 'روشن'
         emoji_cb_4 = "🟢"
-    if settings['tuic'] == "on":
+    if settings['tuic'] == "روشن":
         emoji_5 = "🟢"
         cb_5 = 'خاموش'
         emoji_cb_5 = "🔴"
@@ -12082,7 +12082,7 @@ def call_RWUAD(bot, query):
         emoji_5 = "🔴"
         cb_5 = 'روشن'
         emoji_cb_5 = "🟢"
-    if settings['online_access'] == "on":
+    if settings['online_access'] == "روشن":
         emoji_6 = "🟢"
         cb_6 = 'خاموش'
         emoji_cb_6 = "🔴"
@@ -12090,7 +12090,7 @@ def call_RWUAD(bot, query):
         emoji_6 = "🔴"
         cb_6 = 'روشن'
         emoji_cb_6 = "🟢"
-    if settings['change_password'] == "on":
+    if settings['change_password'] == "روشن":
         emoji_7 = "🟢"
         cb_7 = 'خاموش'
         emoji_cb_7 = "🔴"
