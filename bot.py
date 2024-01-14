@@ -1618,7 +1618,7 @@ def start_user(bot, message):
                 for admin in admin_id:
                     try:
                         mention = "<a href='tg://user?id=" + str(chat_id) + "'>" + name + "</a>"
-                        text = f"⚪️ کاربر جدید:\n\n👨‍💼اسم کاربر: {mention}\n\n▫️آیدی کاربر: <code>{str(chat_id)}</code>\n\n⚡️ نام کاربری: {username}\n\nدر حال عضویت در ربات می باشد."
+                        text = f"⚪️ کاربر جدید: {mention} با آیدی عددی <code>{str(chat_id)}</code> و یوزرنیم  {username}"
                         bot.send_message(admin, text, parse_mode=enums.ParseMode.HTML)
                     except:
                         pass
@@ -7073,10 +7073,7 @@ def call_buy(bot, query):
     settings = get_settings()
     accounts, hosts, status = get_all_accounts_by_chat_id(chat_id)
     if ((settings['buy'] == 'on') and (settings['buy_only_customers'] == 'off')) or ((settings['buy_only_customers'] == 'on') and (len(accounts) >= 1)):
-        text = "1️⃣ مرحله یک:\n\n
-		🛂
-		پلن مورد نظر خود را با توجه به نیازتون انتخاب کنید  
-		\n\n"
+        text = "1️⃣ مرحله یک:\n\n پلن مورد نظر خود را با توجه به نیازتون انتخاب کنید \n\n"
         if chat_id in seller_id:
             for i in range(len(settings['seller_prices'])):
                 if settings['seller_traffic'][i] == 0:
@@ -7129,11 +7126,10 @@ def call_CC(bot, query):
         cache_list = [days, GB, client, price, query.message.chat.first_name, UNAME, Selected_host, "💳 کارت به کارت"]
         add_code_buy(chat_id, Code, "add", cache_list)
         text = f"""
-5️⃣ مرحله پنجم:\n
-مبلغ: {price} تومن
-\n
+مبلغ:
+{price} تومن
 به شماره کارت :
-\n<code>{str(card)}</code>\n
+<code>{str(card)}</code>
 واریز کنین و سپس رسید عکس خودرا بفرستید
 یکبار روی شماره کارت بزنین کپی میشه
 
@@ -7312,7 +7308,7 @@ def call_BL(bot, query):
                     else:
                         user = UNAME + str(randint(123, 350))
                 user = user.lower()
-                t0 = "✅ خرید شما با موفقیت انجام شد.🥰\n\n🛜 مشخصات اکانت: \n\n"
+                t0 = "🥰مرسی از خریدتون\n\n"
                 if chat_id in seller_id:
                     creator = "SELLER"
                 else:
@@ -7329,7 +7325,7 @@ def call_BL(bot, query):
                     HOST = ((text.split("SSH Host : ")[1]).split("\n")[0]).replace("<pre>", "").replace("</pre>", "").replace("<code>", "").replace("</code>", "").replace(" ", "")
                     url = f"ssh://{user}:{passw}@{HOST}:{port}#{user}"
                     photo = QR_Maker(url)
-                    text += "\n\n🌐 لینک اتصال خودکار:\n\n " + "<code>" + url + "</code>"
+                    text += "\n\nURL: " + "<code>" + url + "</code>"
                     add_user_db(chat_id, name, USERNAME, user, host)
                     value = old_value - price
                     update_user_wallet(chat_id, value)
@@ -7351,7 +7347,7 @@ def call_BL(bot, query):
                         for admin in admin_id:
                             try:
                                 mention = f"<a href='tg://user?id={str(chat_id)}'>{name}</a>"
-                                bot.send_message(admin, f"📃 اطلاعات اکانت خریداری شده توسط {mention}\n🚦سرور: {host}\n👨‍💼اسم کاربر: {user}\n▫️آیدی کاربر: {str(chat_id)}\n⚡️ نام کاربری: {USERNAME}\n📞 تلفن: {str(p)}\n💰مبلغ پرداختی:  {str(price)} تومان", reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
+                                bot.send_message(admin, f"📃 اطلاعات اکانت خریداری شده توسط {mention}\nHost: {host}\nUser: {user}\nID: {str(chat_id)}\nuser username: {USERNAME}\nPhone: {str(p)}\nPrice: {str(price)} Toman", reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
                             except:
                                 pass
                 else:
@@ -7379,7 +7375,7 @@ def call_Uname(bot, query):
         if selected == "C":
             keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='buy')]]
             reply_markup = InlineKeyboardMarkup(keyboard)
-            query.edit_message_text(text="نام کاربری مورد نظرتو بفرست \n\n(توجه: نام کاربری باید شامل حروف کوچک و عدد باشد مثال vpn123)\n", reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
+            query.edit_message_text(text="نام کاربری مورد نظرتو بفرست (فقط اعداد و حروف انگلیسی و کمتر از 12 کاراکتر)", reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
             add_cache(chat_id, "Uname_" + data)
         else:
             cb_cc = "CC_" + data + "?random"
@@ -7406,9 +7402,9 @@ def call_Uname(bot, query):
             keyboard.append([InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='buy')])
             reply_markup = InlineKeyboardMarkup(keyboard)
             try:
-                query.edit_message_text(text="4️⃣ مرحله چهار:\n\nروش پرداختتو انتخاب کن تا خریدت تکمیل بشه😉\n", reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
+                query.edit_message_text(text="روش پرداختو انتخاب کن:", reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
             except:
-                query.edit_message_text(text="4️⃣ مرحله چهار:\n\nروش پرداختتو انتخاب کن تا خریدت تکمیل بشه😉\n", reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
+                query.edit_message_text(text="📃روش پرداختو انتخاب کن:", reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
     else:
         query.answer("دوباره تلاش کنید", show_alert=True)
         delete_cache(chat_id)
@@ -7435,9 +7431,9 @@ def call_XVPSS(bot, query):
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         try:
-            query.edit_message_text(text="3️⃣ مرحله سه :\n\nمیتونید نام کاربری دلخواه خودتون بفرستین یا بصورت رندوم انتخاب میشه\n\nیکی از گزینه هارو انتخاب کنین:\n", reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
+            query.edit_message_text(text="نام کاربری ؟\nمیتونید نام کاربری دلخواه خودتون بفرستین یا بصورت رندوم انتخاب میشه\n\nیکی از گزینه هارو انتخاب کنین:", reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
         except:
-            query.edit_message_text(text="3️⃣ مرحله سه :\n\nمیتونید نام کاربری دلخواه خودتون بفرستین یا بصورت رندوم انتخاب میشه\n\nیکی از گزینه هارو انتخاب کنین:\n", reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
+            query.edit_message_text(text="📃نام کاربری ؟\nمیتونید نام کاربری دلخواه خودتون بفرستین یا بصورت رندوم انتخاب میشه\n\nیکی از گزینه هارو انتخاب کنین:", reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
     else:
         data = data.split("!")[0].split("XVPSS_")[1]
         try:
@@ -7463,14 +7459,14 @@ def call_BU(bot, query):
         settings = get_settings()
         if chat_id in seller_id:
             if settings['select_server_sellers'] == "on":
-                query.edit_message_text(text="2️⃣ مرحله دو:\n \n لوکیشن مدنظر خود را برای خرید انتخاب کن.😊 \n ", reply_markup=server_cb_creator_user("XVPSS_", data))
+                query.edit_message_text(text="یکی از سرور هارو انتخاب کنین:", reply_markup=server_cb_creator_user("XVPSS_", data))
             else:
-                query.edit_message_text(text="3️⃣ مرحله سه :\n\nمیتونید نام کاربری دلخواه خودتون بفرستین یا بصورت رندوم انتخاب میشه\n\nیکی از گزینه هارو انتخاب کنین:", reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
+                query.edit_message_text(text="نام کاربری ؟\nمیتونید نام کاربری دلخواه خودتون بفرستین یا بصورت رندوم انتخاب میشه\n\nیکی از گزینه هارو انتخاب کنین:", reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
         else:
             if settings['select_server_users'] == "on":
-                query.edit_message_text(text="2️⃣ مرحله دو:\n \n لوکیشن مدنظر خود را برای خرید انتخاب کن.😊 \n ", reply_markup=server_cb_creator_user("XVPSS_", data))
+                query.edit_message_text(text="یکی از سرور هارو انتخاب کنین:", reply_markup=server_cb_creator_user("XVPSS_", data))
             else:
-                query.edit_message_text(text="3️⃣ مرحله سه :\n\nمیتونید نام کاربری دلخواه خودتون بفرستین یا بصورت رندوم انتخاب میشه\n\nیکی از گزینه هارو انتخاب کنین:\n", reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
+                query.edit_message_text(text="نام کاربری ؟\nمیتونید نام کاربری دلخواه خودتون بفرستین یا بصورت رندوم انتخاب میشه\n\nیکی از گزینه هارو انتخاب کنین:", reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
     else:
         query.answer("دوباره تلاش کنید", show_alert=True)
 
@@ -12283,7 +12279,7 @@ def contact_update(bot, message):
             username = 'Null'
         if (get_settings()['irphone'] == 'on'):
             if ("+98" in phone_number) or ("+ 98" in phone_number) or (phone_number[0:3] == "+98") or (phone_number[0:2] == "98"):
-                message.reply_text("‎✅ شما با موفقیت عضو ربات شدید.", reply_markup=ReplyKeyboardRemove())
+                message.reply_text("‎✅", reply_markup=ReplyKeyboardRemove())
                 message.reply_text(settings['start'], reply_markup=User_Tools_keys(), parse_mode=enums.ParseMode.HTML)
                 if check_user_phone_exist(chat_id) is False:
                     update_phone_number(chat_id, phone_number)
@@ -12291,7 +12287,7 @@ def contact_update(bot, message):
                 message.reply_text("فقط شماره های ایران مورد قبول هست", reply_markup=ReplyKeyboardRemove())
                 notify = False
         else:
-            message.reply_text("‎✅ شما با موفقیت عضو ربات شدید.", reply_markup=ReplyKeyboardRemove())
+            message.reply_text("‎✅", reply_markup=ReplyKeyboardRemove())
             message.reply_text(settings['start'], reply_markup=User_Tools_keys(), parse_mode=enums.ParseMode.HTML)
             if check_user_phone_exist(chat_id) is False:
                 update_phone_number(chat_id, phone_number)
@@ -12299,7 +12295,7 @@ def contact_update(bot, message):
             for admin in admin_id:
                 try:
                     mention = "<a href='tg://user?id=" + str(chat_id) + "'>" + name + "</a>"
-                    text = f"📞تایید شماره موبایل:\n👨‍💼اسم کاربر: {mention}\n▫️آیدی کاربر: <code>{str(chat_id)}</code>\n⚡️ نام کاربری: {username}\n📞 شماره تلفن: {phone_number}\n\nبا موفقیت در ربات عضو شد.😉"
+                    text = f"⚪️Phone number\n{mention}\nID: <code>{str(chat_id)}</code>\nUsername: {username}\nPhone number: {phone_number}"
                     bot.send_message(admin, text, parse_mode=enums.ParseMode.HTML)
                 except:
                     pass
@@ -12543,8 +12539,8 @@ def image_users(bot, message):
             code, cache_list = get_code_buy_info(chat_id, "add")
             delete_all_buy(chat_id, "add")
             add_code_buy(chat_id, code, "add", cache_list)
-            t1 = f"🚦سرور: {cache_list[6]}\n✏️ نام اکانت: {cache_list[5]}\n⏰ مدت سرویس: {cache_list[0]}\n🔋حجم سرویس: {cache_list[1]} گیگ\n🧑‍💻 محدودیت: {cache_list[2]} کاربره\n💰مبلغ پرداختی: {cache_list[3]} تومان"
-            text = "🪪 آیدی کاربر: <code>" + str(chat_id) + "</code>\n👨‍💼 اسم کاربر: " + name + '\n⚡️ نام کاربری: ' + username + "\n\n❗️| خرید جدید ({cache_list[7]})\n\n" + t1
+            t1 = f"server: {cache_list[6]}\nuser: {cache_list[5]}\ndays: {cache_list[0]}\nGB: {cache_list[1]}\nConnection: {cache_list[2]}\nPrice: {cache_list[3]} Toman\nPayment: {cache_list[7]}"
+            text = "id: <code>" + str(chat_id) + "</code>\nName: " + name + '\nUsername: ' + username + "\n\nاطلاعات خرید اکانت\n" + t1
             cb = "Confirmed_" + code
             no = "رد❌_" + code
             keyboard = [[InlineKeyboardButton("تایید✅", callback_data=cb), InlineKeyboardButton("رد❌", callback_data=no)], [InlineKeyboardButton("پیام به کاربر ✉️", callback_data='ANS_' + str(chat_id))]]
@@ -12567,8 +12563,8 @@ def image_users(bot, message):
             code, cache_list = get_code_buy_info(chat_id, "upgrade")
             delete_all_buy(chat_id, "upgrade")
             add_code_buy(chat_id, code, "upgrade", cache_list)
-            t1 = f"♻ تمدید سرویس\n⏰ مدت سرویس: {cache_list[0]}\n🔋حجم سرویس: {cache_list[1]} گیگ\n🧑‍💻 محدودیت: {cache_list[2]} کاربره\n💰مبلغ پرداختی: {cache_list[3]} تومان\n🚦سرور: {cache_list[5]}\n✏️ نام اکانت: {cache_list[4]}"
-            text = "🪪 آیدی کاربر: <code>" + str(chat_id) + "</code>\n👨‍💼 اسم کاربر: " + name + '\n⚡️ نام کاربری: ' + username + "\n\n♻️ تمدید سرویس ({cache_list[6]})\n\n" + t1
+            t1 = f"♻ تمدید سرویس\ndays: {cache_list[0]}\nGB: {cache_list[1]}\nConnection: {cache_list[2]}\nprice: {cache_list[3]} Toman\nPayment: {cache_list[6]}\nHost: {cache_list[5]}\nUser: {cache_list[4]}"
+            text = "id: <code>" + str(chat_id) + "</code>\nName: " + name + '\nUsername: ' + username + "\n\nاطلاعات تمدید:\n" + t1
             cb = "ConfirmUPGRADE_" + code
             no = "رد❌_" + code
             keyboard = [[InlineKeyboardButton("تایید✅", callback_data=cb), InlineKeyboardButton("رد❌", callback_data=no)], [InlineKeyboardButton("پیام به کاربر ✉️", callback_data='ANS_' + str(chat_id))]]
@@ -12615,8 +12611,8 @@ def image_users(bot, message):
             code, cache_list = get_code_buy_info(chat_id, "userdeposit")
             delete_all_buy(chat_id, "userdeposit")
             add_code_buy(chat_id, code, "userdeposit", cache_list)
-            t1 = f"💵افزایش موجودی کیف پول\n\n💰مبلغ پرداختی: {cache_list[0]} تومان\n"
-            text = "🪪 آیدی کاربر: <code>" + str(chat_id) + "</code>\n👨‍💼 اسم کاربر: " + name + '\n⚡️ نام کاربری: ' + username + "\n\n💵افزایش موجودی کیف پول ({cache_list[1]})\n\n" + t1
+            t1 = f"💵افزایش موجودی کیف پول\n\nPrice: {cache_list[0]}\nPayment: {cache_list[1]}"
+            text = "id: <code>" + str(chat_id) + "</code>\nName: " + name + '\nUsername: ' + username + "\n\nاطلاعات خرید:\n" + t1
             cb = "ConfirmDeposit_" + code
             no = "رد❌_" + code
             keyboard = [[InlineKeyboardButton("تایید✅", callback_data=cb), InlineKeyboardButton("رد❌", callback_data=no)], [InlineKeyboardButton("پیام به کاربر ✉️", callback_data='ANS_' + str(chat_id))]]
