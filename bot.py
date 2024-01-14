@@ -6279,7 +6279,7 @@ def call_card(bot, query):
         return
     keyboard = [
         [InlineKeyboardButton("تغییر دادن", callback_data='Change')],
-        [InlineKeyboardButton("🔴 خاموش", callback_data='OFC'), InlineKeyboardButton("🟢 خاموش", callback_data='ONC')],
+        [InlineKeyboardButton("🔴 خاموش", callback_data='OFC'), InlineKeyboardButton("🟢 روشن", callback_data='ONC')],
         [InlineKeyboardButton("تغییر کپشن", callback_data='CPSHNCBC')],
         [InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='ZBSHP')]
     ]
