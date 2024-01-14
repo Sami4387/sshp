@@ -2607,7 +2607,7 @@ class PANNEL:
                         if DROP == "":
                             PORT, UDGPW, DROP = self.Ports()
                         dropbear = f"\nDropbear Port: <code>{DROP}</code>"
-                    return f"SSH Host : <code>{IP}</code>\nPort : <code>{PORT}</code>{dropbear}\nUdgpw : <code>{UDGPW}</code>\nUsername : <code>{uname}</code>\nPassword : <code>{passw}</code>\n\nConnection limit: {str(connection_limit)}\nDays : {str(days)}\nTraffic: {str(traffic)}"
+                    return f"Protocol: <code>SSH-Direct</code>\nRemarks/Name: <code>{uname}</code>\nSSH Host : <code>{IP}</code>\nPort : <code>{PORT}</code>{dropbear}\nUdgpw : <code>{UDGPW}</code>\nUsername : <code>{uname}</code>\nPassword : <code>{passw}</code>\n\n🧑‍💻 محدودیت: {str(connection_limit)} کاربره\n⏰ مدت سرویس: {str(days)} روز\n🔋حجم سرویس: {str(traffic)} گیگ"
                 else:
                     return "Error: Code " + str(s.status_code)
             except Exception as e:
@@ -2668,7 +2668,7 @@ class PANNEL:
                         if "<br" in s:
                             s = s.split("<br")[0]
                         PASS, TRAFFIC, CONNECTION_LIMIT, DAYS, STATUS, USAGE, UID, KIND, DATE, DESCRIPTION, PUBLIC_LINK, port, udgpw = Get_user_info_rocket(json.loads(s), uname, self.r, self.url)
-                    return f"SSH Host : <code>{self.host}</code>\nPort : <code>{port}</code>\nUdgpw : <code>{udgpw}</code>\nUsername : <code>{uname}</code>\nPassword : <code>{passw}</code>\n\nConnection limit: {str(connection_limit)}\nDays : {str(days)}\nExpiry : {Date}\nTraffic: {str(traffic)}"
+                    return f"Protocol: <code>SSH-Direct</code>\nRemarks/Name: <code>{uname}</code>\nSSH Host : <code>{IP}</code>\nPort : <code>{PORT}</code>{dropbear}\nUdgpw : <code>{UDGPW}</code>\nUsername : <code>{uname}</code>\nPassword : <code>{passw}</code>\n\n🧑‍💻 محدودیت: {str(connection_limit)} کاربره\n⏰ مدت سرویس: {str(days)} روز\n🔋حجم سرویس: {str(traffic)} گیگ"
                 else:
                     return "Error: Code " + str(s.status_code)
             except Exception as e:
@@ -2718,7 +2718,7 @@ class PANNEL:
                             Date = str(jdatetime.date.fromgregorian(day=dt.day, month=dt.month, year=dt.year))
                     except:
                         pass
-                    return f"SSH Host : <code>{self.host}</code>\nPort : <code>{port}</code>\nUdgpw : <code>{udgpw}</code>\nUsername : <code>{uname}</code>\nPassword : <code>{passw}</code>\n\nConnection limit: {str(connection_limit)}\nDays : {str(days)}\nExpiry : {Date}\nTraffic: {str(traffic)}"
+                    return f"Protocol: <code>SSH-Direct</code>\nRemarks/Name: <code>{uname}</code>\nSSH Host : <code>{IP}</code>\nPort : <code>{PORT}</code>{dropbear}\nUdgpw : <code>{UDGPW}</code>\nUsername : <code>{uname}</code>\nPassword : <code>{passw}</code>\n\n🧑‍💻 محدودیت: {str(connection_limit)} کاربره\n⏰ مدت سرویس: {str(days)} روز\n🔋حجم سرویس: {str(traffic)} گیگ"
                 else:
                     return "Error: Code " + str(s.status_code)
             except Exception as e:
@@ -2751,7 +2751,7 @@ class PANNEL:
                     port, udgpw, DROP = self.Ports()
                     traffic = "نامحدود"
                     Date = (str(jdatetime.datetime.fromtimestamp(time() + (int(days) * 86400))).split(" ")[0]).replace("-", "/")
-                    return f"SSH Host : <code>{self.host}</code>\nPort : <code>{port}</code>{dropbear}\nUdgpw : <code>{udgpw}</code>\nUsername : <code>{uname}</code>\nPassword : <code>{passw}</code>\n\nConnection limit: {str(connection_limit)}\nDays : {str(days)}\nExpiry : {Date}\nTraffic: {str(traffic)}"
+                    return f"Protocol: <code>SSH-Direct</code>\nRemarks/Name: <code>{uname}</code>\nSSH Host : <code>{IP}</code>\nPort : <code>{PORT}</code>{dropbear}\nUdgpw : <code>{UDGPW}</code>\nUsername : <code>{uname}</code>\nPassword : <code>{passw}</code>\n\n🧑‍💻 محدودیت: {str(connection_limit)} کاربره\n⏰ مدت سرویس: {str(days)} روز\n🔋حجم سرویس: {str(traffic)} گیگ"
                 else:
                     return "Error: cannot create the user try another username"
             except Exception as e:
