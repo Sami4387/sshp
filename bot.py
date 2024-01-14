@@ -1397,7 +1397,7 @@ def backup_cmd(bot, message):
     if backup_command[0] is False:
         backup_command[0] = True
         chat_id = message.chat.id
-        msg = message.reply_text("Wait...").id
+        msg = message.reply_text("منتظر بمانید...").id
         files = ["All.txt", "ssh.db", "data.json", "Pannels.txt", "logs.txt", "nohup.out"]
         media = []
         for file in files:
@@ -1565,7 +1565,7 @@ def forward(bot, message):
 def start_admin(bot, message):
     if botusername == []:
         botusername.append((bot.get_me()).username)
-    text = '🔻<b>Tools</b>\n\n/backup'
+    text = '<b>پنل ربات</b>\n\n/backup'
     chat_id = message.chat.id
     if check_cache(chat_id) is True:
         delete_cache(chat_id)
@@ -1584,7 +1584,7 @@ def start_user(bot, message):
         if chat_id in seller_id:
             delete_collector(chat_id)
     if chat_id in seller_id:
-        text = '🔻<b>Tools</b>'
+        text = '<b>پنل ربات</b>'
         message.reply_text(text, reply_markup=Seller_Tools_keys(), parse_mode=enums.ParseMode.HTML)
     else:
         settings = get_settings()
@@ -1618,7 +1618,7 @@ def start_user(bot, message):
                 for admin in admin_id:
                     try:
                         mention = "<a href='tg://user?id=" + str(chat_id) + "'>" + name + "</a>"
-                        text = f"⚪️ کاربر جدید: {mention} با آیدی عددی <code>{str(chat_id)}</code> و یوزرنیم  {username}"
+                        text = f"⚪️ کاربر جدید:\n\n👨‍💼اسم کاربر: {mention}\n\n▫️آیدی کاربر: <code>{str(chat_id)}</code>\n\n⚡️ نام کاربری: {username}\n\nدر حال عضویت در ربات می باشد."
                         bot.send_message(admin, text, parse_mode=enums.ParseMode.HTML)
                     except:
                         pass
@@ -1677,7 +1677,7 @@ def text_private(bot, message):
                 host = None
                 user = None
             if host is not None:
-                msg = message.reply_text("Wait...").id
+                msg = message.reply_text("منتظر بمانید...").id
                 port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
                 try:
                     Session = samisshbot.PANNEL(host, username, password, port, panel, 'User', user)
@@ -2179,8 +2179,8 @@ def text_private(bot, message):
                         username = "@" + message.from_user.username
                     except:
                         username = 'Null'
-                    t1 = f"💲فروشنده💲\nخرید \nserver: {host}\nuser: {user}\ndays: {days}\nGB: {traffic}\nConnection: {connection_limit}"
-                    text = "id: <code>" + str(chat_id) + "</code>\nName: " + name + '\nUsername: ' + username + "\n\ninfo buy:\n" + t1
+                    t1 = f"💲فروشنده💲\nخرید \n🚦سرور: {host}\n✏️ نام اکانت: {user}\n⏰ مدت سرویس: {days} روز\n🔋حجم سرویس: {traffic} گیگ\n🧑‍💻 محدودیت: {connection_limit}"
+                    text = "▫️آیدی کاربر: <code>" + str(chat_id) + "</code>\n👨‍💼اسم کاربر: " + name + '\n⚡️ نام کاربری: ' + username + "\n\n📝 اطلاعت خرید:\n" + t1
                     cb = "Confirmed_" + code
                     no = "رد❌_" + code
                     keyboard = [[InlineKeyboardButton("تایید✅", callback_data=cb), InlineKeyboardButton("رد❌", callback_data=no)], [InlineKeyboardButton("پیام به کاربر ✉️", callback_data='ANS_' + str(chat_id))]]
@@ -2194,7 +2194,7 @@ def text_private(bot, message):
                     add_code_buy(chat_id, code, "check", cache_list)
                     message.reply_text("ادمین ها بزودی درخواستتون بررسی میکنن.", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back')]]))
                 else:
-                    msg = message.reply_text("Wait...").id
+                    msg = message.reply_text("منتظر بمانید...").id
                     passw = get_password_by_settings()
                     port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
                     try:
@@ -2206,7 +2206,7 @@ def text_private(bot, message):
                         HOST = ((text.split("SSH Host : ")[1]).split("\n")[0]).replace("<pre>", "").replace("</pre>", "").replace("<code>", "").replace("</code>", "").replace(" ", "")
                         url = f'ssh://{cache_list[1]}:{passw}@{HOST}:{port}#{cache_list[1]}'
                         photo = QR_Maker(url)
-                        text += "\n\nURL: " + "<code>" + url + "</code>"
+                        text += "\n\n🌐 لینک اتصال خودکار:\n\n " + "<code>" + url + "</code>"
                         bot.send_photo(chat_id, open(photo, 'rb'), text, parse_mode=enums.ParseMode.HTML)
                         os.remove(photo)
                         cb = "IDADMIN_" + host + "$" + cache_list[1]
@@ -2458,7 +2458,7 @@ def text_private(bot, message):
         elif status == "days":
             try:
                 int(link)
-                msg = message.reply_text("Wait...").id
+                msg = message.reply_text("منتظر بمانید...").id
                 cache_list, host_cahce = get_collector_cache(chat_id)
                 host = cache_list[0]
                 user_id = cache_list[3]
@@ -2475,7 +2475,7 @@ def text_private(bot, message):
                     HOST = ((text.split("SSH Host : ")[1]).split("\n")[0]).replace("<pre>", "").replace("</pre>", "").replace("<code>", "").replace("</code>", "").replace(" ", "")
                     url = f'ssh://{cache_list[1]}:{passw}@{HOST}:{port}#{cache_list[1]}'
                     photo = QR_Maker(url)
-                    text += "\n\nURL: " + "<code>" + url + "</code>"
+                    text += "\n\n🌐 لینک اتصال خودکار:\n\n " + "<code>" + url + "</code>"
                     bot.send_photo(chat_id, open(photo, 'rb'), text, parse_mode=enums.ParseMode.HTML)
                     os.remove(photo)
                     cb = "IDADMIN_" + host + "$" + cache_list[1]
@@ -2492,7 +2492,7 @@ def text_private(bot, message):
                 message.reply_text("فقط میتونی عدد بفرستی")
 
         elif "remove_" in status:
-            msg = message.reply_text("Wait...").id
+            msg = message.reply_text("منتظر بمانید...").id
             user = link
             host = status.split("remove_")[1]
             try:
@@ -2589,8 +2589,8 @@ def text_private(bot, message):
                         username = "@" + message.from_user.username
                     except:
                         username = 'Null'
-                    t1 = f"💲فروشنده💲\nتمدید\ndays: {days}\nGB: {traffic}\nConnection: {connection_limit}\nHost: {host}\nUser: {user}"
-                    text = "id: <code>" + str(chat_id) + "</code>\nName: " + name + '\nUsername: ' + username + "\n\ninfo buy:\n" + t1
+                    t1 = f"💲فروشنده💲\nتمدید\n⏰ مدت سرویس: {days} روز\n🔋حجم سرویس: {traffic} گیگ\n🧑‍💻 محدودیت: {connection_limit} کاربره\n🚦سرور: {host}\n✏️ نام اکانت: {user}"
+                    text = "▫️آیدی کاربر: <code>" + str(chat_id) + "</code>\n👨‍💼اسم کاربر: " + name + '\n⚡️ نام کاربری: ' + username + "\n\n📝 اطلاعت خرید:\n" + t1
                     cb = "ConfirmUPGRADE_" + code
                     no = "رد❌_" + code
                     keyboard = [[InlineKeyboardButton("تایید✅", callback_data=cb), InlineKeyboardButton("رد❌", callback_data=no)], [InlineKeyboardButton("پیام به کاربر ✉️", callback_data='ANS_' + str(chat_id))]]
@@ -2604,7 +2604,7 @@ def text_private(bot, message):
                     add_code_buy(chat_id, code, "checkup", cache_list)
                     message.reply_text("ادمین ها بزودی درخواستتون بررسی میکنن.", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back')]]))
                 else:
-                    msg = message.reply_text("Wait...").id
+                    msg = message.reply_text("منتظر بمانید...").id
                     port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
                     try:
                         Session = samisshbot.PANNEL(host, username, password, port, panel, 'User', cache_list[1])
@@ -2659,8 +2659,8 @@ def text_private(bot, message):
                         username = "@" + message.from_user.username
                     except:
                         username = 'Null'
-                    t1 = f"💲فروشنده💲\nافزایش ترافیک 🔃\n\nGB: {str(traffic)}\nHost: {host}\nUser: {user}"
-                    text = "id: <code>" + str(chat_id) + "</code>\nName: " + name + '\nUsername: ' + username + "\n\ninfo buy:\n" + t1
+                    t1 = f"💲فروشنده💲\nافزایش ترافیک 🔃\n\n🔋حجم سرویس: {str(traffic)} گیگ\n🚦سرور: {host}\n✏️ نام اکانت: {user}"
+                    text = "▫️آیدی کاربر: <code>" + str(chat_id) + "</code>\n👨‍💼اسم کاربر: " + name + '\n⚡️ نام کاربری: ' + username + "\n\n📝 اطلاعت خرید:\n" + t1
                     cb = "ConfirmTraffic_" + code
                     no = "رد❌_" + code
                     keyboard = [[InlineKeyboardButton("تایید✅", callback_data=cb), InlineKeyboardButton("رد❌", callback_data=no)], [InlineKeyboardButton("پیام به کاربر ✉️", callback_data='ANS_' + str(chat_id))]]
@@ -2674,7 +2674,7 @@ def text_private(bot, message):
                     add_code_buy(chat_id, code, "checkup", cache_list)
                     message.reply_text("ادمین ها بزودی درخواستتون بررسی میکنن.", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back')]]))
                 else:
-                    msg = message.reply_text("Wait...").id
+                    msg = message.reply_text("منتظر بمانید...").id
                     port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
                     try:
                         Session = samisshbot.PANNEL(host, username, password, port, panel, 'User', user)
@@ -2697,7 +2697,7 @@ def text_private(bot, message):
                 message.reply_text("این آدرس پنل وجود نداره, آدرس درستو بفرستین ")
 
         elif "userinfo_" in status:
-            msg = message.reply_text("Wait...").id
+            msg = message.reply_text("منتظر بمانید...").id
             user = link
             host = status.split("userinfo_")[1]
             try:
@@ -2984,7 +2984,7 @@ def text_private(bot, message):
             delete_cache(chat_id)
 
         elif ("disable_" in status) or ("enable_" in status):
-            msg = message.reply_text("Wait...").id
+            msg = message.reply_text("منتظر بمانید...").id
             try:
                 if "disable" in status:
                     host = status.split("disable_")[1]
@@ -3068,7 +3068,7 @@ def text_private(bot, message):
                 message.reply_text("فقط میتونی عدد بفرستی")
 
         elif "Kill_" in status:
-            msg = message.reply_text("Wait...").id
+            msg = message.reply_text("منتظر بمانید...").id
             keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='Manager')]]
             reply_markup = InlineKeyboardMarkup(keyboard)
             try:
