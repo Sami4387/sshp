@@ -1618,7 +1618,7 @@ def start_user(bot, message):
                 for admin in admin_id:
                     try:
                         mention = "<a href='tg://user?id=" + str(chat_id) + "'>" + name + "</a>"
-                        text = f"⚪️ کاربر جدید: {mention} با آیدی عددی <code>{str(chat_id)}</code> و یوزرنیم  {username}"
+                        text = f"⚪️ کاربر جدید: \n👨‍💼اسم کاربر: {mention}\n▫️آیدی کاربر: <code>{str(chat_id)}</code>\n⚡️ نام کاربری: {username}\nدر حال عضویت در ربات می باشد."
                         bot.send_message(admin, text, parse_mode=enums.ParseMode.HTML)
                     except:
                         pass
@@ -2179,8 +2179,8 @@ def text_private(bot, message):
                         username = "@" + message.from_user.username
                     except:
                         username = 'Null'
-                    t1 = f"💲فروشنده💲\nخرید \nserver: {host}\nuser: {user}\ndays: {days}\nGB: {traffic}\nConnection: {connection_limit}"
-                    text = "id: <code>" + str(chat_id) + "</code>\nName: " + name + '\nUsername: ' + username + "\n\ninfo buy:\n" + t1
+                    t1 = f"💲فروشنده💲\nخرید \n🚦سرور: {host}\n✏️ نام اکانت: {user}\n⏰ مدت سرویس: {days} روز\n🔋حجم سرویس: {traffic} گیگ\n🧑‍💻 محدودیت: {connection_limit} کاربره"
+                    text = "▫️آیدی کاربر: <code>" + str(chat_id) + "</code>\n👨‍💼اسم کاربر: " + name + '\nUsername: ' + username + "\n\ninfo buy:\n" + t1
                     cb = "Confirmed_" + code
                     no = "رد❌_" + code
                     keyboard = [[InlineKeyboardButton("تایید✅", callback_data=cb), InlineKeyboardButton("رد❌", callback_data=no)], [InlineKeyboardButton("پیام به کاربر ✉️", callback_data='ANS_' + str(chat_id))]]
@@ -2206,7 +2206,7 @@ def text_private(bot, message):
                         HOST = ((text.split("SSH Host : ")[1]).split("\n")[0]).replace("<pre>", "").replace("</pre>", "").replace("<code>", "").replace("</code>", "").replace(" ", "")
                         url = f'ssh://{cache_list[1]}:{passw}@{HOST}:{port}#{cache_list[1]}'
                         photo = QR_Maker(url)
-                        text += "\n\nURL: " + "<code>" + url + "</code>"
+                        text += "\n\n🌐 لینک اتصال خودکار:\n\n " + "<code>" + url + "</code>"
                         bot.send_photo(chat_id, open(photo, 'rb'), text, parse_mode=enums.ParseMode.HTML)
                         os.remove(photo)
                         cb = "IDADMIN_" + host + "$" + cache_list[1]
@@ -2475,7 +2475,7 @@ def text_private(bot, message):
                     HOST = ((text.split("SSH Host : ")[1]).split("\n")[0]).replace("<pre>", "").replace("</pre>", "").replace("<code>", "").replace("</code>", "").replace(" ", "")
                     url = f'ssh://{cache_list[1]}:{passw}@{HOST}:{port}#{cache_list[1]}'
                     photo = QR_Maker(url)
-                    text += "\n\nURL: " + "<code>" + url + "</code>"
+                    text += "\n\n🌐 لینک اتصال خودکار:\n\n " + "<code>" + url + "</code>"
                     bot.send_photo(chat_id, open(photo, 'rb'), text, parse_mode=enums.ParseMode.HTML)
                     os.remove(photo)
                     cb = "IDADMIN_" + host + "$" + cache_list[1]
@@ -2589,8 +2589,8 @@ def text_private(bot, message):
                         username = "@" + message.from_user.username
                     except:
                         username = 'Null'
-                    t1 = f"💲فروشنده💲\nتمدید\ndays: {days}\nGB: {traffic}\nConnection: {connection_limit}\nHost: {host}\nUser: {user}"
-                    text = "id: <code>" + str(chat_id) + "</code>\nName: " + name + '\nUsername: ' + username + "\n\ninfo buy:\n" + t1
+                    t1 = f"💲فروشنده💲\nتمدید\n⏰ مدت سرویس: {days} روز\n🔋حجم سرویس: {traffic} گیگ\n🧑‍💻 محدودیت: {connection_limit} کاربره\n🚦سرور: {host}\n✏️ نام اکانت: {user}"
+                    text = "▫️آیدی کاربر: <code>" + str(chat_id) + "</code>\n👨‍💼اسم کاربر: " + name + '\n⚡️ نام کاربری: ' + username + "\n\n📝 اطلاعت خرید:\n" + t1
                     cb = "ConfirmUPGRADE_" + code
                     no = "رد❌_" + code
                     keyboard = [[InlineKeyboardButton("تایید✅", callback_data=cb), InlineKeyboardButton("رد❌", callback_data=no)], [InlineKeyboardButton("پیام به کاربر ✉️", callback_data='ANS_' + str(chat_id))]]
@@ -2659,8 +2659,8 @@ def text_private(bot, message):
                         username = "@" + message.from_user.username
                     except:
                         username = 'Null'
-                    t1 = f"💲فروشنده💲\nافزایش ترافیک 🔃\n\nGB: {str(traffic)}\nHost: {host}\nUser: {user}"
-                    text = "id: <code>" + str(chat_id) + "</code>\nName: " + name + '\nUsername: ' + username + "\n\ninfo buy:\n" + t1
+                    t1 = f"💲فروشنده💲\nافزایش ترافیک 🔃\n\n🔋حجم سرویس: {str(traffic)} گیگ\n🚦سرور: {host}\n✏️ نام اکانت: {user}"
+                    text = "▫️آیدی کاربر: <code>" + str(chat_id) + "</code>\n👨‍💼اسم کاربر: " + name + '\n⚡️ نام کاربری: ' + username + "\n\n📝 اطلاعت خرید:\n" + t1
                     cb = "ConfirmTraffic_" + code
                     no = "رد❌_" + code
                     keyboard = [[InlineKeyboardButton("تایید✅", callback_data=cb), InlineKeyboardButton("رد❌", callback_data=no)], [InlineKeyboardButton("پیام به کاربر ✉️", callback_data='ANS_' + str(chat_id))]]
@@ -6533,6 +6533,8 @@ def call_CUWPD(bot, query):
         cache_list = [price, "💳 کارت به کارت"]
         add_code_buy(chat_id, Code, "userdeposit", cache_list)
         text = f"""
+        ️⃣ مرحله پنجم:
+        
 مبلغ:
 {price} تومن
 به شماره کارت :
@@ -6575,8 +6577,9 @@ def call_TUWPD(bot, query):
         else:
             price = trx_price(price)
         text = f"""
-مبلغ:
-{price}
+        ️⃣ مرحله پنجم:
+        
+مبلغ: {price}
 
 به آدرس ولت :
 <code>{wallet}</code>
@@ -6888,8 +6891,9 @@ def call_CTPB(bot, query):
         cache_list = [GB, price, user, host, "💳 کارت به کارت"]
         add_code_buy(chat_id, Code, "traffic", cache_list)
         text = f"""
-مبلغ:
-{price} تومن
+        ️⃣ مرحله پنجم:
+        
+مبلغ: {price} تومن
 به شماره کارت :
 <code>{str(card)}</code>
 واریز کنید و سپس رسید عکس خودرا بفرستید
@@ -6979,8 +6983,9 @@ def call_TTPB(bot, query):
         else:
             price = trx_price(price)
         text = f"""
-مبلغ:
-{price}
+        ️⃣ مرحله پنجم:
+        
+مبلغ: {price}
 
 به آدرس ولت :
 <code>{wallet}</code>
@@ -7126,8 +7131,9 @@ def call_CC(bot, query):
         cache_list = [days, GB, client, price, query.message.chat.first_name, UNAME, Selected_host, "💳 کارت به کارت"]
         add_code_buy(chat_id, Code, "add", cache_list)
         text = f"""
-مبلغ:
-{price} تومن
+        ️⃣ مرحله پنجم:
+        
+مبلغ: {price} تومن
 به شماره کارت :
 <code>{str(card)}</code>
 واریز کنین و سپس رسید عکس خودرا بفرستید
@@ -7173,8 +7179,9 @@ def call_TR(bot, query):
         else:
             price = trx_price(price)
         text = f"""
-مبلغ:
-{price}
+        ️⃣ مرحله پنجم:
+        
+مبلغ: {price}
 
 به آدرس ولت :
 <code>{wallet}</code>
