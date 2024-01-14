@@ -1,7 +1,7 @@
 import os
 import re
 import ast
-import samisshbot
+import sshx
 import json
 import sqlite3
 import socket
@@ -67,12 +67,12 @@ sellers_id_add_list()
 
 def Admin_Tools_keys():
     keyboard = [
-        [InlineKeyboardButton("✔️چکر", callback_data='checker'), InlineKeyboardButton("📉آمار", callback_data='stats')],
-        [InlineKeyboardButton("🚦 مدیریت سرور ها", callback_data='SMT')],
-        [InlineKeyboardButton("🧑‍💼مدیریت اکانت ها", callback_data='Manager')],
+        [InlineKeyboardButton("✔️چکر", callback_data='checker'), InlineKeyboardButton("📊آمار", callback_data='stats')],
+        [InlineKeyboardButton("🖥 مدیریت سرور ها", callback_data='SMT')],
+        [InlineKeyboardButton("👤مدیریت اکانت ها", callback_data='Manager')],
         [InlineKeyboardButton("⛔️تست فیلترینگ", callback_data='Filtering'), InlineKeyboardButton("🎁کد هدیه", callback_data='GUA')],
-        [InlineKeyboardButton("📨ارسال پیام همگانی", callback_data='message'), InlineKeyboardButton("👤فروشنده ها", callback_data='sellers')],
-        [InlineKeyboardButton("⚙️مدیریت ربات", callback_data='settings')]
+        [InlineKeyboardButton("📦ارسال پیام همگانی", callback_data='message'), InlineKeyboardButton("💲فروشنده ها", callback_data='sellers')],
+        [InlineKeyboardButton("⚙️تنظیمات", callback_data='settings')]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     return reply_markup
@@ -80,13 +80,13 @@ def Admin_Tools_keys():
 
 def Seller_Tools_keys():
     keyboard = [
-        [InlineKeyboardButton("📉آمار", callback_data='stats'), InlineKeyboardButton("🧑‍💼اطلاعات کاربر", callback_data='userinfo')],
-        [InlineKeyboardButton("❌ غیر فعال کاربر", callback_data='disable'), InlineKeyboardButton("✅ فعال کاربر", callback_data='enable')],
-        [InlineKeyboardButton("♻تمدید کاربر", callback_data='update'), InlineKeyboardButton("🩸افزایش ترافیک", callback_data='TrfPlus')],
-        [InlineKeyboardButton("🛠ساخت اکانت", callback_data='Create_none'), InlineKeyboardButton("❌حذف کاربر", callback_data='remove')],
+        [InlineKeyboardButton("📊آمار", callback_data='stats'), InlineKeyboardButton("👤اطلاعات کاربر", callback_data='userinfo')],
+        [InlineKeyboardButton("✖️ غیر فعال کاربر", callback_data='disable'), InlineKeyboardButton("✔️ فعال کاربر", callback_data='enable')],
+        [InlineKeyboardButton("🔄تمدید کاربر", callback_data='update'), InlineKeyboardButton("⬆️افزایش ترافیک", callback_data='TrfPlus')],
+        [InlineKeyboardButton("🛠ساخت اکانت", callback_data='Create_none'), InlineKeyboardButton("🗑حذف کاربر", callback_data='remove')],
         [InlineKeyboardButton("🔑تغییر پسورد اکانت", callback_data='ADPASS'), InlineKeyboardButton("🔎 جستجو کاربر ", callback_data='SQerch')],
-        [InlineKeyboardButton("📱 اکانت های من", callback_data='service'), InlineKeyboardButton("❗ اطلاعات سرویس", callback_data='config')],
-        [InlineKeyboardButton("🆘 آموزش", callback_data='help'), InlineKeyboardButton("💵کیف پول", callback_data='UWM')],
+        [InlineKeyboardButton("📦 اکانت های من", callback_data='service'), InlineKeyboardButton("ℹ️ اطلاعات سرویس", callback_data='config')],
+        [InlineKeyboardButton("🆘 آموزش", callback_data='help'), InlineKeyboardButton("💰کیف پول", callback_data='UWM')],
         [InlineKeyboardButton("🟢 کاربران آنلاین", callback_data='SOQUS')]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
@@ -95,27 +95,27 @@ def Seller_Tools_keys():
 
 def User_Tools_keys():
     keyboard = [
-        [InlineKeyboardButton("💵کیف پول", callback_data='UWM')],
-        [InlineKeyboardButton("📱 سرویس های من", callback_data='service')],
+        [InlineKeyboardButton("💰کیف پول", callback_data='UWM')],
+        [InlineKeyboardButton("📦 سرویس های من", callback_data='service')],
         [InlineKeyboardButton("🆘 آموزش", callback_data='help')]
     ]
     settings = get_settings()
     if settings['buy'] == 'on':
-        keyboard.insert(0, [InlineKeyboardButton("♻ تمدید", callback_data='upgrade'), InlineKeyboardButton("🛒 خرید اشتراک", callback_data='buy')])
+        keyboard.insert(0, [InlineKeyboardButton("🔄 تمدید", callback_data='upgrade'), InlineKeyboardButton("🛒 خرید", callback_data='buy')])
     if settings['list_status'] == "on":
         for i in range(len(keyboard)):
-            if InlineKeyboardButton("💵کیف پول", callback_data='UWM') in keyboard[i]:
-                keyboard[i].insert(1, InlineKeyboardButton("💸 قیمت سرویس ها", callback_data='price'))
+            if InlineKeyboardButton("💰کیف پول", callback_data='UWM') in keyboard[i]:
+                keyboard[i].insert(1, InlineKeyboardButton("🏷 تعرفه قیمت ها", callback_data='price'))
                 break
     if settings['info_service'] == "on":
         for i in range(len(keyboard)):
-            if InlineKeyboardButton("📱 سرویس های من", callback_data='service') in keyboard[i]:
-                keyboard[i].insert(0, InlineKeyboardButton("❗️ اطلاعات سرویس", callback_data='config'))
+            if InlineKeyboardButton("📦 سرویس های من", callback_data='service') in keyboard[i]:
+                keyboard[i].insert(0, InlineKeyboardButton(" اطلاعات سرویس ℹ️", callback_data='config'))
                 break
     if settings['test'] == "on":
-        keyboard.insert(1, [InlineKeyboardButton("🗒 اکانت تست", callback_data='test')])
+        keyboard.insert(1, [InlineKeyboardButton("🗒 تست", callback_data='test')])
     if settings['buy-traffic'] == 'on':
-        keyboard.insert(1, [InlineKeyboardButton("🩸 خرید ترافیک", callback_data='traffic')])
+        keyboard.insert(1, [InlineKeyboardButton("🔁 خرید ترافیک", callback_data='traffic')])
     if settings['proxy'] != "None":
         keyboard.insert(-1, [InlineKeyboardButton("🆓 پروکسی تلگرام", callback_data='FREEPX')])
     inv = True
@@ -140,7 +140,7 @@ def User_Tools_keys():
 
 # 4 & 3 & 2 & 1 Buttons in a table
 '''def server_cb_creator(job):
-    hosts, remarks = samisshbot.HOSTS()
+    hosts, remarks = sshx.HOSTS()
     keyboard = []
     if len(hosts) >= 2:
         if len(hosts) >= 24:
@@ -182,7 +182,7 @@ def User_Tools_keys():
             pass
         else:
             keyboard.append([InlineKeyboardButton(hosts[0], callback_data=(job + hosts[0]))])
-    keyboard.append([InlineKeyboardButton("برگشت 🔙", callback_data="back_admin")])
+    keyboard.append([InlineKeyboardButton("<< back", callback_data="back_admin")])
     reply_markup = InlineKeyboardMarkup(keyboard)
     return reply_markup'''
 
@@ -214,7 +214,7 @@ def Reply_action_sellers(hosts, users, job):
             pass
         else:
             keyboard.append([InlineKeyboardButton(users[0], callback_data=f"{job}{hosts[0]}${users[0]}")])
-    keyboard.append([InlineKeyboardButton("⤵️ برگرد به منوی قبلی ", callback_data="back_seller")])
+    keyboard.append([InlineKeyboardButton("<<", callback_data="back_seller")])
     reply_markup = InlineKeyboardMarkup(keyboard)
     return reply_markup
 
@@ -246,7 +246,7 @@ def Reply_Account_configuration(F_hosts, F_usernames, job):
             pass
         else:
             keyboard.append([InlineKeyboardButton(F_usernames[0], callback_data=f"{job}{F_hosts[0]}${F_usernames[0]}")])
-    keyboard.append([InlineKeyboardButton("⤵️ برگرد به منوی قبلی ", callback_data='back')])
+    keyboard.append([InlineKeyboardButton("<<", callback_data='back')])
     reply_markup = InlineKeyboardMarkup(keyboard)
     return reply_markup
 
@@ -294,13 +294,13 @@ def Reply_Kill(host, users):
             pass
         else:
             keyboard.append([InlineKeyboardButton(users[0], callback_data=(job + users[0]))])
-    keyboard.append([InlineKeyboardButton("برگشت 🔙 to servers", callback_data="servers")])
+    keyboard.append([InlineKeyboardButton("<< back to servers", callback_data="servers")])
     reply_markup = InlineKeyboardMarkup(keyboard)
     return reply_markup
 
 
 def server_cb_creator(job):
-    hosts, remarks = samisshbot.HOSTS()
+    hosts, remarks = sshx.HOSTS()
     keyboard = []
     if len(hosts) >= 2:
         if len(hosts) % 2 == 0:
@@ -315,13 +315,13 @@ def server_cb_creator(job):
             pass
         else:
             keyboard.append([InlineKeyboardButton(remarks[0], callback_data=(job + hosts[0]))])
-    keyboard.append([InlineKeyboardButton("برگشت 🔙", callback_data="back_admin")])
+    keyboard.append([InlineKeyboardButton("<< back", callback_data="back_admin")])
     reply_markup = InlineKeyboardMarkup(keyboard)
     return reply_markup
 
 
 def server_cb_creator_user(job, data):
-    file_hosts, file_remarks = samisshbot.HOSTS()
+    file_hosts, file_remarks = sshx.HOSTS()
     hosts = []
     remarks = []
     settings = get_settings()
@@ -343,7 +343,7 @@ def server_cb_creator_user(job, data):
             pass
         else:
             keyboard.append([InlineKeyboardButton(remarks[0], callback_data=(job + data + "!" + hosts[0]))])
-    keyboard.append([InlineKeyboardButton("برگشت 🔙", callback_data="back")])
+    keyboard.append([InlineKeyboardButton("<< back", callback_data="back")])
     reply_markup = InlineKeyboardMarkup(keyboard)
     return reply_markup
 
@@ -430,7 +430,7 @@ def trx_price(irr_price):
         price = str("{:.2f}".format(float(price))) + " TRX"
     except:
         price = str("{:.2f}".format(float(irr_price / irr))) + "$"
-        #price = "مبلغ مشخص نیست لطفا از کارت به کارت استفاده کنید"
+        #price = "مبلغ مشخص نیست لطفا از کارت به کارت استفاده کنین"
     return price
 
 
@@ -448,7 +448,7 @@ def randomized_text():
 
 def get_random_server():
     settings = get_settings()
-    hosts, remarks = samisshbot.HOSTS()
+    hosts, remarks = sshx.HOSTS()
     for host in hosts:
         if host not in settings['server_archives']:
             try:
@@ -460,7 +460,7 @@ def get_random_server():
 
 
 def Check_in_hosts(host):
-    hosts, remarks = samisshbot.HOSTS()
+    hosts, remarks = sshx.HOSTS()
     if host in hosts:
         return host, True
     else:
@@ -622,7 +622,7 @@ def get_host_username(text):
         username = username.replace(" ", "")
         username = username.replace(" ", "")
         host = get_real_address(host)
-        hosts, remarks = samisshbot.HOSTS()
+        hosts, remarks = sshx.HOSTS()
         if host in hosts:
             return host, username
         else:
@@ -641,8 +641,8 @@ def get_the_main_maximum(host):
 def check_domain_reached_maximum(host):
     settings = get_settings()
     maximum = get_the_main_maximum(host)
-    port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
-    Session = samisshbot.PANNEL(host, username, password, port, panel, 'Other', 'uname')
+    port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
+    Session = sshx.PANNEL(host, username, password, port, panel, 'Other', 'uname')
     try:
         Clients = int(Session.Count_Clients())
         if Clients >= maximum:
@@ -816,7 +816,7 @@ def check_code_exists(code):
             pass
 
 
-def check_admin_Confirm(code):
+def check_admin_confirm(code):
     for i in range(3):
         try:
             cur.execute("SELECT * FROM Checked WHERE Code=:Code", {'Code': code})
@@ -1397,7 +1397,7 @@ def backup_cmd(bot, message):
     if backup_command[0] is False:
         backup_command[0] = True
         chat_id = message.chat.id
-        msg = message.reply_text("منتظر بمانید...").id
+        msg = message.reply_text("Wait...").id
         files = ["All.txt", "ssh.db", "data.json", "Pannels.txt", "logs.txt", "nohup.out"]
         media = []
         for file in files:
@@ -1407,7 +1407,7 @@ def backup_cmd(bot, message):
         try:
             bot.send_media_group(chat_id, media)
         except:
-            logs = "✅😊 انجام شد\n\nLogs:\n\n"
+            logs = "✔️ انجام شد\n\nLogs:\n\n"
             for file in files:
                 try:
                     bot.send_document(chat_id, document=open(file, 'rb'), file_name=file)
@@ -1503,21 +1503,21 @@ def forward(bot, message):
                             keyboard.append([InlineKeyboardButton(accounts[-1], callback_data=("IDADMIN_" + hosts[-1] + "$" + accounts[-1]))])
                     else:
                         keyboard.append([InlineKeyboardButton(accounts[0], callback_data=("IDADMIN_" + hosts[0] + "$" + accounts[0]))])
-                    keyboard.append([InlineKeyboardButton("برگشت 🔙", callback_data='back_admin')])
+                    keyboard.append([InlineKeyboardButton("<< Back", callback_data='back_admin')])
                     reply_markup = InlineKeyboardMarkup(keyboard)
                     message.reply_text(f"Founded by {text} \n\nChoose: ", reply_markup=reply_markup)
                 else:
-                    keyboard.append([InlineKeyboardButton("برگشت 🔙", callback_data='back_admin')])
+                    keyboard.append([InlineKeyboardButton("<< Back", callback_data='back_admin')])
                     reply_markup = InlineKeyboardMarkup(keyboard)
                     message.reply_text("پیدا نشد❌", reply_markup=reply_markup)
             else:
-                keyboard.append([InlineKeyboardButton("برگشت 🔙", callback_data='back_admin')])
+                keyboard.append([InlineKeyboardButton("<< Back", callback_data='back_admin')])
                 reply_markup = InlineKeyboardMarkup(keyboard)
                 message.reply_text("پیدا نشد❌", reply_markup=reply_markup)
             delete_cache(chat_id)
 
         elif status == "add_seller":
-            keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی ", callback_data='back_admin')]]
+            keyboard = [[InlineKeyboardButton("<<", callback_data='back_admin')]]
             reply_markup = InlineKeyboardMarkup(keyboard)
             try:
                 user_id = message.forward_from.id
@@ -1537,27 +1537,27 @@ def forward(bot, message):
                     delete_cache(chat_id)
                     delete_collector(chat_id)
             except:
-                message.reply_text("❌فوروارد این کاربر مخفی هست", reply_markup=reply_markup)
+                message.reply_text("❌فوروارد این کاربر هیدن هست", reply_markup=reply_markup)
                 delete_cache(chat_id)
 
         elif status == "Adminuserbalance":
-            keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی ", callback_data='back_admin')]]
+            keyboard = [[InlineKeyboardButton("<<", callback_data='back_admin')]]
             reply_markup = InlineKeyboardMarkup(keyboard)
             try:
                 user_id = message.forward_from.id
                 if check_user_exists_in_clients_table(user_id) is True:
                     name, u, phone, value = get_full_user_data_id(user_id)
                     keyboard = [
-                        [InlineKeyboardButton("🪫کاهش", callback_data=f'MAUB_{str(user_id)}'), InlineKeyboardButton("🔋افزایش", callback_data=f'PAUB_{str(user_id)}')],
-                        [InlineKeyboardButton("🧰 صفر کردن موجودی", callback_data=f'ZAUB_{str(user_id)}')],
-                        [InlineKeyboardButton("⤵️ برگرد به منوی قبلی ", callback_data='back_admin')]
+                        [InlineKeyboardButton("➖کاهش", callback_data=f'MAUB_{str(user_id)}'), InlineKeyboardButton("➕افزایش", callback_data=f'PAUB_{str(user_id)}')],
+                        [InlineKeyboardButton("0️⃣صفر کردن موجودی", callback_data=f'ZAUB_{str(user_id)}')],
+                        [InlineKeyboardButton("<<", callback_data='back_admin')]
                     ]
                     reply_markup = InlineKeyboardMarkup(keyboard)
                     message.reply_text(f"موجودی: {str(value)} تومن.\n\nName: {name}\nUsername: {u}\nPhone: {phone}", reply_markup=reply_markup)
                 else:
                     message.reply_text("🔵 کاربر وجود نداره", reply_markup=reply_markup)
             except:
-                message.reply_text("❌فوروارد این کاربر مخفی هست", reply_markup=reply_markup)
+                message.reply_text("❌فوروارد این کاربر هیدن هست", reply_markup=reply_markup)
             delete_cache(chat_id)
 
 
@@ -1565,7 +1565,7 @@ def forward(bot, message):
 def start_admin(bot, message):
     if botusername == []:
         botusername.append((bot.get_me()).username)
-    text = '<b>پنل ربات</b>\n\n/backup'
+    text = '🔻<b>Tools</b>\n\n/backup'
     chat_id = message.chat.id
     if check_cache(chat_id) is True:
         delete_cache(chat_id)
@@ -1584,7 +1584,7 @@ def start_user(bot, message):
         if chat_id in seller_id:
             delete_collector(chat_id)
     if chat_id in seller_id:
-        text = '<b>پنل ربات</b>'
+        text = '🔻<b>Tools</b>'
         message.reply_text(text, reply_markup=Seller_Tools_keys(), parse_mode=enums.ParseMode.HTML)
     else:
         settings = get_settings()
@@ -1677,10 +1677,10 @@ def text_private(bot, message):
                 host = None
                 user = None
             if host is not None:
-                msg = message.reply_text("منتظر بمانید...").id
-                port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
+                msg = message.reply_text("Wait...").id
+                port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
                 try:
-                    Session = samisshbot.PANNEL(host, username, password, port, panel, 'User', user)
+                    Session = sshx.PANNEL(host, username, password, port, panel, 'User', user)
                     settings = get_settings()
                     t0 = "\n\nServer: " + remark
                     if check_exist_user(host, user) is True:
@@ -1689,12 +1689,12 @@ def text_private(bot, message):
                     text = change_infos_user_info(Session.User_info(settings['dropbear'], settings['tuic'])) + t0
                     cb = host + "$" + user
                     keyboard = [
-                        [InlineKeyboardButton("⌛️تمدید کاربر", callback_data=('IDMNU&Update_' + cb)), InlineKeyboardButton("🚷حذف کاربر", callback_data=('IDMNU&Remove_' + cb))],
-                        [InlineKeyboardButton("✅ فعال کاربر", callback_data=('IDMNU&Active_' + cb)), InlineKeyboardButton("❌ غیر فعال کاربر", callback_data=('IDMNU&Disable_' + cb))],
-                        [InlineKeyboardButton("🔄ریست ترافیک", callback_data=('IDMNU&Reset_' + cb)), InlineKeyboardButton("📤افزایش ترافیک", callback_data=('IDMNU&Traffic_' + cb))],
+                        [InlineKeyboardButton("🔄تمدید کاربر", callback_data=('IDMNU&Update_' + cb)), InlineKeyboardButton("🗑حذف کاربر", callback_data=('IDMNU&Remove_' + cb))],
+                        [InlineKeyboardButton("✔️ فعال کاربر", callback_data=('IDMNU&Active_' + cb)), InlineKeyboardButton("✖️ غیر فعال کاربر", callback_data=('IDMNU&Disable_' + cb))],
+                        [InlineKeyboardButton("🆕ریست ترافیک", callback_data=('IDMNU&Reset_' + cb)), InlineKeyboardButton("➕افزایش ترافیک", callback_data=('IDMNU&Traffic_' + cb))],
                         [InlineKeyboardButton("💀Kill User", callback_data=('IDMNU&Kill_' + cb)), InlineKeyboardButton("🟢 آنلاین ها", callback_data=('IDMNU&ONLINE_' + cb))],
                         [InlineKeyboardButton("🔑تغییر پسورد", callback_data=('IDMNU&PASSWORD_' + cb))],
-                        [InlineKeyboardButton("⤵️ برگرد به منوی قبلی ", callback_data='back_admin')]
+                        [InlineKeyboardButton("<<", callback_data='back_admin')]
                     ]
                     reply_markup = InlineKeyboardMarkup(keyboard)
                     bot.edit_message_text(chat_id, msg, text, reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
@@ -1714,24 +1714,24 @@ def text_private(bot, message):
                 except:
                     host = None
                     user = None
-                keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی ", callback_data='back')]]
+                keyboard = [[InlineKeyboardButton("<<", callback_data='back')]]
                 rm = True
                 if host is not None:
                     if (password_retry.count(chat_id) == 5):
                         timer = int(time()) - password_retry_time[password_retry.index(chat_id)]
                         if (timer <= 1800):
-                            keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی ", callback_data='back')]]
+                            keyboard = [[InlineKeyboardButton("<<", callback_data='back')]]
                             reply_markup = InlineKeyboardMarkup(keyboard)
                             text = f"شما بدلیل اسپم تا  {str((1800 + password_retry_time[password_retry.index(chat_id)]) - int(time()))} ثانیه نمیتونین اطلاعات اکانتی رو ببینین"
                             message.reply_text(text, reply_markup=reply_markup)
                             return
                         else:
                             password_retry_del(chat_id)
-                    port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
+                    port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
                     settings = get_settings()
                     if check_exist_user(host, user) is False:
                         try:
-                            Session = samisshbot.PANNEL(host, username, password, port, panel, 'User', user)
+                            Session = sshx.PANNEL(host, username, password, port, panel, 'User', user)
                             text = change_infos_user_info(Session.User_info(settings['dropbear'], settings['tuic']))
                             try:
                                 USERNAME = message.from_user.username
@@ -1747,20 +1747,20 @@ def text_private(bot, message):
                                     [InlineKeyboardButton("📲 کد QR و لینک اتصال", callback_data=f'QRCODE_{cb}')]
                                 ]
                                 if (settings['buy'] == 'on') or (chat_id in seller_id):
-                                    keyboard[0].insert(1, InlineKeyboardButton("♻ تمدید سرویس", callback_data=("UPG_" + cb)))
+                                    keyboard[0].insert(1, InlineKeyboardButton("🔄تمدید", callback_data=("UPG_" + cb)))
                                 if (settings['buy-traffic'] == 'on') or (chat_id in seller_id):
-                                    keyboard[1].insert(1, InlineKeyboardButton("🩸 افزایش حجم سرویس", callback_data=("UTGB_" + cb)))
+                                    keyboard[1].insert(1, InlineKeyboardButton("🔁 خرید ترافیک", callback_data=("UTGB_" + cb)))
                                 if (settings['delete_user'] == 'on') or (chat_id in seller_id):
                                     keyboard.append([InlineKeyboardButton("❌حذف اکانت ", callback_data=("DJVYS_" + cb))])
                                 if (settings['online_access'] == 'on') or (chat_id in seller_id):
                                     keyboard.append([InlineKeyboardButton("🟢 کاربران آنلاین", callback_data=("BDKSC_" + cb))])
-                                keyboard.append([InlineKeyboardButton("⤵️ برگرد به منوی قبلی ", callback_data='back')])
+                                keyboard.append([InlineKeyboardButton("<<", callback_data='back')])
                                 password_retry_del(chat_id)
                             else:
                                 password_retry_time.append(int(time()))
                                 password_retry.append(chat_id)
                                 text = "پسورد اکانت اشتباهه دوباره تلاش کن :("
-                                keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی ", callback_data='back')]]
+                                keyboard = [[InlineKeyboardButton("<<", callback_data='back')]]
                                 reply_markup = InlineKeyboardMarkup(keyboard)
                                 message.reply_text(text, reply_markup=reply_markup)
                                 return
@@ -1772,7 +1772,7 @@ def text_private(bot, message):
                             text = "چیزی پیدا نشد:("
                         else:
                             try:
-                                Session = samisshbot.PANNEL(host, username, password, port, panel, 'User', user)
+                                Session = sshx.PANNEL(host, username, password, port, panel, 'User', user)
                                 text = change_infos_user_info(Session.User_info(settings['dropbear'], settings['tuic']))
                             except:
                                 text = "چیزی پیدا نشد:("
@@ -1794,15 +1794,15 @@ def text_private(bot, message):
                 host = status.split("host_")[1]
                 host, st = Check_in_hosts(host)
                 user = link
-                keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی ", callback_data='back')]]
+                keyboard = [[InlineKeyboardButton("<<", callback_data='back')]]
                 reply_markup = InlineKeyboardMarkup(keyboard)
                 if st is True:
-                    port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
+                    port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
                     settings = get_settings()
                     if check_exist_user(host, user) is False:
                         delete_cache(chat_id)
                         add_cache(chat_id, f"Auth_{host}${user}")
-                        keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی ", callback_data='back')]]
+                        keyboard = [[InlineKeyboardButton("<<", callback_data='back')]]
                         reply_markup = InlineKeyboardMarkup(keyboard)
                         message.reply_text("پسورد اکانتتون بفرستین: ", reply_markup=reply_markup)
                         return
@@ -1812,7 +1812,7 @@ def text_private(bot, message):
                             text = "چیزی پیدا نشد:("
                         else:
                             try:
-                                Session = samisshbot.PANNEL(host, username, password, port, panel, 'User', user)
+                                Session = sshx.PANNEL(host, username, password, port, panel, 'User', user)
                                 text = change_infos_user_info(Session.User_info(settings['dropbear'], settings['tuic']))
                             except:
                                 text = "چیزی پیدا نشد:("
@@ -1825,12 +1825,12 @@ def text_private(bot, message):
                 host = status.split("Auth_")[1].split("$")[0]
                 user = status.split("$")[1]
                 host, st = Check_in_hosts(host)
-                keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی ", callback_data='back')]]
+                keyboard = [[InlineKeyboardButton("<<", callback_data='back')]]
                 reply_markup = InlineKeyboardMarkup(keyboard)
                 if (password_retry.count(chat_id) == 5):
                     timer = int(time()) - password_retry_time[password_retry.index(chat_id)]
                     if (timer <= 1801):
-                        keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی ", callback_data='back')]]
+                        keyboard = [[InlineKeyboardButton("<<", callback_data='back')]]
                         reply_markup = InlineKeyboardMarkup(keyboard)
                         text = f"شما بدلیل اسپم تا  {str((1800 + password_retry_time[password_retry.index(chat_id)]) - int(time()))} ثانیه نمیتونین اطلاعات اکانتی رو ببینین"
                         message.reply_text(text, reply_markup=reply_markup)
@@ -1838,11 +1838,11 @@ def text_private(bot, message):
                     else:
                         password_retry_del(chat_id)
                 if st is True:
-                    port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
+                    port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
                     settings = get_settings()
                     if check_exist_user(host, user) is False:
                         try:
-                            Session = samisshbot.PANNEL(host, username, password, port, panel, 'User', user)
+                            Session = sshx.PANNEL(host, username, password, port, panel, 'User', user)
                             text = change_infos_user_info(Session.User_info(settings['dropbear'], settings['tuic']))
                             try:
                                 USERNAME = message.from_user.username
@@ -1858,20 +1858,20 @@ def text_private(bot, message):
                                     [InlineKeyboardButton("📲 کد QR و لینک اتصال", callback_data=f'QRCODE_{cb}')]
                                 ]
                                 if (settings['buy'] == 'on') or (chat_id in seller_id):
-                                    keyboard[0].insert(1, InlineKeyboardButton("♻ تمدید سرویس", callback_data=("UPG_" + cb)))
+                                    keyboard[0].insert(1, InlineKeyboardButton("🔄تمدید", callback_data=("UPG_" + cb)))
                                 if (settings['buy-traffic'] == 'on') or (chat_id in seller_id):
-                                    keyboard[1].insert(1, InlineKeyboardButton("🩸 افزایش حجم سرویس", callback_data=("UTGB_" + cb)))
+                                    keyboard[1].insert(1, InlineKeyboardButton("🔁 خرید ترافیک", callback_data=("UTGB_" + cb)))
                                 if (settings['delete_user'] == 'on') or (chat_id in seller_id):
                                     keyboard.append([InlineKeyboardButton("❌حذف اکانت ", callback_data=("DJVYS_" + cb))])
                                 if (settings['online_access'] == 'on') or (chat_id in seller_id):
                                     keyboard.append([InlineKeyboardButton("🟢 کاربران آنلاین", callback_data=("BDKSC_" + cb))])
-                                keyboard.append([InlineKeyboardButton("⤵️ برگرد به منوی قبلی ", callback_data='back')])
+                                keyboard.append([InlineKeyboardButton("<<", callback_data='back')])
                                 password_retry_del(chat_id)
                             else:
                                 password_retry_time.append(int(time()))
                                 password_retry.append(chat_id)
                                 text = "پسورد اکانت اشتباهه دوباره تلاش کن :("
-                                keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی ", callback_data='back')]]
+                                keyboard = [[InlineKeyboardButton("<<", callback_data='back')]]
                                 reply_markup = InlineKeyboardMarkup(keyboard)
                                 message.reply_text(text, reply_markup=reply_markup)
                                 return
@@ -1883,7 +1883,7 @@ def text_private(bot, message):
                             text = "چیزی پیدا نشد:("
                         else:
                             try:
-                                Session = samisshbot.PANNEL(host, username, password, port, panel, 'User', user)
+                                Session = sshx.PANNEL(host, username, password, port, panel, 'User', user)
                                 text = change_infos_user_info(Session.User_info(settings['dropbear'], settings['tuic']))
                             except:
                                 text = "چیزی پیدا نشد:("
@@ -1906,13 +1906,13 @@ def text_private(bot, message):
                 reply_markup = InlineKeyboardMarkup(keyboard)
                 bot.send_message(admin_id[i], text, reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
                 sleep(0.2)
-                message.reply_text(text='🫡بزودی درخواستتون بررسی میشه', reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⤵️ برگرد به منوی قبلی ", callback_data="back")]]))
+                message.reply_text(text='🫡بزودی درخواستتون بررسی میشه', reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("<<", callback_data="back")]]))
                 delete_cache(chat_id)
 
             elif ("Uname_" in status):
                 data = status.split("_")[1]
                 if len(link) <= 12:
-                    if (link not in filter_name) and (samisshbot.ASCII_Check(link) is True) and (samisshbot.Contains(link) is True):
+                    if (link not in filter_name) and (sshx.ASCII_Check(link) is True) and (sshx.Contains(link) is True):
                         link = link.lower()
                         cb_cc = "CC_" + data + "?" + link
                         cb_tr = "TR_" + data + "?" + link
@@ -1921,21 +1921,21 @@ def text_private(bot, message):
                         cb_pd = "PD_" + data + "?" + link
                         cb_nx = "NX_" + data + "?" + link
                         if check_seller_exist(chat_id) is True:
-                            keyboard = [[InlineKeyboardButton("💵کیف پول", callback_data=cb_bl)]]
+                            keyboard = [[InlineKeyboardButton("💰کیف پول", callback_data=cb_bl)]]
                         else:
                             settings = get_settings()
-                            keyboard = [[InlineKeyboardButton("💵کیف پول", callback_data=cb_bl)]]
+                            keyboard = [[InlineKeyboardButton("💰کیف پول", callback_data=cb_bl)]]
                             if settings['card_buy'] == "on":
                                 keyboard.append([InlineKeyboardButton("💳کارت به کارت", callback_data=cb_cc)])
                             if settings['trx_buy'] == "on":
                                 keyboard.append([InlineKeyboardButton("💲ترون", callback_data=cb_tr)])
                             if (settings['zarinpal'] == "on") and (settings['zarinpal_address'] != "None"):
-                                keyboard.append([InlineKeyboardButton("💳 درگاه زرین پال", callback_data=cb_zp)])
+                                keyboard.append([InlineKeyboardButton("🟡 درگاه زرین پال", callback_data=cb_zp)])
                             if (settings['idpay'] == "on") and (settings['idpay_address'] != "None"):
-                                keyboard.append([InlineKeyboardButton("💳 درگاه آیدی پی", callback_data=cb_pd)])
+                                keyboard.append([InlineKeyboardButton("🔵 درگاه آیدی پی", callback_data=cb_pd)])
                             if (settings['nextpay'] == "on") and (settings['nextpay_address'] != "None"):
-                                keyboard.append([InlineKeyboardButton("💳 درگاه نکست پی", callback_data=cb_nx)])
-                        keyboard.append([InlineKeyboardButton("⤵️ برگرد به منوی قبلی ", callback_data='buy')])
+                                keyboard.append([InlineKeyboardButton("⚪️ درگاه نکست پی", callback_data=cb_nx)])
+                        keyboard.append([InlineKeyboardButton("<<", callback_data='buy')])
                         reply_markup = InlineKeyboardMarkup(keyboard)
                         name, u, p, old_value = get_full_user_data_id(chat_id)
                         text = "روش پرداخت انتخاب کنین:\n\nموجودی: \n" + str(old_value) + " تومن"
@@ -1951,10 +1951,10 @@ def text_private(bot, message):
                 user = status.split("$")[1]
                 passw = link
                 if 4 <= len(passw) <= 16:
-                    if (link not in filter_name) and (samisshbot.ASCII_Check(link) is True) and (samisshbot.Contains(link) is True):
-                        port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
+                    if (link not in filter_name) and (sshx.ASCII_Check(link) is True) and (sshx.Contains(link) is True):
+                        port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
                         try:
-                            Session = samisshbot.PANNEL(host, username, password, port, panel, 'User', user)
+                            Session = sshx.PANNEL(host, username, password, port, panel, 'User', user)
                             text = Session.Password(passw)
                             if "Error" not in text:
                                 text = f"پسورد اکانت {user} به {passw} تغییر پیدا کرد 🫵"
@@ -1975,10 +1975,10 @@ def text_private(bot, message):
                 host = (status.split("_")[1]).split("$")[0]
                 user = status.split("$")[1]
                 if len(link) <= 16:
-                    if (link not in filter_name) and (samisshbot.ASCII_Check(link) is True) and (samisshbot.Contains(link) is True):
-                        port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
+                    if (link not in filter_name) and (sshx.ASCII_Check(link) is True) and (sshx.Contains(link) is True):
+                        port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
                         try:
-                            Session = samisshbot.PANNEL(host, username, password, port, panel, 'User', user)
+                            Session = sshx.PANNEL(host, username, password, port, panel, 'User', user)
                             text = Session.Username(link)
                             if "Error" not in text:
                                 text = f"نام کاربری اکانت {user} به {link} تغییر پیدا کرد 🫵"
@@ -2019,14 +2019,14 @@ def text_private(bot, message):
                         if settings['trx_buy'] == "on":
                             keyboard.append([InlineKeyboardButton("💲ترون", callback_data=cb_tr)])
                         if (settings['plisio'] == "on") and (settings['plisio_API'] != "None"):
-                            keyboard.append([InlineKeyboardButton("💳 درگاه  Plisio", callback_data=cb_pl)])
+                            keyboard.append([InlineKeyboardButton("درگاه ارزدیجیتال Plisio", callback_data=cb_pl)])
                         if (settings['zarinpal'] == "on") and (settings['zarinpal_address'] != "None"):
-                            keyboard.append([InlineKeyboardButton("💳 درگاه زرین پال", callback_data=cb_zp)])
+                            keyboard.append([InlineKeyboardButton("🟡 درگاه زرین پال", callback_data=cb_zp)])
                         if (settings['idpay'] == "on") and (settings['idpay_address'] != "None"):
-                            keyboard.append([InlineKeyboardButton("💳 درگاه آیدی پی", callback_data=cb_pd)])
+                            keyboard.append([InlineKeyboardButton("🔵 درگاه آیدی پی", callback_data=cb_pd)])
                         if (settings['nextpay'] == "on") and (settings['nextpay_address'] != "None"):
-                            keyboard.append([InlineKeyboardButton("💳 درگاه نکست پی", callback_data=cb_nx)])
-                        keyboard.append([InlineKeyboardButton("برگشت 🔙", callback_data='UWM')])
+                            keyboard.append([InlineKeyboardButton("⚪️ درگاه نکست پی", callback_data=cb_nx)])
+                        keyboard.append([InlineKeyboardButton("<< back", callback_data='UWM')])
                         reply_markup = InlineKeyboardMarkup(keyboard)
                         message.reply_text("روش پرداختو انتخاب کن:", reply_markup=reply_markup)
                         update_collector(chat_id, cache_list, [])
@@ -2036,7 +2036,7 @@ def text_private(bot, message):
                     message.reply_text("مبلغی که فرستادی خیلی کمه")
 
             elif ("voucher" == status):
-                keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی ", callback_data='UWM')]]
+                keyboard = [[InlineKeyboardButton("<<", callback_data='UWM')]]
                 reply_markup = InlineKeyboardMarkup(keyboard)
                 try:
                     int(link)
@@ -2047,7 +2047,7 @@ def text_private(bot, message):
                     message.reply_text("❌ کد ووچر اشتباست لطفا بصورت عدد بفرستین:", reply_markup=reply_markup)
 
             elif ("e-voucher_" in status):
-                keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی ", callback_data='UWM')]]
+                keyboard = [[InlineKeyboardButton("<<", callback_data='UWM')]]
                 reply_markup = InlineKeyboardMarkup(keyboard)
                 try:
                     int(link)
@@ -2062,7 +2062,7 @@ def text_private(bot, message):
                     st, VOUCHER_NUM, VOUCHER_AMOUNT = payment.validate_perfect_money_voucher(account_id, passphrase, ev_number, ev_code)
                     if st is True:
                         keyboard = [
-                            [InlineKeyboardButton("🛒 خرید اشتراک", callback_data='buy')],
+                            [InlineKeyboardButton("🛒 خرید", callback_data='buy')],
                             [InlineKeyboardButton("⤴️ منو ", callback_data='back')]
                         ]
                         reply_markup = InlineKeyboardMarkup(keyboard)
@@ -2073,7 +2073,7 @@ def text_private(bot, message):
                         new_value = Value + old_value
                         update_user_wallet(chat_id, new_value)
                         text = f"🟢 اطلاعات پرداخت ووچر پرفکت مانی :\nName: {name}\nID: {str(chat_id)}\nUsername: {u}\nPhone: {phone}\n\ne-voucher: {ev_number}\nActivation code: {ev_code}\nAmount: {str(VOUCHER_AMOUNT)}$\nToman: {str(Value)}"
-                        keyboard = [[InlineKeyboardButton("💵 Balance", callback_data='perfectmoney')]]
+                        keyboard = [[InlineKeyboardButton("💰 Balance", callback_data='perfectmoney')]]
                         reply_markup = InlineKeyboardMarkup(keyboard)
                         for admin in admin_id:
                             try:
@@ -2083,7 +2083,7 @@ def text_private(bot, message):
                     else:
                         message.reply_text(f"⛔️ خطا لطفا اطلاعات بررسی کنین اگه مشکل از ما بود پیام بدید\n\n{VOUCHER_NUM}", reply_markup=reply_markup)
                         if "Can not login with passed AccountID and PassPhrase or API is disabled on this account/IP" in VOUCHER_NUM:
-                            keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='perfectmoney')]]
+                            keyboard = [[InlineKeyboardButton("<<", callback_data='perfectmoney')]]
                             reply_markup = InlineKeyboardMarkup(keyboard)
                             for admin in admin_id:
                                 try:
@@ -2095,7 +2095,7 @@ def text_private(bot, message):
                     message.reply_text("❌ کد Activation code اشتباست لطفا بصورت عدد بفرستین:", reply_markup=reply_markup)
 
             elif ("usergift" == status):
-                keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='UWM')]]
+                keyboard = [[InlineKeyboardButton("<<", callback_data='UWM')]]
                 reply_markup = InlineKeyboardMarkup(keyboard)
                 if check_gift_code_exist(link) is True:
                     value, kind, count, users_id, timer_expiry = get_gift_code_full(link)
@@ -2122,7 +2122,7 @@ def text_private(bot, message):
 
         if status == "name_none":
             if len(link) <= 16:
-                if (link not in filter_name) and (samisshbot.ASCII_Check(link) is True) and (samisshbot.Contains(link) is True):
+                if (link not in filter_name) and (sshx.ASCII_Check(link) is True) and (sshx.Contains(link) is True):
                     link = link.lower()
                     cache_list, host_cahce = get_collector_cache(chat_id)
                     message.reply_text("حجمو بفرستین فقط بصورت عدد مثلا 10 گیگ (0 = نامحدود) یا /cancel")
@@ -2182,8 +2182,8 @@ def text_private(bot, message):
                     t1 = f"💲فروشنده💲\nخرید \nserver: {host}\nuser: {user}\ndays: {days}\nGB: {traffic}\nConnection: {connection_limit}"
                     text = "id: <code>" + str(chat_id) + "</code>\nName: " + name + '\nUsername: ' + username + "\n\ninfo buy:\n" + t1
                     cb = "Confirmed_" + code
-                    no = "رد❌_" + code
-                    keyboard = [[InlineKeyboardButton("تایید✅", callback_data=cb), InlineKeyboardButton("رد❌", callback_data=no)], [InlineKeyboardButton("پیام به کاربر ✉️", callback_data='ANS_' + str(chat_id))]]
+                    no = "NO❌_" + code
+                    keyboard = [[InlineKeyboardButton("Confirm✅", callback_data=cb), InlineKeyboardButton("NO❌", callback_data=no)], [InlineKeyboardButton("پیام به کاربر ✉️", callback_data='ANS_' + str(chat_id))]]
                     reply_markup = InlineKeyboardMarkup(keyboard)
                     for i in range(len(admin_id)):
                         try:
@@ -2192,13 +2192,13 @@ def text_private(bot, message):
                             pass
                     cache_list = [days, traffic, connection_limit, '90', name, user, host, "فروشنده"]
                     add_code_buy(chat_id, code, "check", cache_list)
-                    message.reply_text("ادمین ها بزودی درخواستتون بررسی میکنن.", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back')]]))
+                    message.reply_text("ادمین ها بزودی درخواستتون بررسی میکنن.", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("<<", callback_data='back')]]))
                 else:
-                    msg = message.reply_text("منتظر بمانید...").id
+                    msg = message.reply_text("Wait...").id
                     passw = get_password_by_settings()
-                    port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
+                    port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
                     try:
-                        Session = samisshbot.PANNEL(host, username, password, port, panel, 'Other', 'uname')
+                        Session = sshx.PANNEL(host, username, password, port, panel, 'Other', 'uname')
                         description = f"[ Bot - Admin ] Date: ( {str(jdatetime.datetime.now()).split('.')[0]} )"
                         text = change_infos_user_info(Session.Create(cache_list[1], passw, int(cache_list[-1]), int(link), int(cache_list[2]), description, False, get_settings()['dropbear']))
                         port, udgpw, dropbear = Session.Ports()
@@ -2210,7 +2210,7 @@ def text_private(bot, message):
                         bot.send_photo(chat_id, open(photo, 'rb'), text, parse_mode=enums.ParseMode.HTML)
                         os.remove(photo)
                         cb = "IDADMIN_" + host + "$" + cache_list[1]
-                        keyboard = [[InlineKeyboardButton("اطلاعات کامل ℹ️", callback_data=cb)], [InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back')]]
+                        keyboard = [[InlineKeyboardButton("اطلاعات کامل ℹ️", callback_data=cb)], [InlineKeyboardButton("<<", callback_data='back')]]
                         reply_markup = InlineKeyboardMarkup(keyboard)
                         bot.send_message(chat_id, "برای دریافت اطلاعات کامل اکانت کلیک کن:", reply_markup=reply_markup)
                         bot.delete_messages(chat_id, msg)
@@ -2222,7 +2222,7 @@ def text_private(bot, message):
                 message.reply_text(f"Error: {str(e)}")
 
         elif status == "updatepassword":
-            hosts, remarks = samisshbot.HOSTS()
+            hosts, remarks = sshx.HOSTS()
             if link in hosts:
                 delete_cache(chat_id)
                 cache_list = []
@@ -2261,9 +2261,9 @@ def text_private(bot, message):
                 text = ""
                 cache_list, host_cahce = get_collector_cache(chat_id)
                 host = cache_list[0]
-                port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
+                port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
                 try:
-                    Session = samisshbot.PANNEL(host, username, password, port, panel, 'User', user)
+                    Session = sshx.PANNEL(host, username, password, port, panel, 'User', user)
                     settings = get_settings()
                     text = change_infos_user_info(Session.User_info(settings['dropbear'], settings['tuic']))
                     if "Error" not in text:
@@ -2289,12 +2289,12 @@ def text_private(bot, message):
             try:
                 passw = link
                 if 4 <= len(passw) <= 16:
-                    if (link not in filter_name) and (samisshbot.ASCII_Check(link) is True) and (samisshbot.Contains(link) is True):
+                    if (link not in filter_name) and (sshx.ASCII_Check(link) is True) and (sshx.Contains(link) is True):
                         cache_list, host_cahce = get_collector_cache(chat_id)
                         host = cache_list[0]
                         user = cache_list[1]
-                        port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
-                        Session = samisshbot.PANNEL(host, username, password, port, panel, 'User', user)
+                        port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
+                        Session = sshx.PANNEL(host, username, password, port, panel, 'User', user)
                         text = Session.Password(passw)
                         message.reply_text(text)
                         delete_cache(chat_id)
@@ -2311,7 +2311,7 @@ def text_private(bot, message):
                 delete_collector(chat_id)
 
         elif status == "updateusername":
-            hosts, remarks = samisshbot.HOSTS()
+            hosts, remarks = sshx.HOSTS()
             if link in hosts:
                 delete_cache(chat_id)
                 cache_list = []
@@ -2350,9 +2350,9 @@ def text_private(bot, message):
                 text = ""
                 cache_list, host_cahce = get_collector_cache(chat_id)
                 host = cache_list[0]
-                port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
+                port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
                 try:
-                    Session = samisshbot.PANNEL(host, username, password, port, panel, 'User', user)
+                    Session = sshx.PANNEL(host, username, password, port, panel, 'User', user)
                     settings = get_settings()
                     text = change_infos_user_info(Session.User_info(settings['dropbear'], settings['tuic']))
                     if "Error" not in text:
@@ -2377,12 +2377,12 @@ def text_private(bot, message):
         elif status == "CUsername":
             try:
                 if len(link) <= 16:
-                    if (link not in filter_name) and (samisshbot.ASCII_Check(link) is True) and (samisshbot.Contains(link) is True):
+                    if (link not in filter_name) and (sshx.ASCII_Check(link) is True) and (sshx.Contains(link) is True):
                         cache_list, host_cahce = get_collector_cache(chat_id)
                         host = cache_list[0]
                         user = cache_list[1]
-                        port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
-                        Session = samisshbot.PANNEL(host, username, password, port, panel, 'User', user)
+                        port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
+                        Session = sshx.PANNEL(host, username, password, port, panel, 'User', user)
                         text = Session.Username(link)
                         if check_exist_user(host, user) is True:
                             update_user_username(user, link, host)
@@ -2400,7 +2400,7 @@ def text_private(bot, message):
 
         elif status == "name":
             if len(link) <= 16:
-                if (link not in filter_name) and (samisshbot.ASCII_Check(link) is True) and (samisshbot.Contains(link) is True):
+                if (link not in filter_name) and (sshx.ASCII_Check(link) is True) and (sshx.Contains(link) is True):
                     link = link.lower()
                     cache_list, host_cahce = get_collector_cache(chat_id)
                     message.reply_text("حجمو بفرستین فقط بصورت عدد مثلا 10 گیگ (0 = نامحدود) یا /cancel")
@@ -2417,7 +2417,7 @@ def text_private(bot, message):
             try:
                 int(link)
                 cache_list, host_cahce = get_collector_cache(chat_id)
-                message.reply_text("خب یه پیام از کاربر فوروارد کنین یا آیدی عددیشو بفرستین کاملا دقت کنین که هر آیدی عددی فرستادین همون ثبت میشه. و بدلیل اینکه اسم شخص تشخیص داده نمیشه با آیدی عددی ربات بصورت دیفالت userid میزاره اسمشو و بهتره که از فوروارد استفاده کنین اگه مخفی نباشه")
+                message.reply_text("خب یه پیام از کاربر فوروارد کنین یا آیدی عددیشو بفرستین کاملا دقت کنین که هر آیدی عددی فرستادین همون ثبت میشه. و بدلیل اینکه اسم شخص تشخیص داده نمیشه با آیدی عددی ربات بصورت دیفالت userid میزاره اسمشو و بهتره که از فوروارد استفاده کنین اگه هیدن نباشه")
                 cache_list.append(link)
                 delete_cache(chat_id)
                 add_cache(chat_id, "forward")
@@ -2458,16 +2458,16 @@ def text_private(bot, message):
         elif status == "days":
             try:
                 int(link)
-                msg = message.reply_text("منتظر بمانید...").id
+                msg = message.reply_text("Wait...").id
                 cache_list, host_cahce = get_collector_cache(chat_id)
                 host = cache_list[0]
                 user_id = cache_list[3]
                 name = cache_list[4]
                 Username = cache_list[5]
                 passw = get_password_by_settings()
-                port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
+                port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
                 try:
-                    Session = samisshbot.PANNEL(host, username, password, port, panel, 'Other', 'uname')
+                    Session = sshx.PANNEL(host, username, password, port, panel, 'Other', 'uname')
                     description = f"[ Bot - Admin ] Date: ( {str(jdatetime.datetime.now()).split('.')[0]} ), userID: {str(user_id)}, Username: {Username}"
                     text = change_infos_user_info(Session.Create(cache_list[1], passw, int(cache_list[-1]), int(link), int(cache_list[2]), description, False, get_settings()['dropbear']))
                     port, udgpw, dropbear = Session.Ports()
@@ -2479,7 +2479,7 @@ def text_private(bot, message):
                     bot.send_photo(chat_id, open(photo, 'rb'), text, parse_mode=enums.ParseMode.HTML)
                     os.remove(photo)
                     cb = "IDADMIN_" + host + "$" + cache_list[1]
-                    keyboard = [[InlineKeyboardButton("اطلاعات کامل ℹ️", callback_data=cb)], [InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back')]]
+                    keyboard = [[InlineKeyboardButton("اطلاعات کامل ℹ️", callback_data=cb)], [InlineKeyboardButton("<<", callback_data='back')]]
                     reply_markup = InlineKeyboardMarkup(keyboard)
                     bot.send_message(chat_id, "برای دریافت اطلاعات کامل اکانت کلیک کن:", reply_markup=reply_markup)
                     add_user_db(user_id, name, Username, cache_list[1], host)
@@ -2492,14 +2492,14 @@ def text_private(bot, message):
                 message.reply_text("فقط میتونی عدد بفرستی")
 
         elif "remove_" in status:
-            msg = message.reply_text("منتظر بمانید...").id
+            msg = message.reply_text("Wait...").id
             user = link
             host = status.split("remove_")[1]
             try:
-                port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
-                Session = samisshbot.PANNEL(host, username, password, port, panel, 'User', user)
+                port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
+                Session = sshx.PANNEL(host, username, password, port, panel, 'User', user)
                 text = Session.Disable()
-                Session = samisshbot.PANNEL(host, username, password, port, panel, 'Other', 'uname')
+                Session = sshx.PANNEL(host, username, password, port, panel, 'Other', 'uname')
                 text = Session.Delete(user)
                 if check_exist_user(host, user) is True:
                     delete_user(host, user)
@@ -2510,7 +2510,7 @@ def text_private(bot, message):
             bot.edit_message_text(chat_id, msg, text)
 
         elif status == "updatetraffic":
-            hosts, remarks = samisshbot.HOSTS()
+            hosts, remarks = sshx.HOSTS()
             if link in hosts:
                 delete_cache(chat_id)
                 cache_list = []
@@ -2522,7 +2522,7 @@ def text_private(bot, message):
                 message.reply_text("این آدرس پنل وجود نداره, آدرس درستو بفرستین ")
 
         elif status == "updatehost":
-            hosts, remarks = samisshbot.HOSTS()
+            hosts, remarks = sshx.HOSTS()
             if link in hosts:
                 delete_cache(chat_id)
                 add_cache(chat_id, "update_" + link)
@@ -2592,8 +2592,8 @@ def text_private(bot, message):
                     t1 = f"💲فروشنده💲\nتمدید\ndays: {days}\nGB: {traffic}\nConnection: {connection_limit}\nHost: {host}\nUser: {user}"
                     text = "id: <code>" + str(chat_id) + "</code>\nName: " + name + '\nUsername: ' + username + "\n\ninfo buy:\n" + t1
                     cb = "ConfirmUPGRADE_" + code
-                    no = "رد❌_" + code
-                    keyboard = [[InlineKeyboardButton("تایید✅", callback_data=cb), InlineKeyboardButton("رد❌", callback_data=no)], [InlineKeyboardButton("پیام به کاربر ✉️", callback_data='ANS_' + str(chat_id))]]
+                    no = "NO❌_" + code
+                    keyboard = [[InlineKeyboardButton("Confirm✅", callback_data=cb), InlineKeyboardButton("NO❌", callback_data=no)], [InlineKeyboardButton("پیام به کاربر ✉️", callback_data='ANS_' + str(chat_id))]]
                     reply_markup = InlineKeyboardMarkup(keyboard)
                     for i in range(len(admin_id)):
                         try:
@@ -2602,12 +2602,12 @@ def text_private(bot, message):
                             pass
                     cache_list = [days, traffic, connection_limit, '90', user, host, "فروشنده"]
                     add_code_buy(chat_id, code, "checkup", cache_list)
-                    message.reply_text("ادمین ها بزودی درخواستتون بررسی میکنن.", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back')]]))
+                    message.reply_text("ادمین ها بزودی درخواستتون بررسی میکنن.", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("<<", callback_data='back')]]))
                 else:
-                    msg = message.reply_text("منتظر بمانید...").id
-                    port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
+                    msg = message.reply_text("Wait...").id
+                    port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
                     try:
-                        Session = samisshbot.PANNEL(host, username, password, port, panel, 'User', cache_list[1])
+                        Session = sshx.PANNEL(host, username, password, port, panel, 'User', cache_list[1])
                         text = Session.Update(int(cache_list[2]), days, int(cache_list[-1]))
                         text += "\n" + Session.Reset_traffic()
                         try:
@@ -2662,8 +2662,8 @@ def text_private(bot, message):
                     t1 = f"💲فروشنده💲\nافزایش ترافیک 🔃\n\nGB: {str(traffic)}\nHost: {host}\nUser: {user}"
                     text = "id: <code>" + str(chat_id) + "</code>\nName: " + name + '\nUsername: ' + username + "\n\ninfo buy:\n" + t1
                     cb = "ConfirmTraffic_" + code
-                    no = "رد❌_" + code
-                    keyboard = [[InlineKeyboardButton("تایید✅", callback_data=cb), InlineKeyboardButton("رد❌", callback_data=no)], [InlineKeyboardButton("پیام به کاربر ✉️", callback_data='ANS_' + str(chat_id))]]
+                    no = "NO❌_" + code
+                    keyboard = [[InlineKeyboardButton("Confirm✅", callback_data=cb), InlineKeyboardButton("NO❌", callback_data=no)], [InlineKeyboardButton("پیام به کاربر ✉️", callback_data='ANS_' + str(chat_id))]]
                     reply_markup = InlineKeyboardMarkup(keyboard)
                     for i in range(len(admin_id)):
                         try:
@@ -2672,12 +2672,12 @@ def text_private(bot, message):
                             pass
                     cache_list = [traffic, '0', user, host, "فروشنده"]
                     add_code_buy(chat_id, code, "checkup", cache_list)
-                    message.reply_text("ادمین ها بزودی درخواستتون بررسی میکنن.", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back')]]))
+                    message.reply_text("ادمین ها بزودی درخواستتون بررسی میکنن.", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("<<", callback_data='back')]]))
                 else:
-                    msg = message.reply_text("منتظر بمانید...").id
-                    port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
+                    msg = message.reply_text("Wait...").id
+                    port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
                     try:
-                        Session = samisshbot.PANNEL(host, username, password, port, panel, 'User', user)
+                        Session = sshx.PANNEL(host, username, password, port, panel, 'User', user)
                         text = Session.Update_Traffic(traffic)
                     except Exception as e:
                         text = "Error: " + str(e)
@@ -2688,7 +2688,7 @@ def text_private(bot, message):
                 message.reply_text("فقط میتونی عدد بفرستی")
 
         elif status == "infohost":
-            hosts, remarks = samisshbot.HOSTS()
+            hosts, remarks = sshx.HOSTS()
             if link in hosts:
                 delete_cache(chat_id)
                 add_cache(chat_id, "userinfo_" + link)
@@ -2697,18 +2697,18 @@ def text_private(bot, message):
                 message.reply_text("این آدرس پنل وجود نداره, آدرس درستو بفرستین ")
 
         elif "userinfo_" in status:
-            msg = message.reply_text("منتظر بمانید...").id
+            msg = message.reply_text("Wait...").id
             user = link
             host = status.split("userinfo_")[1]
             try:
-                port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
+                port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
                 if check_seller_exist(chat_id) is True:
                     if check_exist_user(host, user) is True:
                         ID, Name, Username = get_all_user_data(host, user)
                         if ID != chat_id:
                             bot.edit_message_text(chat_id, msg, "نام کاربری پیدا نشد!", parse_mode=enums.ParseMode.HTML)
                             return
-                Session = samisshbot.PANNEL(host, username, password, port, panel, 'User', user)
+                Session = sshx.PANNEL(host, username, password, port, panel, 'User', user)
                 settings = get_settings()
                 text = change_infos_user_info(Session.User_info(settings['dropbear'], settings['tuic']))
                 if check_seller_exist(chat_id) is False:
@@ -2740,16 +2740,16 @@ def text_private(bot, message):
                             keyboard.append([InlineKeyboardButton(accounts[-1], callback_data=("IDADMIN_" + hosts[-1] + "$" + accounts[-1]))])
                     else:
                         keyboard.append([InlineKeyboardButton(accounts[0], callback_data=("IDADMIN_" + hosts[0] + "$" + accounts[0]))])
-                    keyboard.append([InlineKeyboardButton("برگشت 🔙", callback_data='back_admin')])
+                    keyboard.append([InlineKeyboardButton("<< Back", callback_data='back_admin')])
                     reply_markup = InlineKeyboardMarkup(keyboard)
                     message.reply_text(f"Founded by id \n\nChoose: ", reply_markup=reply_markup)
                 else:
-                    keyboard.append([InlineKeyboardButton("برگشت 🔙", callback_data='back_admin')])
+                    keyboard.append([InlineKeyboardButton("<< Back", callback_data='back_admin')])
                     reply_markup = InlineKeyboardMarkup(keyboard)
                     message.reply_text("پیدا نشد❌", reply_markup=reply_markup)
                 delete_cache(chat_id)
             except:
-                reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back')]])
+                reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton("<<", callback_data='back')]])
                 message.reply_text("send only user ID or forward a message not username or anything else", reply_markup=reply_markup)
 
         elif status == "message":
@@ -2780,8 +2780,8 @@ def text_private(bot, message):
             delete_collector(chat_id)
 
         elif status == "change_wallet":
-            reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='wallet')]])
-            if samisshbot.ASCII_Check(link) is True:
+            reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton("<<", callback_data='wallet')]])
+            if sshx.ASCII_Check(link) is True:
                 name = message.from_user.first_name
                 try:
                     username = message.from_user.username
@@ -2789,22 +2789,22 @@ def text_private(bot, message):
                     username = 'Null'
                 update_wallet(name, username, link)
                 delete_cache(chat_id)
-                message.reply_text("✅😊 انجام شد", reply_markup=reply_markup)
+                message.reply_text("✔️ انجام شد", reply_markup=reply_markup)
             else:
                 message.reply_text("آدرس ولت درستو بفرستین", reply_markup=reply_markup)
 
         elif "ipv6_" in status:
             host = status.split("_")[1]
-            keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='ipv6')]]
+            keyboard = [[InlineKeyboardButton("<<", callback_data='ipv6')]]
             reply_markup = InlineKeyboardMarkup(keyboard)
-            hosts, remarks = samisshbot.HOSTS()
+            hosts, remarks = sshx.HOSTS()
             if host in hosts:
                 settings = get_settings()
                 if settings['addresses'].get(host, None) is None:
                     link = (fixed_link_json(link)).replace(" ", "")
                     settings['addresses'].update({host: link})
                     update_settings(settings)
-                    message.reply_text("✅😊 انجام شد", reply_markup=reply_markup)
+                    message.reply_text("✔️ انجام شد", reply_markup=reply_markup)
                 else:
                     message.reply_text("این سرور تو این لیست وجود داره برای اینکه آدرس جدید اضافه کنین باید اول حذف کنین ", reply_markup=reply_markup)
             else:
@@ -2813,9 +2813,9 @@ def text_private(bot, message):
 
         elif "SSHCUSTOM_" in status:
             host = status.split("_")[1]
-            keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='JUQSTC')]]
+            keyboard = [[InlineKeyboardButton("<<", callback_data='JUQSTC')]]
             reply_markup = InlineKeyboardMarkup(keyboard)
-            hosts, remarks = samisshbot.HOSTS()
+            hosts, remarks = sshx.HOSTS()
             try:
                 if 1 <= int(link) <= 65535:
                     if host in hosts:
@@ -2824,7 +2824,7 @@ def text_private(bot, message):
                             link = (fixed_link_json(link)).replace(" ", "")
                             settings['SSH_custom'].update({host: link})
                             update_settings(settings)
-                            message.reply_text("✅😊 انجام شد", reply_markup=reply_markup)
+                            message.reply_text("✔️ انجام شد", reply_markup=reply_markup)
                         else:
                             message.reply_text("این سرور تو این لیست وجود داره برای اینکه پورت جدید اضافه کنین باید اول حذف کنین ", reply_markup=reply_markup)
                     else:
@@ -2837,9 +2837,9 @@ def text_private(bot, message):
 
         elif "Maxiumservers_" in status:
             host = status.split("_")[1]
-            keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='MCXV')]]
+            keyboard = [[InlineKeyboardButton("<<", callback_data='MCXV')]]
             reply_markup = InlineKeyboardMarkup(keyboard)
-            hosts, remarks = samisshbot.HOSTS()
+            hosts, remarks = sshx.HOSTS()
             try:
                 int(link)
                 if host in hosts:
@@ -2848,7 +2848,7 @@ def text_private(bot, message):
                         link = (fixed_link_json(link)).replace(" ", "")
                         settings['Maxium_servers'].update({host: link})
                         update_settings(settings)
-                        message.reply_text("✅😊 انجام شد", reply_markup=reply_markup)
+                        message.reply_text("✔️ انجام شد", reply_markup=reply_markup)
                     else:
                         message.reply_text("این سرور تو این لیست وجود داره برای اینکه محدودیت جدید اعمال کنین باید اول حذف کنین ", reply_markup=reply_markup)
                 else:
@@ -2862,16 +2862,16 @@ def text_private(bot, message):
                 message.reply_text("این کپشن خیلی طولانیه لطفا کمتر باشه")
                 return
             host = status.split("_")[1]
-            keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='NVDSLK')]]
+            keyboard = [[InlineKeyboardButton("<<", callback_data='NVDSLK')]]
             reply_markup = InlineKeyboardMarkup(keyboard)
-            hosts, remarks = samisshbot.HOSTS()
+            hosts, remarks = sshx.HOSTS()
             if host in hosts:
                 settings = get_settings()
                 if settings['server_custom_caption'].get(host, None) is None:
                     link = (fixed_link_json(link)).replace(" ", "")
                     settings['server_custom_caption'].update({host: link})
                     update_settings(settings)
-                    message.reply_text("✅😊 انجام شد", reply_markup=reply_markup)
+                    message.reply_text("✔️ انجام شد", reply_markup=reply_markup)
                 else:
                     message.reply_text("این سرور تو این لیست وجود داره برای اینکه کپشن جدید اضافه کنین باید اول حذف کنین ", reply_markup=reply_markup)
             else:
@@ -2884,7 +2884,7 @@ def text_private(bot, message):
                 settings = get_settings()
                 settings['card_caption'] = link
                 update_settings(settings)
-                message.reply_text("✅😊 انجام شد", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='Card')]]))
+                message.reply_text("✔️ انجام شد", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("<<", callback_data='Card')]]))
             else:
                 message.reply_text("کپشن خیلی طولانیه کوتاه تر بفرستین")
 
@@ -2894,7 +2894,7 @@ def text_private(bot, message):
                 settings = get_settings()
                 settings['trx_caption'] = link
                 update_settings(settings)
-                message.reply_text("✅😊 انجام شد", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='wallet')]]))
+                message.reply_text("✔️ انجام شد", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("<<", callback_data='wallet')]]))
             else:
                 message.reply_text("کپشن خیلی طولانیه کوتاه تر بفرستین")
 
@@ -2908,20 +2908,20 @@ def text_private(bot, message):
                     username = 'Null'
                 update_card(name, username, card)
                 delete_cache(chat_id)
-                message.reply_text("✅😊 انجام شد", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='Card')]]))
+                message.reply_text("✔️ انجام شد", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("<<", callback_data='Card')]]))
             except:
                 message.reply_text("فقط میتونی عدد بفرستی")
 
         elif status == "change_plisio":
-            if samisshbot.OTX_Check(link) is True:
+            if sshx.OTX_Check(link) is True:
                 link = fixed_link_json(link)
                 st, server_msg = payment.check_valid_api_plisio(link)
-                reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='plisio')]])
+                reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton("<<", callback_data='plisio')]])
                 if st is True:
                     settings = get_settings()
                     settings['plisio_API'] = link
                     update_settings(settings)
-                    message.reply_text("✅😊 انجام شد", reply_markup=reply_markup)
+                    message.reply_text("✔️ انجام شد", reply_markup=reply_markup)
                 else:
                     message.reply_text(server_msg, reply_markup=reply_markup)
                 delete_cache(chat_id)
@@ -2931,12 +2931,12 @@ def text_private(bot, message):
         elif status == "change_zarinpal":
             link = fixed_link_json(link)
             st, server_msg = payment.check_valid_zarinpal(link)
-            reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='zarinpal')]])
+            reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton("<<", callback_data='zarinpal')]])
             if st is True:
                 settings = get_settings()
                 settings['zarinpal_address'] = link
                 update_settings(settings)
-                message.reply_text("✅😊 انجام شد", reply_markup=reply_markup)
+                message.reply_text("✔️ انجام شد", reply_markup=reply_markup)
             else:
                 message.reply_text(server_msg, reply_markup=reply_markup)
             delete_cache(chat_id)
@@ -2944,18 +2944,18 @@ def text_private(bot, message):
         elif status == "change_idpay":
             link = fixed_link_json(link)
             st, server_msg = payment.check_valid_idpay(link)
-            reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='idpay')]])
+            reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton("<<", callback_data='idpay')]])
             if st is True:
                 settings = get_settings()
                 settings['idpay_address'] = link
                 update_settings(settings)
-                message.reply_text("✅😊 انجام شد", reply_markup=reply_markup)
+                message.reply_text("✔️ انجام شد", reply_markup=reply_markup)
             else:
                 message.reply_text(server_msg, reply_markup=reply_markup)
             delete_cache(chat_id)
 
         elif status == "change_perfectmoney":
-            reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='perfectmoney')]])
+            reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton("<<", callback_data='perfectmoney')]])
             try:
                 int(link)
                 delete_cache(chat_id)
@@ -2969,14 +2969,14 @@ def text_private(bot, message):
             link = fixed_link_json(link)
             password = link
             status, text = payment.check_valid_perfect_money(account_id, password)
-            keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='perfectmoney')]]
+            keyboard = [[InlineKeyboardButton("<<", callback_data='perfectmoney')]]
             if status is True:
                 settings = get_settings()
                 settings['perfect_money_account_id'] = account_id
                 settings['perfect_money_account_password'] = password
                 update_settings(settings)
                 reply_markup = InlineKeyboardMarkup(keyboard)
-                message.reply_text(f"✅😊 انجام شد\n\n{text}", reply_markup=reply_markup)
+                message.reply_text(f"✔️ انجام شد\n\n{text}", reply_markup=reply_markup)
             else:
                 keyboard.insert(0, [InlineKeyboardButton("🔄 امتحان مجدد", callback_data='ChPFM')])
                 reply_markup = InlineKeyboardMarkup(keyboard)
@@ -2984,23 +2984,23 @@ def text_private(bot, message):
             delete_cache(chat_id)
 
         elif ("disable_" in status) or ("enable_" in status):
-            msg = message.reply_text("منتظر بمانید...").id
+            msg = message.reply_text("Wait...").id
             try:
                 if "disable" in status:
                     host = status.split("disable_")[1]
                 else:
                     host = status.split("enable_")[1]
-                port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
+                port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
                 uname = link
                 if "</code>" in uname:
                     uname = uname.split("</code>")[0].split("<code>")[1]
-                Session = samisshbot.PANNEL(host, username, password, port, panel, 'User', uname)
+                Session = sshx.PANNEL(host, username, password, port, panel, 'User', uname)
                 if "disable" in status:
-                    bot.edit_message_text(chat_id, msg, Session.Disable(), reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='Manager')]]))
+                    bot.edit_message_text(chat_id, msg, Session.Disable(), reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("<<", callback_data='Manager')]]))
                 else:
-                    bot.edit_message_text(chat_id, msg, Session.Enable(), reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='Manager')]]))
+                    bot.edit_message_text(chat_id, msg, Session.Enable(), reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("<<", callback_data='Manager')]]))
             except Exception as e:
-                bot.edit_message_text(chat_id, msg, "Error: " + str(e), reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='Manager')]]))
+                bot.edit_message_text(chat_id, msg, "Error: " + str(e), reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("<<", callback_data='Manager')]]))
             delete_cache(chat_id)
 
         elif "AUR_" in status:
@@ -3008,7 +3008,7 @@ def text_private(bot, message):
             if seller in seller_id:
                 keyboard = [
                     [InlineKeyboardButton("➕افزودن مجدد", callback_data=status)],
-                    [InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data=('SLM_' + str(seller)))]
+                    [InlineKeyboardButton("<<", callback_data=('SLM_' + str(seller)))]
                 ]
                 reply_markup = InlineKeyboardMarkup(keyboard)
                 ID, Name, USERNAME, Limit = get_seller_info(seller)
@@ -3018,14 +3018,14 @@ def text_private(bot, message):
                     host = None
                     user = None
                 if host is not None:
-                    port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
+                    port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
                     settings = get_settings()
                     if check_exist_user(host, user) is False:
                         try:
-                            Session = samisshbot.PANNEL(host, username, password, port, panel, 'User', user)
+                            Session = sshx.PANNEL(host, username, password, port, panel, 'User', user)
                             text = change_infos_user_info(Session.User_info(settings['dropbear'], settings['tuic']))
                             add_user_db(seller, Name, USERNAME, user, host)
-                            message.reply_text("✅😊 انجام شد", reply_markup=reply_markup)
+                            message.reply_text("✔️ انجام شد", reply_markup=reply_markup)
                         except:
                             message.reply_text("چیزی پیدا نشد:(", reply_markup=reply_markup)
                     else:
@@ -3035,7 +3035,7 @@ def text_private(bot, message):
                 else:
                     message.reply_text("این آدرس وجود نداره!", reply_markup=reply_markup)
             else:
-                message.reply_text("این فروشنده وجود نداره!", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='sellers')]]))
+                message.reply_text("این فروشنده وجود نداره!", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("<<", callback_data='sellers')]]))
             delete_cache(chat_id)
 
         elif status == "limit_seller":
@@ -3060,22 +3060,22 @@ def text_private(bot, message):
                 update_user_wallet(int(cache_list[0]), balance)
                 delete_cache(chat_id)
                 delete_collector(chat_id)
-                keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back_admin')]]
+                keyboard = [[InlineKeyboardButton("<<", callback_data='back_admin')]]
                 reply_markup = InlineKeyboardMarkup(keyboard)
-                message.reply_text("✅😊 انجام شد", reply_markup=reply_markup)
+                message.reply_text("✔️ انجام شد", reply_markup=reply_markup)
                 sellers_id_add_list()
             except:
                 message.reply_text("فقط میتونی عدد بفرستی")
 
         elif "Kill_" in status:
-            msg = message.reply_text("منتظر بمانید...").id
-            keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='Manager')]]
+            msg = message.reply_text("Wait...").id
+            keyboard = [[InlineKeyboardButton("<<", callback_data='Manager')]]
             reply_markup = InlineKeyboardMarkup(keyboard)
             try:
                 user = link
                 host = status.split("Kill_")[1]
-                port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
-                Session = samisshbot.PANNEL(host, username, password, port, panel, 'Other', 'uname')
+                port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
+                Session = sshx.PANNEL(host, username, password, port, panel, 'Other', 'uname')
                 text, users = Session.Kill(user)
                 bot.edit_message_text(chat_id, msg, text, reply_markup=reply_markup)
             except Exception as e:
@@ -3087,9 +3087,9 @@ def text_private(bot, message):
                 limit = int(link)
                 seller = int(status.split("#")[1])
                 update_seller_limit(seller, limit)
-                keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data=('SLM_' + str(seller)))]]
+                keyboard = [[InlineKeyboardButton("<<", callback_data=('SLM_' + str(seller)))]]
                 reply_markup = InlineKeyboardMarkup(keyboard)
-                message.reply_text("✅😊 انجام شد", reply_markup=reply_markup)
+                message.reply_text("✔️ انجام شد", reply_markup=reply_markup)
                 delete_cache(chat_id)
             except:
                 message.reply_text("فقط میتونی عدد بفرستی")
@@ -3101,9 +3101,9 @@ def text_private(bot, message):
                     settings = get_settings()
                     settings['backup'] = hours
                     update_settings(settings)
-                    keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='Backup')]]
+                    keyboard = [[InlineKeyboardButton("<<", callback_data='Backup')]]
                     reply_markup = InlineKeyboardMarkup(keyboard)
-                    message.reply_text("✅😊 انجام شد", reply_markup=reply_markup)
+                    message.reply_text("✔️ انجام شد", reply_markup=reply_markup)
                     delete_cache(chat_id)
                 else:
                     message.reply_text("مقدار خیلی بالاست بین 1 تا 72 بفرستین")
@@ -3111,7 +3111,7 @@ def text_private(bot, message):
                 message.reply_text("فقط میتونی عدد بفرستی")
 
         elif "filtering_checker_minutes" == status:
-            keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='FILCH')]]
+            keyboard = [[InlineKeyboardButton("<<", callback_data='FILCH')]]
             reply_markup = InlineKeyboardMarkup(keyboard)
             try:
                 mins = int(link)
@@ -3119,7 +3119,7 @@ def text_private(bot, message):
                     settings = get_settings()
                     settings['filtering_checker_minutes'] = mins
                     update_settings(settings)
-                    message.reply_text("✅😊 انجام شد", reply_markup=reply_markup)
+                    message.reply_text("✔️ انجام شد", reply_markup=reply_markup)
                     delete_cache(chat_id)
                 else:
                     message.reply_text("فقط یه عدد بین 5 تا 720 بفرستین !", reply_markup=reply_markup)
@@ -3127,123 +3127,123 @@ def text_private(bot, message):
                 message.reply_text("فقط میتونی عدد بفرستی", reply_markup=reply_markup)
 
         elif "ETM" == status:
-            keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='Tutorials')]]
+            keyboard = [[InlineKeyboardButton("<<", callback_data='Tutorials')]]
             reply_markup = InlineKeyboardMarkup(keyboard)
             if len(link) <= 3900:
                 settings = get_settings()
                 settings['mac'] = fixed_link_json(link)
                 update_settings(settings)
-                message.reply_text("✅😊 انجام شد", reply_markup=reply_markup)
+                message.reply_text("✔️ انجام شد", reply_markup=reply_markup)
                 delete_cache(chat_id)
             else:
                 message.reply_text("این پیام خیلی طولانیه! پیام دیگه ای رو بفرستین یا /cancel", reply_markup=reply_markup)
 
         elif "ETW" == status:
-            keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='Tutorials')]]
+            keyboard = [[InlineKeyboardButton("<<", callback_data='Tutorials')]]
             reply_markup = InlineKeyboardMarkup(keyboard)
             if len(link) <= 3900:
                 settings = get_settings()
                 settings['windows'] = fixed_link_json(link)
                 update_settings(settings)
-                message.reply_text("✅😊 انجام شد", reply_markup=reply_markup)
+                message.reply_text("✔️ انجام شد", reply_markup=reply_markup)
                 delete_cache(chat_id)
             else:
                 message.reply_text("این پیام خیلی طولانیه! پیام دیگه ای رو بفرستین یا /cancel", reply_markup=reply_markup)
 
         elif "ETA" == status:
-            keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='Tutorials')]]
+            keyboard = [[InlineKeyboardButton("<<", callback_data='Tutorials')]]
             reply_markup = InlineKeyboardMarkup(keyboard)
             if len(link) <= 3900:
                 settings = get_settings()
                 settings['android'] = fixed_link_json(link)
                 update_settings(settings)
-                message.reply_text("✅😊 انجام شد", reply_markup=reply_markup)
+                message.reply_text("✔️ انجام شد", reply_markup=reply_markup)
                 delete_cache(chat_id)
             else:
                 message.reply_text("این پیام خیلی طولانیه! پیام دیگه ای رو بفرستین یا /cancel", reply_markup=reply_markup)
 
         elif "ETI" == status:
-            keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='Tutorials')]]
+            keyboard = [[InlineKeyboardButton("<<", callback_data='Tutorials')]]
             reply_markup = InlineKeyboardMarkup(keyboard)
             if len(link) <= 3900:
                 settings = get_settings()
                 settings['ios'] = fixed_link_json(link)
                 update_settings(settings)
-                message.reply_text("✅😊 انجام شد", reply_markup=reply_markup)
+                message.reply_text("✔️ انجام شد", reply_markup=reply_markup)
                 delete_cache(chat_id)
             else:
                 message.reply_text("این پیام خیلی طولانیه! پیام دیگه ای رو بفرستین یا /cancel", reply_markup=reply_markup)
 
         elif "EAID" == status:
-            keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='SID')]]
+            keyboard = [[InlineKeyboardButton("<<", callback_data='SID')]]
             reply_markup = InlineKeyboardMarkup(keyboard)
             if len(link) <= 3900:
                 settings = get_settings()
                 settings['support'] = fixed_link_json(link)
                 update_settings(settings)
-                message.reply_text("✅😊 انجام شد", reply_markup=reply_markup)
+                message.reply_text("✔️ انجام شد", reply_markup=reply_markup)
                 delete_cache(chat_id)
             else:
                 message.reply_text("این پیام خیلی طولانیه! پیام دیگه ای رو بفرستین یا /cancel", reply_markup=reply_markup)
 
         elif "custom_tutorial_button" == status:
-            keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='Tutorials')]]
+            keyboard = [[InlineKeyboardButton("<<", callback_data='Tutorials')]]
             reply_markup = InlineKeyboardMarkup(keyboard)
             if len(link) <= 32:
                 settings = get_settings()
                 settings['custom_tutorial_only_button_name'] = fixed_link_json(link)
                 update_settings(settings)
-                message.reply_text("✅😊 انجام شد\n\n حالا تکست یا ویدیو, عکس, فایل با کپشن بدون فوروارد بفرستین.", reply_markup=reply_markup)
+                message.reply_text("✔️ انجام شد\n\n حالا تکست یا ویدیو, عکس, فایل با کپشن بدون فوروارد بفرستین.", reply_markup=reply_markup)
                 delete_cache(chat_id)
                 add_cache(chat_id, "custom_tutorial_button_type")
             else:
                 message.reply_text("تکست برای دکمه خیلی طولانیه لطفا کمتر (حداکثر 32 کاراکتر)", reply_markup=reply_markup)
 
         elif "custom_tutorial_button_type" == status:
-            keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='Tutorials')]]
+            keyboard = [[InlineKeyboardButton("<<", callback_data='Tutorials')]]
             reply_markup = InlineKeyboardMarkup(keyboard)
             if len(link) <= 4000:
                 settings = get_settings()
                 settings['custom_tutorial_only_button_caption'] = fixed_link_json(link)
                 settings['custom_tutorial_only_button_type'] = "text"
                 update_settings(settings)
-                message.reply_text("✅😊 انجام شد", reply_markup=reply_markup)
+                message.reply_text("✔️ انجام شد", reply_markup=reply_markup)
                 delete_cache(chat_id)
             else:
                 message.reply_text("این پیام خیلی طولانیه! پیام دیگه ای رو بفرستین", reply_markup=reply_markup)
 
         elif "Start_message" == status:
-            keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='WSMSG')]]
+            keyboard = [[InlineKeyboardButton("<<", callback_data='WSMSG')]]
             reply_markup = InlineKeyboardMarkup(keyboard)
             if len(link) <= 3900:
                 settings = get_settings()
                 settings['start'] = fixed_link_json(link)
                 update_settings(settings)
-                message.reply_text("✅😊 انجام شد", reply_markup=reply_markup)
+                message.reply_text("✔️ انجام شد", reply_markup=reply_markup)
                 delete_cache(chat_id)
             else:
                 message.reply_text("این پیام خیلی طولانیه! پیام دیگه ای رو بفرستین یا /cancel", reply_markup=reply_markup)
 
         elif "Price_message" == status:
-            keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='WLMSG')]]
+            keyboard = [[InlineKeyboardButton("<<", callback_data='WLMSG')]]
             reply_markup = InlineKeyboardMarkup(keyboard)
             if len(link) <= 3900:
                 settings = get_settings()
                 settings['list'] = fixed_link_json(link)
                 update_settings(settings)
-                message.reply_text("✅😊 انجام شد", reply_markup=reply_markup)
+                message.reply_text("✔️ انجام شد", reply_markup=reply_markup)
                 delete_cache(chat_id)
             else:
                 message.reply_text("این پیام خیلی طولانیه! پیام دیگه ای رو بفرستین یا /cancel", reply_markup=reply_markup)
 
         elif "after_buy" == status:
-            keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='PODSC')]]
+            keyboard = [[InlineKeyboardButton("<<", callback_data='PODSC')]]
             reply_markup = InlineKeyboardMarkup(keyboard)
             if len(link) <= 3900:
                 settings = get_settings()
                 settings['after_buy'] = fixed_link_json(link)
                 update_settings(settings)
-                message.reply_text("✅😊 انجام شد", reply_markup=reply_markup)
+                message.reply_text("✔️ انجام شد", reply_markup=reply_markup)
                 delete_cache(chat_id)
             else:
                 message.reply_text("این پیام خیلی طولانیه! پیام دیگه ای رو بفرستین یا /cancel", reply_markup=reply_markup)
@@ -3254,9 +3254,9 @@ def text_private(bot, message):
                 settings = get_settings()
                 settings['test-traffic'] = int(link)
                 update_settings(settings)
-                keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='TASET')]]
+                keyboard = [[InlineKeyboardButton("<<", callback_data='TASET')]]
                 reply_markup = InlineKeyboardMarkup(keyboard)
-                message.reply_text("✅😊 انجام شد", reply_markup=reply_markup)
+                message.reply_text("✔️ انجام شد", reply_markup=reply_markup)
                 delete_cache(chat_id)
             except:
                 message.reply_text("فقط عدد میتونین بفرستین")
@@ -3268,20 +3268,20 @@ def text_private(bot, message):
                     settings = get_settings()
                     settings['sponser'] = link
                     update_settings(settings)
-                    keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='sponser')]]
+                    keyboard = [[InlineKeyboardButton("<<", callback_data='sponser')]]
                     reply_markup = InlineKeyboardMarkup(keyboard)
-                    message.reply_text("✅😊 انجام شد", reply_markup=reply_markup)
+                    message.reply_text("✔️ انجام شد", reply_markup=reply_markup)
                     delete_cache(chat_id)
 
                 except NotAcceptable:
-                    message.reply_text("🔴😥خطا: ربات تو کانال یا گروه اد نشده")
+                    message.reply_text("🔴Error: ربات تو کانال یا گروه اد نشده")
                     delete_cache(chat_id)
 
                 except BadRequest as e:
                     if "USER_NOT_PARTICIPANT" in str(e):
-                        message.reply_text("🔴😥خطا: توی چنل یا گروه نیستی")
+                        message.reply_text("🔴Error: توی چنل یا گروه نیستی")
                     else:
-                        message.reply_text("🔴😥خطا: گروه یا چنلی که فرستادی وجود نداره")
+                        message.reply_text("🔴Error: گروه یا چنلی که فرستادی وجود نداره")
                     delete_cache(chat_id)
 
             else:
@@ -3293,9 +3293,9 @@ def text_private(bot, message):
                 settings = get_settings()
                 settings['auto_delete'] = days
                 update_settings(settings)
-                keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='AutoDelete')]]
+                keyboard = [[InlineKeyboardButton("<<", callback_data='AutoDelete')]]
                 reply_markup = InlineKeyboardMarkup(keyboard)
-                message.reply_text("✅😊 انجام شد", reply_markup=reply_markup)
+                message.reply_text("✔️ انجام شد", reply_markup=reply_markup)
                 delete_cache(chat_id)
             except:
                 message.reply_text("فقط میتونی عدد بفرستی")
@@ -3306,9 +3306,9 @@ def text_private(bot, message):
                 settings = get_settings()
                 settings['usd'] = usd
                 update_settings(settings)
-                keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='USD')]]
+                keyboard = [[InlineKeyboardButton("<<", callback_data='USD')]]
                 reply_markup = InlineKeyboardMarkup(keyboard)
-                message.reply_text("✅😊 انجام شد", reply_markup=reply_markup)
+                message.reply_text("✔️ انجام شد", reply_markup=reply_markup)
                 delete_cache(chat_id)
             except:
                 message.reply_text("فقط میتونی عدد بفرستی")
@@ -3319,9 +3319,9 @@ def text_private(bot, message):
                 settings = get_settings()
                 settings['maximum'] = maximum
                 update_settings(settings)
-                keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='maximum')]]
+                keyboard = [[InlineKeyboardButton("<<", callback_data='maximum')]]
                 reply_markup = InlineKeyboardMarkup(keyboard)
-                message.reply_text("✅😊 انجام شد", reply_markup=reply_markup)
+                message.reply_text("✔️ انجام شد", reply_markup=reply_markup)
                 delete_cache(chat_id)
             except:
                 message.reply_text("فقط میتونی عدد بفرستی")
@@ -3332,9 +3332,9 @@ def text_private(bot, message):
                 settings = get_settings()
                 settings['invitation_limit'] = invitation_limit
                 update_settings(settings)
-                keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='INVS')]]
+                keyboard = [[InlineKeyboardButton("<<", callback_data='INVS')]]
                 reply_markup = InlineKeyboardMarkup(keyboard)
-                message.reply_text("✅😊 انجام شد", reply_markup=reply_markup)
+                message.reply_text("✔️ انجام شد", reply_markup=reply_markup)
                 delete_cache(chat_id)
             except:
                 message.reply_text("فقط میتونی عدد بفرستی")
@@ -3345,24 +3345,24 @@ def text_private(bot, message):
                 settings = get_settings()
                 settings['referral'] = referral
                 update_settings(settings)
-                keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='INVS')]]
+                keyboard = [[InlineKeyboardButton("<<", callback_data='INVS')]]
                 reply_markup = InlineKeyboardMarkup(keyboard)
-                message.reply_text("✅😊 انجام شد", reply_markup=reply_markup)
+                message.reply_text("✔️ انجام شد", reply_markup=reply_markup)
                 delete_cache(chat_id)
             except:
                 message.reply_text("فقط میتونی عدد بفرستی")
 
         elif "default_password" == status:
             link = fixed_link_json(link)
-            keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='DKSJJHJ')]]
+            keyboard = [[InlineKeyboardButton("<<", callback_data='DKSJJHJ')]]
             reply_markup = InlineKeyboardMarkup(keyboard)
             if len(link) >= 4:
                 if len(link) < 16:
-                    if (samisshbot.ASCII_Check(link) is True) and (samisshbot.Contains(link) is True):
+                    if (sshx.ASCII_Check(link) is True) and (sshx.Contains(link) is True):
                         settings = get_settings()
                         settings['default_password'] = link
                         update_settings(settings)
-                        message.reply_text("✅😊 انجام شد", reply_markup=reply_markup)
+                        message.reply_text("✔️ انجام شد", reply_markup=reply_markup)
                         delete_cache(chat_id)
                     else:
                         message.reply_text("فقط حروف و اعداد انگلیسی میتونی بفرستی", reply_markup=reply_markup)
@@ -3372,7 +3372,7 @@ def text_private(bot, message):
                 message.reply_text("پسورد خیلی کوتاهه حداقل 4 کاراکتر بفرستین", reply_markup=reply_markup)
 
         elif "password_length" == status:
-            keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='DKSJJHJ')]]
+            keyboard = [[InlineKeyboardButton("<<", callback_data='DKSJJHJ')]]
             reply_markup = InlineKeyboardMarkup(keyboard)
             try:
                 if int(link) >= 4:
@@ -3381,7 +3381,7 @@ def text_private(bot, message):
                         settings = get_settings()
                         settings['password_length'] = password_length
                         update_settings(settings)
-                        message.reply_text("✅😊 انجام شد", reply_markup=reply_markup)
+                        message.reply_text("✔️ انجام شد", reply_markup=reply_markup)
                         delete_cache(chat_id)
                     else:
                         message.reply_text("خیلی طولانیه حداکثر عدد 16 بفرستین", reply_markup=reply_markup)
@@ -3391,14 +3391,14 @@ def text_private(bot, message):
                 message.reply_text("فقط عدد بفرست بین 4 تا 16", reply_markup=reply_markup)
 
         elif "Random_price" == status:
-            keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='CSNDF')]]
+            keyboard = [[InlineKeyboardButton("<<", callback_data='CSNDF')]]
             reply_markup = InlineKeyboardMarkup(keyboard)
             try:
                 number = int(link)
                 if number % 100 == 0:
                     delete_cache(chat_id)
                     add_cache(chat_id, "Randommax_" + str(number))
-                    message.reply_text("خب حالا مقدار حداکثر بفرستین و حتما باید 100 تا بالاتر باشه ")
+                    message.reply_text("خب حالا مقدار مکسیموم بفرستین و حتما باید 100 تا بالاتر باشه ")
                 else:
                     message.reply_text("عدد مضرب 100 بفرستین مثلا 500", reply_markup=reply_markup)
             except:
@@ -3406,7 +3406,7 @@ def text_private(bot, message):
 
         elif "Randommax_" in status:
             number_min = int(status.split("_")[1])
-            keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='CSNDF')]]
+            keyboard = [[InlineKeyboardButton("<<", callback_data='CSNDF')]]
             reply_markup = InlineKeyboardMarkup(keyboard)
             try:
                 number = int(link)
@@ -3416,10 +3416,10 @@ def text_private(bot, message):
                         settings['random_price_min'] = number_min
                         settings['random_price_max'] = number
                         update_settings(settings)
-                        message.reply_text("✅😊 انجام شد", reply_markup=reply_markup)
+                        message.reply_text("✔️ انجام شد", reply_markup=reply_markup)
                         delete_cache(chat_id)
                     else:
-                        message.reply_text("مقداری که فرستادی از حداقل کوچیک تره و عدد بزرگ تر باید بفرستی", reply_markup=reply_markup)
+                        message.reply_text("مقداری که فرستادی از مینیموم کوچیک تره و عدد بزرگ تر باید بفرستی", reply_markup=reply_markup)
                 else:
                     message.reply_text("عدد مضرب 100 بفرستین مثلا 500", reply_markup=reply_markup)
             except:
@@ -3449,9 +3449,9 @@ def text_private(bot, message):
                     traffic.append(int(link))
                     settings['seller_plus_traffic'] = traffic
                     update_settings(settings)
-                    keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='SPBTL')]]
+                    keyboard = [[InlineKeyboardButton("<<", callback_data='SPBTL')]]
                     reply_markup = InlineKeyboardMarkup(keyboard)
-                    message.reply_text("✅😊 انجام شد", reply_markup=reply_markup)
+                    message.reply_text("✔️ انجام شد", reply_markup=reply_markup)
                     delete_cache(chat_id)
                     delete_collector(chat_id)
                 else:
@@ -3483,9 +3483,9 @@ def text_private(bot, message):
                     traffic.append(int(link))
                     settings['plus-traffic'] = traffic
                     update_settings(settings)
-                    keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='ADTPR')]]
+                    keyboard = [[InlineKeyboardButton("<<", callback_data='ADTPR')]]
                     reply_markup = InlineKeyboardMarkup(keyboard)
-                    message.reply_text("✅😊 انجام شد", reply_markup=reply_markup)
+                    message.reply_text("✔️ انجام شد", reply_markup=reply_markup)
                     delete_cache(chat_id)
                     delete_collector(chat_id)
                 else:
@@ -3550,9 +3550,9 @@ def text_private(bot, message):
                 traffic.append(int(link))
                 settings['traffic'] = traffic
                 update_settings(settings)
-                keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='ADMINPRICES')]]
+                keyboard = [[InlineKeyboardButton("<<", callback_data='ADMINPRICES')]]
                 reply_markup = InlineKeyboardMarkup(keyboard)
-                message.reply_text("✅😊 انجام شد", reply_markup=reply_markup)
+                message.reply_text("✔️ انجام شد", reply_markup=reply_markup)
                 delete_cache(chat_id)
                 delete_collector(chat_id)
             except:
@@ -3615,9 +3615,9 @@ def text_private(bot, message):
                 traffic.append(int(link))
                 settings['seller_traffic'] = traffic
                 update_settings(settings)
-                keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='XSM')]]
+                keyboard = [[InlineKeyboardButton("<<", callback_data='XSM')]]
                 reply_markup = InlineKeyboardMarkup(keyboard)
-                message.reply_text("✅😊 انجام شد", reply_markup=reply_markup)
+                message.reply_text("✔️ انجام شد", reply_markup=reply_markup)
                 delete_cache(chat_id)
                 delete_collector(chat_id)
             except:
@@ -3628,9 +3628,9 @@ def text_private(bot, message):
                 settings = get_settings()
                 settings['proxy'] = fixed_link_json(link)
                 update_settings(settings)
-                keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='Sprx')]]
+                keyboard = [[InlineKeyboardButton("<<", callback_data='Sprx')]]
                 reply_markup = InlineKeyboardMarkup(keyboard)
-                message.reply_text("✅😊 انجام شد", reply_markup=reply_markup)
+                message.reply_text("✔️ انجام شد", reply_markup=reply_markup)
                 delete_cache(chat_id)
             else:
                 message.reply_text("اینطوری پروکسیو بفرستین:\n https://t.me/proxy?server=... or /cancel")
@@ -3640,9 +3640,9 @@ def text_private(bot, message):
                 settings = get_settings()
                 settings['before_start_msg'] = fixed_link_json(link)
                 update_settings(settings)
-                keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='QPAEOI')]]
+                keyboard = [[InlineKeyboardButton("<<", callback_data='QPAEOI')]]
                 reply_markup = InlineKeyboardMarkup(keyboard)
-                message.reply_text("✅😊 انجام شد", reply_markup=reply_markup)
+                message.reply_text("✔️ انجام شد", reply_markup=reply_markup)
                 delete_cache(chat_id)
             else:
                 message.reply_text("این پیام خیلی طولانیه! پیام دیگه ای رو بفرستین یا /cancel", reply_markup=reply_markup)
@@ -3650,17 +3650,17 @@ def text_private(bot, message):
         elif "Connectionmsg_" in status:
             if len(link) <= 128:
                 host = status.split("Connectionmsg_")[1]
-                hosts, remarks = samisshbot.HOSTS()
+                hosts, remarks = sshx.HOSTS()
                 if host in hosts:
-                    port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
+                    port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
                     try:
-                        Session = samisshbot.PANNEL(host, username, password, port, panel, 'Other', 'uname')
+                        Session = sshx.PANNEL(host, username, password, port, panel, 'Other', 'uname')
                         text = Session.Message(link)
                     except Exception as e:
                         text = "Error: " + str(e)
                 else:
                     text = "سرور پیدا نشد"
-                keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی Menu", callback_data='back_admin')]]
+                keyboard = [[InlineKeyboardButton("<< Menu", callback_data='back_admin')]]
                 reply_markup = InlineKeyboardMarkup(keyboard)
                 message.reply_text(text, reply_markup=reply_markup)
                 delete_cache(chat_id)
@@ -3671,17 +3671,17 @@ def text_private(bot, message):
             try:
                 days = int(link)
                 host = status.split("AutoRemove_")[1]
-                hosts, remarks = samisshbot.HOSTS()
+                hosts, remarks = sshx.HOSTS()
                 if host in hosts:
-                    port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
+                    port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
                     try:
-                        Session = samisshbot.PANNEL(host, username, password, port, panel, 'Other', 'uname')
+                        Session = sshx.PANNEL(host, username, password, port, panel, 'Other', 'uname')
                         text = Session.Auto_remove(days)
                     except Exception as e:
                         text = "Error: " + str(e)
                 else:
                     text = "سرور پیدا نشد"
-                keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی Menu", callback_data='back_admin')]]
+                keyboard = [[InlineKeyboardButton("<< Menu", callback_data='back_admin')]]
                 reply_markup = InlineKeyboardMarkup(keyboard)
                 message.reply_text(text, reply_markup=reply_markup)
                 delete_cache(chat_id)
@@ -3692,17 +3692,17 @@ def text_private(bot, message):
             try:
                 days = int(link)
                 host = status.split("Gift_")[1]
-                hosts, remarks = samisshbot.HOSTS()
+                hosts, remarks = sshx.HOSTS()
                 if host in hosts:
-                    port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
+                    port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
                     try:
-                        Session = samisshbot.PANNEL(host, username, password, port, panel, 'Other', 'uname')
+                        Session = sshx.PANNEL(host, username, password, port, panel, 'Other', 'uname')
                         text = Session.Gift(days)
                     except Exception as e:
                         text = "Error: " + str(e)
                 else:
                     text = "سرور پیدا نشد"
-                keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی Menu", callback_data='back_admin')]]
+                keyboard = [[InlineKeyboardButton("<< Menu", callback_data='back_admin')]]
                 reply_markup = InlineKeyboardMarkup(keyboard)
                 message.reply_text(text, reply_markup=reply_markup)
                 delete_cache(chat_id)
@@ -3713,11 +3713,11 @@ def text_private(bot, message):
             try:
                 user = link
                 host = status.split("Reset_")[1]
-                hosts, remarks = samisshbot.HOSTS()
+                hosts, remarks = sshx.HOSTS()
                 if host in hosts:
-                    port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
+                    port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
                     try:
-                        Session = samisshbot.PANNEL(host, username, password, port, panel, 'User', user)
+                        Session = sshx.PANNEL(host, username, password, port, panel, 'User', user)
                         text = Session.Reset_traffic()
                     except Exception as e:
                         text = "Error: " + str(e)
@@ -3725,14 +3725,14 @@ def text_private(bot, message):
                     text = "سرور پیدا نشد"
             except Exception as e:
                 text = "Error: " + str(e)
-            keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back_admin')]]
+            keyboard = [[InlineKeyboardButton("<<", callback_data='back_admin')]]
             reply_markup = InlineKeyboardMarkup(keyboard)
             message.reply_text(text, reply_markup=reply_markup)
             delete_cache(chat_id)
 
         elif status == "IPINFO":
-            text = samisshbot.IP_INFO(link)
-            keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='Manager')]]
+            text = sshx.IP_INFO(link)
+            keyboard = [[InlineKeyboardButton("<<", callback_data='Manager')]]
             reply_markup = InlineKeyboardMarkup(keyboard)
             message.reply_text(text, reply_markup=reply_markup)
             delete_cache(chat_id)
@@ -3741,7 +3741,7 @@ def text_private(bot, message):
             if len(link) < 2:
                 message.reply_text("send more than one character or /cancel")
                 return
-            elif samisshbot.ASCII_Check(link) is False:
+            elif sshx.ASCII_Check(link) is False:
                 message.reply_text("only English & numbers or /cancel")
                 return
             accounts, hosts, stat = get_all_accounts_by_chat_id(chat_id)
@@ -3774,7 +3774,7 @@ def text_private(bot, message):
             if len(link) < 2:
                 message.reply_text("send more than one character or /cancel")
                 return
-            elif samisshbot.ASCII_Check(link) is False:
+            elif sshx.ASCII_Check(link) is False:
                 message.reply_text("only English & numbers or /cancel")
                 return
             elif search_spam[0] is True:
@@ -3782,14 +3782,14 @@ def text_private(bot, message):
                 return
             msg = message.reply_text("Wait this operation takes so much time...").id
             search_spam[0] = True
-            hosts, remarks = samisshbot.HOSTS()
+            hosts, remarks = sshx.HOSTS()
             F_hosts = []
             F_remarks = []
             F_usernames = []
             for i in range(len(hosts)):
-                port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(hosts[i])
+                port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(hosts[i])
                 try:
-                    Session = samisshbot.PANNEL(hosts[i], username, password, port, panel, 'Other', 'uname')
+                    Session = sshx.PANNEL(hosts[i], username, password, port, panel, 'Other', 'uname')
                     expires, connection_limits, usernames, passwords, ports, traffics, usages, days_left, status, ips, descriptions, server_traffic, online_c, done = Session.info()
                     F_usernames_cache = []
                     if link in usernames:
@@ -3821,9 +3821,9 @@ def text_private(bot, message):
         elif status == "AdminGiftDel":
             if check_gift_code_exist(link) is True:
                 delete_gift_code(link)
-                keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='GUA')]]
+                keyboard = [[InlineKeyboardButton("<<", callback_data='GUA')]]
                 reply_markup = InlineKeyboardMarkup(keyboard)
-                message.reply_text("✅😊 انجام شد", reply_markup=reply_markup)
+                message.reply_text("✔️ انجام شد", reply_markup=reply_markup)
                 delete_cache(chat_id)
             else:
                 message.reply_text("این کد وجود نداره یه کد دیگرو بفرست یا /cancel")
@@ -3865,16 +3865,16 @@ def text_private(bot, message):
                 message.reply_text("فقط میتونی عدد بفرستی")
 
         elif "Giftcode" == status:
-            if (link not in filter_name) and (samisshbot.ASCII_Check(link) is True):
+            if (link not in filter_name) and (sshx.ASCII_Check(link) is True):
                 Gift_code = link
                 if check_gift_code_exist(Gift_code) is False:
                     cache_list, host_cahce = get_collector_cache(chat_id)
                     #cache_list = [value, userlimit, daylimit]
                     days = int(time()) + (cache_list[2] * 86400)
                     add_gift_code(cache_list[0], cache_list[1], days, Gift_code)
-                    keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='GUA')]]
+                    keyboard = [[InlineKeyboardButton("<<", callback_data='GUA')]]
                     reply_markup = InlineKeyboardMarkup(keyboard)
-                    message.reply_text("✅😊 انجام شد", reply_markup=reply_markup)
+                    message.reply_text("✔️ انجام شد", reply_markup=reply_markup)
                     delete_cache(chat_id)
                     delete_collector(chat_id)
                 else:
@@ -3883,16 +3883,16 @@ def text_private(bot, message):
                 message.reply_text("کد مورد نظر قابل قبول نیست کد دیگه رو بفرست یا /cancel")
 
         elif status == "Adminuserbalance":
-            keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back_admin')]]
+            keyboard = [[InlineKeyboardButton("<<", callback_data='back_admin')]]
             reply_markup = InlineKeyboardMarkup(keyboard)
             try:
                 user_id = int(link)
                 if check_user_exists_in_clients_table(user_id) is True:
                     name, u, phone, value = get_full_user_data_id(user_id)
                     keyboard = [
-                        [InlineKeyboardButton("🪫کاهش", callback_data=f'MAUB_{str(user_id)}'), InlineKeyboardButton("🔋افزایش", callback_data=f'PAUB_{str(user_id)}')],
-                        [InlineKeyboardButton("🧰 صفر کردن موجودی", callback_data=f'ZAUB_{str(user_id)}')],
-                        [InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back_admin')]
+                        [InlineKeyboardButton("➖کاهش", callback_data=f'MAUB_{str(user_id)}'), InlineKeyboardButton("➕افزایش", callback_data=f'PAUB_{str(user_id)}')],
+                        [InlineKeyboardButton("0️⃣صفر کردن موجودی", callback_data=f'ZAUB_{str(user_id)}')],
+                        [InlineKeyboardButton("<<", callback_data='back_admin')]
                     ]
                     reply_markup = InlineKeyboardMarkup(keyboard)
                     message.reply_text(f"موجودی: {str(value)} تومن.\n\nName: {name}\nUsername: {u}\nPhone: {phone}", reply_markup=reply_markup)
@@ -3909,9 +3909,9 @@ def text_private(bot, message):
                 name, u, phone, old_value = get_full_user_data_id(user_id)
                 value = old_value - new_value
                 update_user_wallet(user_id, value)
-                keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back_admin')]]
+                keyboard = [[InlineKeyboardButton("<<", callback_data='back_admin')]]
                 reply_markup = InlineKeyboardMarkup(keyboard)
-                message.reply_text("✅😊 انجام شد", reply_markup=reply_markup)
+                message.reply_text("✔️ انجام شد", reply_markup=reply_markup)
                 delete_cache(chat_id)
             except:
                 message.reply_text("فقط میتونی عدد بفرستی")
@@ -3923,9 +3923,9 @@ def text_private(bot, message):
                 name, u, phone, old_value = get_full_user_data_id(user_id)
                 value = old_value + new_value
                 update_user_wallet(user_id, value)
-                keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back_admin')]]
+                keyboard = [[InlineKeyboardButton("<<", callback_data='back_admin')]]
                 reply_markup = InlineKeyboardMarkup(keyboard)
-                message.reply_text("✅😊 انجام شد", reply_markup=reply_markup)
+                message.reply_text("✔️ انجام شد", reply_markup=reply_markup)
                 delete_cache(chat_id)
             except:
                 message.reply_text("فقط میتونی عدد بفرستی")
@@ -3934,7 +3934,7 @@ def text_private(bot, message):
             delete_cache(chat_id)
             host = status.split("MPST_")[1]
             t0 = link
-            hosts, remarks = samisshbot.HOSTS()
+            hosts, remarks = sshx.HOSTS()
             if host in hosts:
                 count = 0
                 rec = get_all_users_in_host(host)
@@ -3954,23 +3954,23 @@ def text_private(bot, message):
                 message.reply_text("این سرور وجود نداره")
 
         elif "EDD_" in status:
-            hosts, remarks = samisshbot.HOSTS()
+            hosts, remarks = sshx.HOSTS()
             old_host = status.split("EDD_")[1]
             new_host = link.lower()
-            keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data=f'TTRS_{old_host}')]]
+            keyboard = [[InlineKeyboardButton("<<", callback_data=f'TTRS_{old_host}')]]
             reply_markup = InlineKeyboardMarkup(keyboard)
             if old_host in hosts:
                 if new_host not in hosts:
-                    port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(old_host)
-                    if samisshbot.Login(username, password, new_host, port, panel) is False:
+                    port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(old_host)
+                    if sshx.Login(username, password, new_host, port, panel) is False:
                         message.reply_text("❌اطلاعات درستو بفرستین", reply_markup=reply_markup)
-                        samisshbot.Login(username, password, old_host, port, panel)
+                        sshx.Login(username, password, old_host, port, panel)
                     else:
-                        keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data=f'TTRS_{new_host}')]]
+                        keyboard = [[InlineKeyboardButton("<<", callback_data=f'TTRS_{new_host}')]]
                         reply_markup = InlineKeyboardMarkup(keyboard)
-                        sm = samisshbot.Update_host(old_host, new_host)
+                        sm = sshx.Update_host(old_host, new_host)
                         update_host_users(old_host, new_host)
-                        samisshbot.Login(username, password, new_host, port, panel)
+                        sshx.Login(username, password, new_host, port, panel)
                         message.reply_text(sm, reply_markup=reply_markup)
                 else:
                     message.reply_text("سروری که فرستادی توی لیست وجود داره", reply_markup=reply_markup)
@@ -3979,12 +3979,12 @@ def text_private(bot, message):
             delete_cache(chat_id)
 
         elif "XQEC_" in status:
-            if ((samisshbot.ASCII_Check(link) is True) and (samisshbot.Contains(link) is True)) or ((samisshbot.OTX_Check(link) is True) and (samisshbot.ASCII_Check(link) is True)):
+            if ((sshx.ASCII_Check(link) is True) and (sshx.Contains(link) is True)) or ((sshx.OTX_Check(link) is True) and (sshx.ASCII_Check(link) is True)):
                 host = status.split("XQEC_")[1]
                 username = link
-                hosts, remarks = samisshbot.HOSTS()
+                hosts, remarks = sshx.HOSTS()
                 if host in hosts:
-                    port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
+                    port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
                     delete_cache(chat_id)
                     if panel == "shahan":
                         cache_list = [host, username, "80"]
@@ -4018,17 +4018,17 @@ def text_private(bot, message):
             new_username = cache_list[1]
             new_port = cache_list[2]
             new_password = link
-            keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data=f'TTRS_{host}')]]
+            keyboard = [[InlineKeyboardButton("<<", callback_data=f'TTRS_{host}')]]
             reply_markup = InlineKeyboardMarkup(keyboard)
-            hosts, remarks = samisshbot.HOSTS()
+            hosts, remarks = sshx.HOSTS()
             if host in hosts:
-                old_port, old_username, old_password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
-                if samisshbot.Login(new_username, new_password, host, new_port, panel) is False:
+                old_port, old_username, old_password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
+                if sshx.Login(new_username, new_password, host, new_port, panel) is False:
                     message.reply_text("❌اطلاعات درستو بفرستین", reply_markup=reply_markup)
-                    samisshbot.Login(old_username, old_password, host, old_port, panel)
+                    sshx.Login(old_username, old_password, host, old_port, panel)
                 else:
-                    sm = samisshbot.Update_user_pass_port(host, new_port, new_username, new_password)
-                    samisshbot.Login(new_username, new_password, host, new_port, panel)
+                    sm = sshx.Update_user_pass_port(host, new_port, new_username, new_password)
+                    sshx.Login(new_username, new_password, host, new_port, panel)
                     message.reply_text(sm, reply_markup=reply_markup)
             else:
                 message.reply_text("سرور پیدا نشد", reply_markup=reply_markup)
@@ -4037,24 +4037,24 @@ def text_private(bot, message):
 
         elif "ELIP_" in status:
             link = fixed_link_json(link)
-            if (samisshbot.ASCII_Check(link) is True):
+            if (sshx.ASCII_Check(link) is True):
                 new_host = link.lower()
                 old_host = status.split(":")[1]
                 panel = status.split("_")[1].split(":")[0]
-                hosts, remarks = samisshbot.HOSTS()
+                hosts, remarks = sshx.HOSTS()
                 if old_host in hosts:
                     delete_cache(chat_id)
                     if panel == "shahan":
                         cache_list = [old_host, panel, new_host, "80", "path", "sshport", "udgpw"]
                         add_cache(chat_id, "AllEditremark")
-                        message.reply_text("یه نام برای سرور بفرستین مثل (آمریکا 🇺🇸)")
+                        message.reply_text("یه نام برای سرور بفرستین مثل (آمریکا-1 🇺🇸🦅)")
                     else:
                         cache_list = [old_host, panel, new_host]
                         add_cache(chat_id, "AllEditport")
-                        message.reply_text("پورت ورود به پنل خود را بفرستید.")
+                        message.reply_text("پورت پنل ؟")
                     add_collector(chat_id, "Editserver", cache_list, [])
                 else:
-                    keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='SMT')]]
+                    keyboard = [[InlineKeyboardButton("<<", callback_data='SMT')]]
                     reply_markup = InlineKeyboardMarkup(keyboard)
                     message.reply_text(f"سروری با آدرس {old_host} پیدا نشد ", reply_markup=reply_markup)
                     delete_cache(chat_id)
@@ -4068,7 +4068,7 @@ def text_private(bot, message):
                 cache_list.append("path")
                 delete_cache(chat_id)
                 if cache_list[1] == "rocket":
-                    message.reply_text("یه نام برای سرور بفرستین مثل (آمریکا 🇺🇸)")
+                    message.reply_text("یه نام برای سرور بفرستین مثل (آمریکا-1 🇺🇸🦅)")
                     cache_list.append("sshport")
                     cache_list.append("udgpw")
                     add_cache(chat_id, "AllEditremark")
@@ -4097,7 +4097,7 @@ def text_private(bot, message):
         elif status == "AllEditudgpw":
             if link.isdigit() is True:
                 cache_list, host_cahce = get_collector_cache(chat_id)
-                message.reply_text("یه نام برای سرور بفرستین مثل (آمریکا 🇺🇸)")
+                message.reply_text("یه نام برای سرور بفرستین مثل (آمریکا-1 🇺🇸🦅)")
                 cache_list.append(link)
                 delete_cache(chat_id)
                 add_cache(chat_id, "AllEditremark")
@@ -4107,10 +4107,10 @@ def text_private(bot, message):
 
         elif status == "AllEditremark":
             link = fixed_link_json(link)
-            if (samisshbot.TXT_FILTER(link) is True):
+            if (sshx.TXT_FILTER(link) is True):
                 if len(link) <= 16:
                     cache_list, host_cahce = get_collector_cache(chat_id)
-                    message.reply_text("نام کاربری پنل خود را بفرستید.")
+                    message.reply_text("نام کاربری پنل؟")
                     cache_list.append(link)
                     delete_cache(chat_id)
                     add_cache(chat_id, "AllEdituser")
@@ -4122,9 +4122,9 @@ def text_private(bot, message):
 
         elif status == "AllEdituser":
             link = fixed_link_json(link)
-            if ((samisshbot.ASCII_Check(link) is True) and (samisshbot.Contains(link) is True)) or ((samisshbot.OTX_Check(link) is True) and (samisshbot.ASCII_Check(link) is True)):
+            if ((sshx.ASCII_Check(link) is True) and (sshx.Contains(link) is True)) or ((sshx.OTX_Check(link) is True) and (sshx.ASCII_Check(link) is True)):
                 cache_list, host_cahce = get_collector_cache(chat_id)
-                message.reply_text("پسوورد پنل خود را بفرستید.")
+                message.reply_text("پسورد ؟")
                 cache_list.append(link)
                 delete_cache(chat_id)
                 add_cache(chat_id, "AllEditpass")
@@ -4133,7 +4133,7 @@ def text_private(bot, message):
                 message.reply_text("این نام کاربری مورد قبول نیست فقط میتونه ترکیبی از حروف انگلیسی و عدد باشه :(\nاگه اشتباهی تایپ کردین دوباره یوزرنیم بفرستین یا \n\n/cancel")
 
         elif status == "AllEditpass":
-            if samisshbot.OTX_Check(link) is True:
+            if sshx.OTX_Check(link) is True:
                 cache_list, host_cahce = get_collector_cache(chat_id)
                 old_host = cache_list[0]
                 panel = cache_list[1]
@@ -4145,17 +4145,17 @@ def text_private(bot, message):
                 remark = cache_list[7]
                 username = cache_list[8]
                 password = link
-                keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='SMT')]]
+                keyboard = [[InlineKeyboardButton("<<", callback_data='SMT')]]
                 reply_markup = InlineKeyboardMarkup(keyboard)
-                hosts, remarks = samisshbot.HOSTS()
+                hosts, remarks = sshx.HOSTS()
                 if old_host in hosts:
                     try:
-                        if samisshbot.Login(username, password, host, port, panel) is False:
+                        if sshx.Login(username, password, host, port, panel) is False:
                             message.reply_text("❌اطلاعات درستو بفرستین", reply_markup=reply_markup)
                         else:
-                            samisshbot.Update_Host_All_info(old_host, host, port, username, password, panel, route_path, sshport, udgpw, remark)
-                            samisshbot.Login(username, password, host, port, panel)
-                            message.reply_text("✅😍 تبریک میگم سرور با موفقیت اضافه شد", reply_markup=reply_markup)
+                            sshx.Update_Host_All_info(old_host, host, port, username, password, panel, route_path, sshport, udgpw, remark)
+                            sshx.Login(username, password, host, port, panel)
+                            message.reply_text("✅ سرور چنج شد", reply_markup=reply_markup)
                             update_host_users(old_host, host)
                     except Exception as e:
                         message.reply_text("Error: " + str(e), reply_markup=reply_markup)
@@ -4169,11 +4169,11 @@ def text_private(bot, message):
         elif "EUDPport_" in status:
             if link.isdigit() is True:
                 host = status.split("_")[1]
-                keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='SMT')]]
+                keyboard = [[InlineKeyboardButton("<<", callback_data='SMT')]]
                 reply_markup = InlineKeyboardMarkup(keyboard)
-                hosts, remarks = samisshbot.HOSTS()
+                hosts, remarks = sshx.HOSTS()
                 if host in hosts:
-                    sm = samisshbot.Change_udp_port(host, link)
+                    sm = sshx.Change_udp_port(host, link)
                     message.reply_text(sm, reply_markup=reply_markup)
                 else:
                     message.reply_text(f"سروری با این آدرس وجود نداره:\n\n{host}", reply_markup=reply_markup)
@@ -4184,11 +4184,11 @@ def text_private(bot, message):
         elif "ESSHport_" in status:
             if link.isdigit() is True:
                 host = status.split("_")[1]
-                keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='SMT')]]
+                keyboard = [[InlineKeyboardButton("<<", callback_data='SMT')]]
                 reply_markup = InlineKeyboardMarkup(keyboard)
-                hosts, remarks = samisshbot.HOSTS()
+                hosts, remarks = sshx.HOSTS()
                 if host in hosts:
-                    sm = samisshbot.Change_ssh_port(host, link)
+                    sm = sshx.Change_ssh_port(host, link)
                     message.reply_text(sm, reply_markup=reply_markup)
                 else:
                     message.reply_text(f"سروری با این آدرس وجود نداره:\n\n{host}", reply_markup=reply_markup)
@@ -4198,14 +4198,14 @@ def text_private(bot, message):
 
         elif "EDITRemark_" in status:
             link = fixed_link_json(link)
-            if (samisshbot.TXT_FILTER(link) is True):
+            if (sshx.TXT_FILTER(link) is True):
                 if len(link) <= 16:
                     host = status.split("_")[1]
-                    keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='SMT')]]
+                    keyboard = [[InlineKeyboardButton("<<", callback_data='SMT')]]
                     reply_markup = InlineKeyboardMarkup(keyboard)
-                    hosts, remarks = samisshbot.HOSTS()
+                    hosts, remarks = sshx.HOSTS()
                     if host in hosts:
-                        sm = samisshbot.Change_remark(host, link)
+                        sm = sshx.Change_remark(host, link)
                         message.reply_text(sm, reply_markup=reply_markup)
                     else:
                         message.reply_text(f"سروری با این آدرس وجود نداره:\n\n{host}", reply_markup=reply_markup)
@@ -4217,16 +4217,16 @@ def text_private(bot, message):
 
         elif "AST_" in status:
             link = fixed_link_json(link)
-            if (samisshbot.ASCII_Check(link) is True):
+            if (sshx.ASCII_Check(link) is True):
                 host = link.lower()
-                hosts, remarks = samisshbot.HOSTS()
+                hosts, remarks = sshx.HOSTS()
                 if host not in hosts:
                     delete_cache(chat_id)
                     panel = status.split("AST_")[1]
                     if panel == "shahan":
                         cache_list = [panel, host, "80", "path", "sshport", "udgpw"]
                         add_cache(chat_id, "serverremark")
-                        message.reply_text("یه نام برای سرور بفرستین مثل (آمریکا 🇺🇸)")
+                        message.reply_text("یه نام برای سرور بفرستین مثل (آمریکا-1 🇺🇸🦅)")
                     else:
                         cache_list = [panel, host]
                         add_cache(chat_id, "serverport")
@@ -4244,7 +4244,7 @@ def text_private(bot, message):
                 cache_list.append("path")
                 delete_cache(chat_id)
                 if cache_list[0] == "rocket":
-                    message.reply_text("یه نام برای سرور بفرستین مثل (آمریکا 🇺🇸)")
+                    message.reply_text("یه نام برای سرور بفرستین مثل (آمریکا-1 🇺🇸🦅)")
                     cache_list.append("sshport")
                     cache_list.append("udgpw")
                     add_cache(chat_id, "serverremark")
@@ -4273,7 +4273,7 @@ def text_private(bot, message):
         elif status == "serverudgpw":
             if link.isdigit() is True:
                 cache_list, host_cahce = get_collector_cache(chat_id)
-                message.reply_text("یه نام برای سرور بفرستین مثل (آمریکا 🇺🇸)")
+                message.reply_text("یه نام برای سرور بفرستین مثل (آمریکا-1 🇺🇸🦅)")
                 cache_list.append(link)
                 delete_cache(chat_id)
                 add_cache(chat_id, "serverremark")
@@ -4283,10 +4283,10 @@ def text_private(bot, message):
 
         elif status == "serverremark":
             link = fixed_link_json(link)
-            if (samisshbot.TXT_FILTER(link) is True):
+            if (sshx.TXT_FILTER(link) is True):
                 if len(link) <= 16:
                     cache_list, host_cahce = get_collector_cache(chat_id)
-                    message.reply_text("نام کاربری پنل خود را بفرستید.")
+                    message.reply_text("نام کاربری پنل؟")
                     cache_list.append(link)
                     delete_cache(chat_id)
                     add_cache(chat_id, "serveruser")
@@ -4298,9 +4298,9 @@ def text_private(bot, message):
 
         elif status == "serveruser":
             link = fixed_link_json(link)
-            if ((samisshbot.ASCII_Check(link) is True) and (samisshbot.Contains(link) is True)) or ((samisshbot.OTX_Check(link) is True) and (samisshbot.ASCII_Check(link) is True)):
+            if ((sshx.ASCII_Check(link) is True) and (sshx.Contains(link) is True)) or ((sshx.OTX_Check(link) is True) and (sshx.ASCII_Check(link) is True)):
                 cache_list, host_cahce = get_collector_cache(chat_id)
-                message.reply_text("پسوورد پنل خود را بفرستید.")
+                message.reply_text("پسورد ؟")
                 cache_list.append(link)
                 delete_cache(chat_id)
                 add_cache(chat_id, "serverpass")
@@ -4309,7 +4309,7 @@ def text_private(bot, message):
                 message.reply_text("این نام کاربری مورد قبول نیست فقط میتونه ترکیبی از حروف انگلیسی و عدد باشه :(\nاگه اشتباهی تایپ کردین دوباره یوزرنیم بفرستین یا \n\n/cancel")
 
         elif status == "serverpass":
-            if samisshbot.OTX_Check(link) is True:
+            if sshx.OTX_Check(link) is True:
                 cache_list, host_cahce = get_collector_cache(chat_id)
                 panel = cache_list[0]
                 host = cache_list[1]
@@ -4320,16 +4320,16 @@ def text_private(bot, message):
                 remark = cache_list[6]
                 username = cache_list[7]
                 password = link
-                keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='SMT')]]
+                keyboard = [[InlineKeyboardButton("<<", callback_data='SMT')]]
                 reply_markup = InlineKeyboardMarkup(keyboard)
-                hosts, remarks = samisshbot.HOSTS()
+                hosts, remarks = sshx.HOSTS()
                 if host not in hosts:
                     try:
-                        if samisshbot.Login(username, password, host, port, panel) is False:
+                        if sshx.Login(username, password, host, port, panel) is False:
                             message.reply_text("❌اطلاعات درستو بفرستین", reply_markup=reply_markup)
                         else:
                             message.reply_text("✅ سرور اضافه شد", reply_markup=reply_markup)
-                            samisshbot.Add_Host(host, port, username, password, panel, route_path, sshport, udgpw, remark)
+                            sshx.Add_Host(host, port, username, password, panel, route_path, sshport, udgpw, remark)
                     except Exception as e:
                         message.reply_text("Error: " + str(e), reply_markup=reply_markup)
                 else:
@@ -4344,15 +4344,13 @@ def text_private(bot, message):
 def call_back(bot, query):
     chat_id = query.message.chat.id
     delete_cache(chat_id)
-    text = '<b>خب برگشتم عقب اگه کاری داری بگو 😉 | اگه خواستی یکی از گزینه هارو انتخاب کن که کارتو انجام بدم</b>'
+    text = '🔻<b>خب برگشتیم</b>'
     if chat_id in admin_id:
         text += "\n\n/backup"
         query.edit_message_text(text=text, reply_markup=Admin_Tools_keys(), parse_mode=enums.ParseMode.HTML)
     elif chat_id in seller_id:
-        text += "\n\n/start"
         query.edit_message_text(text=text, reply_markup=Seller_Tools_keys(), parse_mode=enums.ParseMode.HTML)
     else:
-        text += "\n\n/start"    
         query.edit_message_text(text=text, reply_markup=User_Tools_keys(), parse_mode=enums.ParseMode.HTML)
 
 
@@ -4374,12 +4372,12 @@ def call_HSMSC(bot, query):
     rt = query.data
     host = rt.split("HSMSC_")[1]
     chat_id = query.message.chat.id
-    hosts, remarks = samisshbot.HOSTS()
+    hosts, remarks = sshx.HOSTS()
     if host in hosts:
         if check_cache(chat_id) is True:
             delete_cache(chat_id)
         add_cache(chat_id, "Connectionmsg_" + host)
-        bot.send_message(chat_id, "پیام خود را بفرستید 😉 ")
+        bot.send_message(chat_id, "پیامتون بفرستین")
     else:
         keyboard = [[InlineKeyboardButton("🔙Back", callback_data="servers")]]
         reply_markup = InlineKeyboardMarkup(keyboard)
@@ -4395,7 +4393,7 @@ def call_HSAR(bot, query):
     rt = query.data
     host = rt.split("HSAR_")[1]
     chat_id = query.message.chat.id
-    hosts, remarks = samisshbot.HOSTS()
+    hosts, remarks = sshx.HOSTS()
     if host in hosts:
         if check_cache(chat_id) is True:
             delete_cache(chat_id)
@@ -4416,7 +4414,7 @@ def call_HSUGift(bot, query):
     rt = query.data
     host = rt.split("HSUGift_")[1]
     chat_id = query.message.chat.id
-    hosts, remarks = samisshbot.HOSTS()
+    hosts, remarks = sshx.HOSTS()
     if host in hosts:
         if check_cache(chat_id) is True:
             delete_cache(chat_id)
@@ -4437,7 +4435,7 @@ def call_HSUL(bot, query):
     rt = query.data
     host = rt.split("HSUL_")[1]
     chat_id = query.message.chat.id
-    hosts, remarks = samisshbot.HOSTS()
+    hosts, remarks = sshx.HOSTS()
     if host in hosts:
         keyboard = [
             [InlineKeyboardButton("✔️ Active", callback_data=f"ULA_{host}")],
@@ -4459,11 +4457,11 @@ def call_ULA(bot, query):
         return
     rt = query.data
     host = rt.split("ULA_")[1]
-    hosts, remarks = samisshbot.HOSTS()
+    hosts, remarks = sshx.HOSTS()
     if host in hosts:
-        port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
+        port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
         try:
-            Session = samisshbot.PANNEL(host, username, password, port, panel, 'Other', 'uname')
+            Session = sshx.PANNEL(host, username, password, port, panel, 'Other', 'uname')
             text = Session.Limit_on()
             keyboard = [[InlineKeyboardButton("🔙Back", callback_data=f"HSUL_{host}")]]
             reply_markup = InlineKeyboardMarkup(keyboard)
@@ -4484,11 +4482,11 @@ def call_ULD(bot, query):
         return
     rt = query.data
     host = rt.split("ULD_")[1]
-    hosts, remarks = samisshbot.HOSTS()
+    hosts, remarks = sshx.HOSTS()
     if host in hosts:
-        port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
+        port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
         try:
-            Session = samisshbot.PANNEL(host, username, password, port, panel, 'Other', 'uname')
+            Session = sshx.PANNEL(host, username, password, port, panel, 'Other', 'uname')
             text = Session.Limit_off()
             keyboard = [[InlineKeyboardButton("🔙Back", callback_data=f"HSUL_{host}")]]
             reply_markup = InlineKeyboardMarkup(keyboard)
@@ -4516,18 +4514,18 @@ def call_HSOU(bot, query):
     chat_id = query.message.chat.id
     keyboard = [[InlineKeyboardButton("🔙Back", callback_data="servers")]]
     reply_markup = InlineKeyboardMarkup(keyboard)
-    hosts, remarks = samisshbot.HOSTS()
+    hosts, remarks = sshx.HOSTS()
     if host in hosts:
         online_check_spam.append(chat_id)
-        port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
+        port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
         try:
-            Session = samisshbot.PANNEL(host, username, password, port, panel, 'Other', 'uname')
+            Session = sshx.PANNEL(host, username, password, port, panel, 'Other', 'uname')
             response, users, ips = Session.Online_clients()
             if "Error:" not in response:
                 text = f"🟢 {str(len(users))} کاربر آنلاین\n\n"
                 if len(users) >= 1:
                     for i in range(len(users)):
-                        text += f"{str(i + 1)}. {users[i]} {ips[i]} {samisshbot.ISP(ips[i])}\n"
+                        text += f"{str(i + 1)}. {users[i]} {ips[i]} {sshx.ISP(ips[i])}\n"
                     if len(text) > 4095:
                         for x in range(0, len(text), 4095):
                             sleep(0.2)
@@ -4559,11 +4557,11 @@ def call_HSKU(bot, query):
     chat_id = query.message.chat.id
     keyboard = [[InlineKeyboardButton("🔙Back", callback_data="servers")]]
     reply_markup = InlineKeyboardMarkup(keyboard)
-    hosts, remarks = samisshbot.HOSTS()
+    hosts, remarks = sshx.HOSTS()
     if host in hosts:
-        port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
+        port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
         try:
-            Session = samisshbot.PANNEL(host, username, password, port, panel, 'Other', 'uname')
+            Session = sshx.PANNEL(host, username, password, port, panel, 'Other', 'uname')
             response, users, ips = Session.Online_clients()
             if "Error:" not in response:
                 if len(users) >= 1:
@@ -4590,11 +4588,11 @@ def call_HKR(bot, query):
     chat_id = query.message.chat.id
     keyboard = [[InlineKeyboardButton("🔙Back", callback_data="servers")]]
     reply_markup = InlineKeyboardMarkup(keyboard)
-    hosts, remarks = samisshbot.HOSTS()
+    hosts, remarks = sshx.HOSTS()
     if host in hosts:
-        port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
+        port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
         try:
-            Session = samisshbot.PANNEL(host, username, password, port, panel, 'Other', 'uname')
+            Session = sshx.PANNEL(host, username, password, port, panel, 'Other', 'uname')
             response, users = Session.Kill(user)
             if "Error:" not in response:
                 if len(users) >= 1:
@@ -4620,11 +4618,11 @@ def call_HSDU(bot, query):
     chat_id = query.message.chat.id
     keyboard = [[InlineKeyboardButton("🔙Back", callback_data="servers")]]
     reply_markup = InlineKeyboardMarkup(keyboard)
-    hosts, remarks = samisshbot.HOSTS()
+    hosts, remarks = sshx.HOSTS()
     if host in hosts:
-        port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
+        port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
         try:
-            Session = samisshbot.PANNEL(host, username, password, port, panel, 'Other', 'uname')
+            Session = sshx.PANNEL(host, username, password, port, panel, 'Other', 'uname')
             expires, connection_limits, usernames, passwords, ports, traffics, usages, days_left, status, ips, descriptions, server_traffic, online_c, done = Session.info()
             if done is True:
                 count_inactive_clients = 0
@@ -4660,11 +4658,11 @@ def call_HSCU(bot, query):
     chat_id = query.message.chat.id
     keyboard = [[InlineKeyboardButton("🔙Back", callback_data="servers")]]
     reply_markup = InlineKeyboardMarkup(keyboard)
-    hosts, remarks = samisshbot.HOSTS()
+    hosts, remarks = sshx.HOSTS()
     if host in hosts:
-        port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
+        port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
         try:
-            Session = samisshbot.PANNEL(host, username, password, port, panel, 'Other', 'uname')
+            Session = sshx.PANNEL(host, username, password, port, panel, 'Other', 'uname')
             expires, connection_limits, usernames, passwords, ports, traffics, usages, days_left, status, ips, descriptions, server_traffic, online_c, done = Session.info()
             if done is True:
                 count_close_to_disable = 0
@@ -4696,14 +4694,14 @@ def call_hosts(bot, query):
     if chat_id not in admin_id:
         query.answer("Access denied", show_alert=True)
         return
-    query.edit_message_text(text="منتظر بمانید...")
+    query.edit_message_text(text="Wait...")
     rt = query.data
     host = rt.split("HOST_")[1]
-    hosts, remarks = samisshbot.HOSTS()
+    hosts, remarks = sshx.HOSTS()
     if host in hosts:
-        port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
+        port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
         try:
-            Session = samisshbot.PANNEL(host, username, password, port, panel, 'Other', 'uname')
+            Session = sshx.PANNEL(host, username, password, port, panel, 'Other', 'uname')
             text = Session.Panel_Short_info()
             text += f"\n\nName: {remark}\nLogin info User: {username}\nPass: {password}"
             if ("Premium: ✔️" in text):
@@ -4757,14 +4755,14 @@ def call_checker(bot, query):
     total_usage = 0.0
     logs = ""
     test_usernames = get_test_usernames()
-    hosts, remarks = samisshbot.HOSTS()
+    hosts, remarks = sshx.HOSTS()
     for host in hosts:
-        port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
+        port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
         maximum = get_the_main_maximum(host)
         do = True
         count_servers += 1
         try:
-            Session = samisshbot.PANNEL(host, username, password, port, panel, 'Other', 'uname')
+            Session = sshx.PANNEL(host, username, password, port, panel, 'Other', 'uname')
             expires, connection_limits, usernames, passwords, ports, traffics, usages, days_left, status, ips, descriptions, server_traffic, online_c, done = Session.info()
             DB_usernames = get_db(host)
             for DB_username in DB_usernames:
@@ -4789,7 +4787,7 @@ def call_checker(bot, query):
                     total_usage += float(usages[i])
                     if status[i] != "فعال":
                         if (int(days_left[i]) <= -(settings['auto_delete'])) or (usernames[i] in test_usernames):
-                            SessionDIS = samisshbot.PANNEL(host, username, password, port, panel, 'User', usernames[i])
+                            SessionDIS = sshx.PANNEL(host, username, password, port, panel, 'User', usernames[i])
                             text += SessionDIS.Disable()
                             if "❌Deleted" in Session.Delete(usernames[i]):
                                 text += f"❌Deleted user {usernames[i]} & Days: {str(days_left[i])} ❌\n\n"
@@ -4847,7 +4845,7 @@ def call_checker(bot, query):
         totat_usage_clients = f"{str('{:.2f}'.format(float(total_usage) / 1024))} TB"
     else:
         totat_usage_clients = f"{str('{:.2f}'.format(float(total_usage)))} GB"
-    text = f"🖥سرور ها: {str(count_servers)}\n☑️متصل: {str(checked_servers)}\n⚫️مشخصات سرورها: {str(full_servers)}\n{logs}\n👤اشتراک ها: {str(count_clients)}\n✔️فعال: {str(count_active_clients)}\n🔴غیرفعال: {str(count_inactive_clients)}\n🟢آنلاین: {str(count_online_clients)}\n⚪️دفعات اتصال: {str(remain_clients)}\n🔵اتصال ها: {str(allowed_connections)}\n⚠️خطاها: {str(close_to_disabled)}\n❌حذف شده: {str(count_deleted_clients)}\n🗳اعلانات: {str(notify)}\n\n🔁مصرف سرور: {total_usage_vps}\n🔄مصرف کاربران: {totat_usage_clients}\n\n⏳مدت: {str(int(time() - start))}s\n\n{logs}"
+    text = f"🖥Servers: {str(count_servers)}\n☑️Checked: {str(checked_servers)}\n⚫️Full servers: {str(full_servers)}\n{logs}\n👤Clients: {str(count_clients)}\n✔️Active: {str(count_active_clients)}\n🔴Inactive: {str(count_inactive_clients)}\n🟢Online: {str(count_online_clients)}\n⚪️Remain: {str(remain_clients)}\n🔵Connections: {str(allowed_connections)}\n⚠️Alerts: {str(close_to_disabled)}\n❌Deleted: {str(count_deleted_clients)}\n🗳Notify: {str(notify)}\n\n🔁Server Usage: {total_usage_vps}\n🔄Clients Usage: {totat_usage_clients}\n\n⏳Time: {str(int(time() - start))}s\n\n{logs}"
     bot.send_message(chat_id, text, reply_markup=reply_markup)
     cache[0] = False
     bot.delete_messages(chat_id, msg)
@@ -4862,8 +4860,8 @@ def call_stats(bot, query):
     chat_id = query.message.chat.id
     if check_seller_exist(chat_id) is False:
         keyboard = [
-            [InlineKeyboardButton("🤖کاربران", callback_data='SABU'), InlineKeyboardButton("👤اشتراک ها", callback_data='MCLD')],
-            [InlineKeyboardButton("⚫️مشخصات سرورها", callback_data='full')],
+            [InlineKeyboardButton("🤖Bot users", callback_data='SABU'), InlineKeyboardButton("👤Clients", callback_data='MCLD')],
+            [InlineKeyboardButton("⚫️Full Servers", callback_data='full')],
             [InlineKeyboardButton("🔙Back", callback_data="back_admin")]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
@@ -4877,13 +4875,13 @@ def call_stats(bot, query):
                 accounts, hosts, status = get_all_accounts_by_chat_id(sellers[i][0])
                 sales += len(accounts)
         count_servers, checked_servers, online_servers, offline_servers, full_servers, count_clients, count_active_clients, count_online_clients, count_inactive_clients, servers_traffic, clients_traffic, remain_clients = (0,)*12
-        hosts, remarks = samisshbot.HOSTS()
+        hosts, remarks = sshx.HOSTS()
         for host in hosts:
             maximum = get_the_main_maximum(host)
-            port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
+            port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
             count_servers += 1
             try:
-                Session = samisshbot.PANNEL(host, username, password, port, panel, 'Other', 'uname')
+                Session = sshx.PANNEL(host, username, password, port, panel, 'Other', 'uname')
                 info = Session.Short_info()
                 traffic_data = info.split("Storage: ")[1].split('👤Clients')[0]
                 if "GB" in traffic_data.split('Clients Traffic')[0]:
@@ -4924,15 +4922,15 @@ def call_stats(bot, query):
             total_clients_traffic = f"{str('{:.2f}'.format(float(clients_traffic) / 1024))} TB"
         else:
             total_clients_traffic = f"{str('{:.2f}'.format(float(clients_traffic)))} GB"
-        text = f"📊Stats\n\n🖥سرورها: {str(count_servers)}\n☑️متصل: {str(checked_servers)}\n⚫️مشخصات سرور ها: {str(full_servers)}\n{logs}\n👤 اشتراک ها: {str(count_clients)}\n✔️فعال: {str(count_active_clients)}\n🔴غیرفعال: {str(count_inactive_clients)}\n🟢آنلاین: {str(count_online_clients)}\n⚪️دفعات اتصال: {str(remain_clients)}\n🔁مصرف سرور: {total_usage_vps}\n🔄مصرف کاربران: {total_clients_traffic}\n\n👥کاربران: {str(countuser_m())}\n🧪اشتراک های تست: {str(get_count_test_users())}\n💲نمایندگان: {str(len(sellers))}\n🏷تخفیف ها: {str(sales)}\n\n⏳مدت: {str(int(time() - start))}s"
+        text = f"📊Stats\n\n🖥Servers: {str(count_servers)}\n☑️Checked: {str(checked_servers)}\n⚫️Full: {str(full_servers)}\n{logs}\n👤 Clients: {str(count_clients)}\n✔️Active: {str(count_active_clients)}\n🔴Inactive: {str(count_inactive_clients)}\n🟢Online: {str(count_online_clients)}\n⚪️Remain: {str(remain_clients)}\n🔁Servers Traffic: {total_usage_vps}\n🔄Clients Traffic: {total_clients_traffic}\n\n👥Bot users: {str(countuser_m())}\n🧪All Test: {str(get_count_test_users())}\n💲Sellers: {str(len(sellers))}\n🏷Sales: {str(sales)}\n\n⏳Time: {str(int(time() - start))}s"
         query.edit_message_text(text=text, reply_markup=reply_markup)
     else:
-        keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back_seller')]]
+        keyboard = [[InlineKeyboardButton("<<", callback_data='back_seller')]]
         reply_markup = InlineKeyboardMarkup(keyboard)
         accounts, hosts, status = get_all_accounts_by_chat_id(chat_id)
         ID, Name, Username, Limit = get_seller_info(chat_id)
         name, u, phone, old_value = get_full_user_data_id(chat_id)
-        text = "🏷تعداد فروش: " + str(len(accounts)) + "\n🔻محدودیت: " + str(Limit) + "\n💵موجودی:  " + str(old_value) + " تومن"
+        text = "🏷تعداد فروش: " + str(len(accounts)) + "\n🔻محدودیت: " + str(Limit) + "\n💰موجودی:  " + str(old_value) + " تومن"
         query.edit_message_text(text=text, reply_markup=reply_markup)
 
 
@@ -4942,22 +4940,22 @@ def call_filtering(bot, query):
     if chat_id not in admin_id:
         query.answer("Access denied", show_alert=True)
         return
-    keyboard = [[InlineKeyboardButton("برگشت 🔙", callback_data="back_admin")]]
+    keyboard = [[InlineKeyboardButton("<< back", callback_data="back_admin")]]
     reply_markup = InlineKeyboardMarkup(keyboard)
     query.edit_message_text(text="درحال انجام...")
     start = int(time())
     FS = ""
     logs = ""
     count_servers, checked_servers, blocked_servers, online_servers = (0,)*4
-    hosts, remarks = samisshbot.HOSTS()
+    hosts, remarks = sshx.HOSTS()
     for host in hosts:
-        port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
+        port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
         count_servers += 1
         try:
-            Session = samisshbot.PANNEL(host, username, password, port, panel, 'Other', 'uname')
+            Session = sshx.PANNEL(host, username, password, port, panel, 'Other', 'uname')
             status, server_msg = Session.IP_Check()
             if status is True:
-                if samisshbot.check_host_api(host) is True:
+                if sshx.check_host_api(host) is True:
                     blocked_servers += 1
                     FS += (f"🔴Offline: {host}\n")
                 else:
@@ -4974,7 +4972,7 @@ def call_filtering(bot, query):
             logs += f"⭕️ Connection Error: {host}"
         #if (checked_servers % 5 == 0):
             #query.edit_message_text(text=f"Collected data from {str(checked_servers)} servers...")
-    text = f"{FS}\n🖥 سرورها: {str(count_servers)}\n☑️متصل: {str(checked_servers)}\n⚠️فیلتر شده: {str(blocked_servers)}\n🟢سروهای آنلاین: {online_servers}\n{logs}\n⏳مدت: {str(int(time() - start))}s"
+    text = f"{FS}\n🖥 Servers: {str(count_servers)}\n☑️Check servers: {str(checked_servers)}\n⚠️Blocked servers: {str(blocked_servers)}\n🟢Online servers: {online_servers}\n{logs}\n⏳Time: {str(int(time() - start))}s"
     query.edit_message_text(text=text, reply_markup=reply_markup)
 
 
@@ -4984,7 +4982,7 @@ def call_full(bot, query):
     if chat_id not in admin_id:
         query.answer("Access denied", show_alert=True)
         return
-    keyboard = [[InlineKeyboardButton("برگشت 🔙", callback_data="SMT")]]
+    keyboard = [[InlineKeyboardButton("<< back", callback_data="SMT")]]
     reply_markup = InlineKeyboardMarkup(keyboard)
     query.edit_message_text(text="درحال انجام...")
     start = int(time())
@@ -4992,13 +4990,13 @@ def call_full(bot, query):
     logs = ""
     count_servers, checked_servers, full_servers, remain_clients, count_clients = (0,)*5
     settings = get_settings()
-    hosts, remarks = samisshbot.HOSTS()
+    hosts, remarks = sshx.HOSTS()
     for host in hosts:
         maximum = get_the_main_maximum(host)
-        port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
+        port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
         count_servers += 1
         try:
-            Session = samisshbot.PANNEL(host, username, password, port, panel, 'Other', 'uname')
+            Session = sshx.PANNEL(host, username, password, port, panel, 'Other', 'uname')
             Clients = int(Session.Count_Clients())
             count_clients += Clients
             if Clients >= maximum:
@@ -5012,7 +5010,7 @@ def call_full(bot, query):
             logs += f"⭕️ Connection Error: {host}"
         #if (checked_servers % 5 == 0):
             #query.edit_message_text(text=f"Collected data from {str(checked_servers)} servers...")
-    text = f"{FS}\n🖥 سرورها: {str(count_servers)}\n☑️متصل: {str(checked_servers)}\n⚫️مشخصات سرور ها: {str(full_servers)}\n👤اشتراک ها: {count_clients}\n⚪️تعداد اتصال کاربران: {str(remain_clients)}\n{logs}\n⏳مدت: {str(int(time() - start))}s"
+    text = f"{FS}\n🖥 Servers: {str(count_servers)}\n☑️Check servers: {str(checked_servers)}\n⚠️Full servers: {str(full_servers)}\n👤Clients: {count_clients}\n⚪️Remain Clients: {str(remain_clients)}\n{logs}\n⏳Time: {str(int(time() - start))}s"
     query.edit_message_text(text=text, reply_markup=reply_markup)
 
 
@@ -5104,13 +5102,13 @@ def call_DIXS(bot, query):
     rt = query.data
     host = rt.split("DIXS_")[1].split("$")[0]
     user = rt.split("$")[1]
-    keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back_seller')]]
+    keyboard = [[InlineKeyboardButton("<<", callback_data='back_seller')]]
     reply_markup = InlineKeyboardMarkup(keyboard)
     if check_exist_user(host, user) is True:
-        query.edit_message_text(text="منتظر بمانید...")
-        port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
+        query.edit_message_text(text="wait...")
+        port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
         try:
-            Session = samisshbot.PANNEL(host, username, password, port, panel, 'User', user)
+            Session = sshx.PANNEL(host, username, password, port, panel, 'User', user)
             query.edit_message_text(text=Session.Disable(), reply_markup=reply_markup)
         except Exception as e:
             query.edit_message_text(text=f"Error: {str(e)}", reply_markup=reply_markup)
@@ -5201,13 +5199,13 @@ def call_VDSLF(bot, query):
     rt = query.data
     host = rt.split("VDSLF_")[1].split("$")[0]
     user = rt.split("$")[1]
-    keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back_seller')]]
+    keyboard = [[InlineKeyboardButton("<<", callback_data='back_seller')]]
     reply_markup = InlineKeyboardMarkup(keyboard)
     if check_exist_user(host, user) is True:
-        query.edit_message_text(text="منتظر بمانید...")
-        port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
+        query.edit_message_text(text="wait...")
+        port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
         try:
-            Session = samisshbot.PANNEL(host, username, password, port, panel, 'User', user)
+            Session = sshx.PANNEL(host, username, password, port, panel, 'User', user)
             settings = get_settings()
             query.edit_message_text(text=change_infos_user_info(Session.User_info(settings['dropbear'], settings['tuic'])), reply_markup=reply_markup)
         except Exception as e:
@@ -5225,13 +5223,13 @@ def call_EIXS(bot, query):
     rt = query.data
     host = rt.split("EIXS_")[1].split("$")[0]
     user = rt.split("$")[1]
-    keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back_seller')]]
+    keyboard = [[InlineKeyboardButton("<<", callback_data='back_seller')]]
     reply_markup = InlineKeyboardMarkup(keyboard)
     if check_exist_user(host, user) is True:
-        query.edit_message_text(text="منتظر بمانید...")
-        port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
+        query.edit_message_text(text="wait...")
+        port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
         try:
-            Session = samisshbot.PANNEL(host, username, password, port, panel, 'User', user)
+            Session = sshx.PANNEL(host, username, password, port, panel, 'User', user)
             query.edit_message_text(text=Session.Enable(), reply_markup=reply_markup)
         except Exception as e:
             query.edit_message_text(text=f"Error: {str(e)}", reply_markup=reply_markup)
@@ -5379,7 +5377,7 @@ def call_TrfPlus(bot, query):
                         keyboard.append([InlineKeyboardButton(accounts[-1], callback_data=("UTGB_" + hosts[-1] + "$" + accounts[-1]))])
                 else:
                     keyboard.append([InlineKeyboardButton(accounts[0], callback_data=("UTGB_" + hosts[0] + "$" + accounts[0]))])
-                keyboard.append([InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back')])
+                keyboard.append([InlineKeyboardButton("<<", callback_data='back')])
                 reply_markup = InlineKeyboardMarkup(keyboard)
                 query.edit_message_text(text="یکی برای تمدید انتخاب کن", reply_markup=reply_markup)
     else:
@@ -5488,7 +5486,7 @@ def call_SCC(bot, query):
     if settings['select_server_sellers'] == "on":
         query.edit_message_text(text="سرور مورد نظر انتخاب کنین:", reply_markup=server_cb_creator("DMNONE_"))
     else:
-        hosts, remarks = samisshbot.HOSTS()
+        hosts, remarks = sshx.HOSTS()
         if hosts != []:
             cache_list = []
             cache_list.append("random")
@@ -5540,7 +5538,7 @@ def call_update(bot, query):
                         keyboard.append([InlineKeyboardButton(accounts[-1], callback_data=("UPG_" + hosts[-1] + "$" + accounts[-1]))])
                 else:
                     keyboard.append([InlineKeyboardButton(accounts[0], callback_data=("UPG_" + hosts[0] + "$" + accounts[0]))])
-                keyboard.append([InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back')])
+                keyboard.append([InlineKeyboardButton("<<", callback_data='back')])
                 reply_markup = InlineKeyboardMarkup(keyboard)
                 query.edit_message_text(text="یکی برای تمدید انتخاب کن", reply_markup=reply_markup)
     else:
@@ -5590,15 +5588,15 @@ def call_RIXS(bot, query):
     rt = query.data
     host = rt.split("RIXS_")[1].split("$")[0]
     user = rt.split("$")[1]
-    keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back_seller')]]
+    keyboard = [[InlineKeyboardButton("<<", callback_data='back_seller')]]
     reply_markup = InlineKeyboardMarkup(keyboard)
     if check_exist_user(host, user) is True:
-        query.edit_message_text(text="منتظر بمانید...")
+        query.edit_message_text(text="wait...")
         try:
-            port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
-            Session = samisshbot.PANNEL(host, username, password, port, panel, 'User', user)
+            port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
+            Session = sshx.PANNEL(host, username, password, port, panel, 'User', user)
             text = Session.Disable()
-            Session = samisshbot.PANNEL(host, username, password, port, panel, 'Other', 'uname')
+            Session = sshx.PANNEL(host, username, password, port, panel, 'Other', 'uname')
             text = Session.Delete(user)
             if check_exist_user(host, user) is True:
                 delete_user(host, user)
@@ -5653,9 +5651,9 @@ def call_userconfigs(bot, query):
     if check_cache(chat_id) is True:
         delete_cache(chat_id)
     add_cache(chat_id, "userconfigs")
-    keyboard = [[InlineKeyboardButton("برگشت 🔙", callback_data='back_admin')]]
+    keyboard = [[InlineKeyboardButton("<< Back", callback_data='back_admin')]]
     reply_markup = InlineKeyboardMarkup(keyboard)
-    query.edit_message_text(text='خب یه پیام از کاربر فوروارد کنین. (اگه کاربر مخفی باشه کار نمیکنه) or User ID', reply_markup=reply_markup)
+    query.edit_message_text(text='خب یه پیام از کاربر فوروارد کنین. (اگه کاربر هیدن باشه کار نمیکنه) or User ID', reply_markup=reply_markup)
 
 
 @app.on_callback_query(filters.regex('MIOU_'))
@@ -5669,12 +5667,12 @@ def call_MIOU(bot, query):
     data = query.data
     host = (data.split("_")[1]).split("$")[0]
     user = data.split("$")[1]
-    keyboard = [[InlineKeyboardButton("برگشت 🔙", callback_data='back')]]
+    keyboard = [[InlineKeyboardButton("<< Back", callback_data='back')]]
     reply_markup = InlineKeyboardMarkup(keyboard)
     if check_exist_user(host, user) is True:
         try:
-            port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
-            Session = samisshbot.PANNEL(host, username, password, port, panel, 'User', user)
+            port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
+            Session = sshx.PANNEL(host, username, password, port, panel, 'User', user)
             settings = get_settings()
             text = change_infos_user_info(Session.User_info(settings['dropbear'], settings['tuic']))
             query.edit_message_text(text=text, reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
@@ -5697,8 +5695,8 @@ def call_IDADMIN(bot, query):
     user = data.split("$")[1]
     try:
         cb = data.split("_")[1]
-        port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
-        Session = samisshbot.PANNEL(host, username, password, port, panel, 'User', user)
+        port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
+        Session = sshx.PANNEL(host, username, password, port, panel, 'User', user)
         settings = get_settings()
         t0 = "\n\nServer: " + remark
         if check_exist_user(host, user) is True:
@@ -5706,17 +5704,17 @@ def call_IDADMIN(bot, query):
             t0 += f"\nID: <code>{str(ID)}</code>\nName: {Name}\nUsername: @{Username}"
         text = change_infos_user_info(Session.User_info(settings['dropbear'], settings['tuic'])) + t0
         keyboard = [
-            [InlineKeyboardButton("⌛️تمدید کاربر", callback_data=('IDMNU&Update_' + cb)), InlineKeyboardButton("🚷حذف کاربر", callback_data=('IDMNU&Remove_' + cb))],
-            [InlineKeyboardButton("✅ فعال کاربر", callback_data=('IDMNU&Active_' + cb)), InlineKeyboardButton("❌ غیر فعال کاربر", callback_data=('IDMNU&Disable_' + cb))],
-            [InlineKeyboardButton("🔄ریست ترافیک", callback_data=('IDMNU&Reset_' + cb)), InlineKeyboardButton("📤افزایش ترافیک", callback_data=('IDMNU&Traffic_' + cb))],
+            [InlineKeyboardButton("🔄تمدید کاربر", callback_data=('IDMNU&Update_' + cb)), InlineKeyboardButton("🗑حذف کاربر", callback_data=('IDMNU&Remove_' + cb))],
+            [InlineKeyboardButton("✔️ فعال کاربر", callback_data=('IDMNU&Active_' + cb)), InlineKeyboardButton("✖️ غیر فعال کاربر", callback_data=('IDMNU&Disable_' + cb))],
+            [InlineKeyboardButton("🆕ریست ترافیک", callback_data=('IDMNU&Reset_' + cb)), InlineKeyboardButton("➕افزایش ترافیک", callback_data=('IDMNU&Traffic_' + cb))],
             [InlineKeyboardButton("💀Kill User", callback_data=('IDMNU&Kill_' + cb)), InlineKeyboardButton("🟢 آنلاین ها", callback_data=('IDMNU&ONLINE_' + cb))],
             [InlineKeyboardButton("🔑تغییر پسورد", callback_data=('IDMNU&PASSWORD_' + cb))],
-            [InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back_admin')]
+            [InlineKeyboardButton("<<", callback_data='back_admin')]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         query.edit_message_text(text=text, reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
     except:
-        keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back_admin')]]
+        keyboard = [[InlineKeyboardButton("<<", callback_data='back_admin')]]
         reply_markup = InlineKeyboardMarkup(keyboard)
         query.edit_message_text(text="⚠️Error: Maybe user not found or connection Lost", reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
 
@@ -5734,9 +5732,9 @@ def call_IDMNU(bot, query):
     try:
         chat_id = query.message.chat.id
         status = (data.split("&")[1]).split("_")[0]
-        port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
+        port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
         if (status != "Update") and (status != "Remove") and (status != "PASSWORD") and (status != "Traffic") and (status != "Kill") and (status != "USERNAME") and (status != "ONLINE"):
-            Session = samisshbot.PANNEL(host, username, password, port, panel, 'User', user)
+            Session = sshx.PANNEL(host, username, password, port, panel, 'User', user)
         if status == "Active":
             text = Session.Enable()
         elif status == "Disable":
@@ -5758,35 +5756,35 @@ def call_IDMNU(bot, query):
                 text = ""
                 count = 0
                 try:
-                    port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
-                    Session = samisshbot.PANNEL(host, username, password, port, panel, 'Other', 'uname')
+                    port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
+                    Session = sshx.PANNEL(host, username, password, port, panel, 'Other', 'uname')
                     response, users, ips = Session.Online_clients()
                     if "Error:" not in response:
                         if user in users:
                             for i in range(len(users)):
                                 if users[i] == user:
                                     count += 1
-                                    text += f"{str(count)}. {users[i]} {ips[i]} {samisshbot.ISP(ips[i])}\n"
+                                    text += f"{str(count)}. {users[i]} {ips[i]} {sshx.ISP(ips[i])}\n"
                             text = f"🟢 {str(count)} کاربر آنلاین\n\n{text}"
                         else:
                             text = 'کسی آنلاین نیست ✖️'
                     else:
                         text = response
                 except Exception as e:
-                    text = "🔴😥خطا: " + str(e)
+                    text = "🔴Error: " + str(e)
                 online_check_spam.remove(chat_id)   
             else:
                 query.answer("صبر کنین تا پروسه قبلی تموم شه", show_alert=True)
                 return
 
         elif status == "Kill":
-            Session = samisshbot.PANNEL(host, username, password, port, panel, 'Other', 'uname')
+            Session = sshx.PANNEL(host, username, password, port, panel, 'Other', 'uname')
             text, users = Session.Kill(user)
 
         elif status == "Remove":
-            SessionDIS = samisshbot.PANNEL(host, username, password, port, panel, 'User', user)
+            SessionDIS = sshx.PANNEL(host, username, password, port, panel, 'User', user)
             text = SessionDIS.Disable()
-            Session = samisshbot.PANNEL(host, username, password, port, panel, 'Other', 'uname')
+            Session = sshx.PANNEL(host, username, password, port, panel, 'Other', 'uname')
             text = Session.Delete(user)
             if check_exist_user(host, user) is True:
                 delete_user(host, user)
@@ -5814,11 +5812,11 @@ def call_IDMNU(bot, query):
             add_cache(chat_id, "GB-update")
             text = "حجمو به عدد بفرستین مثلا 10 گیگ (0 = نامحدود)"
             update_collector(chat_id, cache_list, [])
-        keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data=('IDADMIN_' + cb))]]
+        keyboard = [[InlineKeyboardButton("<<", callback_data=('IDADMIN_' + cb))]]
         reply_markup = InlineKeyboardMarkup(keyboard)
         query.edit_message_text(text=text, reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
     except Exception as e:
-        keyboard = [[InlineKeyboardButton("برگشت 🔙", callback_data='back_admin')]]
+        keyboard = [[InlineKeyboardButton("<< Back", callback_data='back_admin')]]
         reply_markup = InlineKeyboardMarkup(keyboard)
         query.edit_message_text(text=f"Error: {str(e)}", reply_markup=reply_markup)
 
@@ -5841,23 +5839,23 @@ def call_perfectmoney(bot, query):
     if check_cache(chat_id) is True:
         delete_cache(chat_id)
     keyboard = [
-        [InlineKeyboardButton("تغییر دادن", callback_data='ChPFM')],
-        [InlineKeyboardButton("🔴 خاموش", callback_data='OFM'), InlineKeyboardButton("🟢 روشن", callback_data='ONM')],
+        [InlineKeyboardButton("🔧Change", callback_data='ChPFM')],
+        [InlineKeyboardButton("🔴 Off", callback_data='OFM'), InlineKeyboardButton("🟢 On", callback_data='ONM')],
         [InlineKeyboardButton("آموزش فعال سازی API", callback_data='PCNSLM')],
-        [InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='ZBSHP')]
+        [InlineKeyboardButton("<<", callback_data='ZBSHP')]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     settings = get_settings()
     if settings['perfect_money'] == "off":
-        status = "🔴 خاموش"
+        status = "🔴 OFF"
     else:
-        status = "🟢 روشن"
+        status = "🟢 ON"
     if settings['perfect_money_account_id'] != "None":
         st, text = payment.check_valid_perfect_money(settings['perfect_money_account_id'], settings['perfect_money_account_password'])
         balance = "\n\n" + text
     else:
         balance = ""
-    text = f"💳Perfect Money\n\nایدی حساب: <code>{settings['perfect_money_account_id']}</code>\nرمز حساب: {settings['perfect_money_account_password']}\n\nوضعیت: {status}\n\nخرید اتوماتیک با پرفکت مانی. حتما طبق دکمه آموزش پیش برید. (فقط توی کیف پول کاربر فعال میشه)\n\n{balance}"
+    text = f"💳Perfect Money\n\nAccount ID: <code>{settings['perfect_money_account_id']}</code>\nPassword: {settings['perfect_money_account_password']}\n\nStatus: {status}\n\nخرید اتوماتیک با پرفکت مانی. حتما طبق دکمه آموزش پیش برید. (فقط توی کیف پول کاربر فعال میشه)\n\n{balance}"
     query.edit_message_text(text=text, reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML, disable_web_page_preview=True)
 
 
@@ -5870,7 +5868,7 @@ def call_ChIPay(bot, query):
     if check_cache(chat_id) is True:
         delete_cache(chat_id)
     add_cache(chat_id, "change_perfectmoney")
-    keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='perfectmoney')]]
+    keyboard = [[InlineKeyboardButton("<<", callback_data='perfectmoney')]]
     reply_markup = InlineKeyboardMarkup(keyboard)
     query.edit_message_text(text="(Member ID) آیدی اکانتو بصورت عددی بفرستین همون اطلاعات لاگین :", reply_markup=reply_markup)
 
@@ -5888,9 +5886,9 @@ def call_PCNSLM(bot, query):
         InputMediaPhoto("https://i.ibb.co/Fzy1MFw/4.png")
     ]
     bot.send_media_group(chat_id, media)
-    keyboard = [[InlineKeyboardButton("تغییر دادن", callback_data='ChPFM')], [InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='perfectmoney')]]
+    keyboard = [[InlineKeyboardButton("🔧Change", callback_data='ChPFM')], [InlineKeyboardButton("<<", callback_data='perfectmoney')]]
     reply_markup = InlineKeyboardMarkup(keyboard)
-    bot.send_message(chat_id, "برای تغییر دادن کلیک کنید:", reply_markup=reply_markup)
+    bot.send_message(chat_id, "برای تغییر دکمه پایینو کلیک کنین:", reply_markup=reply_markup)
     msg = query.message.id
     bot.delete_messages(chat_id, msg)
 
@@ -5905,11 +5903,11 @@ def call_OFM(bot, query):
     if settings['perfect_money'] == 'on':
         settings['perfect_money'] = 'off'
         update_settings(settings)
-        keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='perfectmoney')]]
+        keyboard = [[InlineKeyboardButton("<<", callback_data='perfectmoney')]]
         reply_markup = InlineKeyboardMarkup(keyboard)
-        query.edit_message_text(text="✅😊 انجام شد", reply_markup=reply_markup)
+        query.edit_message_text(text="✔️ انجام شد", reply_markup=reply_markup)
     else:
-        query.answer("غیرفعال است", show_alert=True)
+        query.answer("Already OFF", show_alert=True)
 
 
 @app.on_callback_query(filters.regex('ONM'))
@@ -5922,11 +5920,11 @@ def call_ONM(bot, query):
     if settings['perfect_money'] == 'off':
         settings['perfect_money'] = 'on'
         update_settings(settings)
-        keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='perfectmoney')]]
+        keyboard = [[InlineKeyboardButton("<<", callback_data='perfectmoney')]]
         reply_markup = InlineKeyboardMarkup(keyboard)
-        query.edit_message_text(text="✅😊 انجام شد", reply_markup=reply_markup)
+        query.edit_message_text(text="✔️ انجام شد", reply_markup=reply_markup)
     else:
-        query.answer("فعال است", show_alert=True)
+        query.answer("Already ON", show_alert=True)
 
 
 @app.on_callback_query(filters.regex('idpay'))
@@ -5938,17 +5936,17 @@ def call_idpay(bot, query):
     if check_cache(chat_id) is True:
         delete_cache(chat_id)
     keyboard = [
-        [InlineKeyboardButton("تغییر دادن", callback_data='ChIPay')],
-        [InlineKeyboardButton("🔴 خاموش", callback_data='OFI'), InlineKeyboardButton("🟢 روشن", callback_data='ONI')],
-        [InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='ZBSHP')]
+        [InlineKeyboardButton("🔧Change", callback_data='ChIPay')],
+        [InlineKeyboardButton("🔴 Off", callback_data='OFI'), InlineKeyboardButton("🟢 On", callback_data='ONI')],
+        [InlineKeyboardButton("<<", callback_data='ZBSHP')]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     settings = get_settings()
     if settings['idpay'] == "off":
-        status = "🔴 خاموش"
+        status = "🔴 OFF"
     else:
-        status = "🟢 روشن"
-    text = f"💳IDPay : <code>{settings['idpay_address']}</code>\n\nوضعیت: {status}\n\nبرای اضافه کردن درگاه زرین پال کافیه به سایت idpay.ir برید و یه درگاه شخصی بسازین و باید آدرس درگاه به ربات بفرستین مثلا آدرس شما این باشه:\nidpay.ir/name\n\n شما باید name بفرستین به ربات \nمتاسفانه این درگاه داخل ربات اتوماتیک نیست 💔"
+        status = "🟢 ON"
+    text = f"💳IDPay : <code>{settings['idpay_address']}</code>\n\nStatus: {status}\n\nبرای اضافه کردن درگاه زرین پال کافیه به سایت idpay.ir برید و یه درگاه شخصی بسازین و باید آدرس درگاه به ربات بفرستین مثلا آدرس شما این باشه:\nidpay.ir/name\n\n شما باید name بفرستین به ربات \nمتاسفانه این درگاه داخل ربات اتوماتیک نیست 💔"
     query.edit_message_text(text=text, reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML, disable_web_page_preview=True)
 
 
@@ -5961,7 +5959,7 @@ def call_ChIPay(bot, query):
     if check_cache(chat_id) is True:
         delete_cache(chat_id)
     add_cache(chat_id, "change_idpay")
-    keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='idpay')]]
+    keyboard = [[InlineKeyboardButton("<<", callback_data='idpay')]]
     reply_markup = InlineKeyboardMarkup(keyboard)
     query.edit_message_text(text="آدرس درگاه به ربات بفرستین مثلا آدرس شما این باشه:\nidpay.ir/name\n\n شما باید name بفرستین به ربات ", reply_markup=reply_markup)
 
@@ -5976,11 +5974,11 @@ def call_OFI(bot, query):
     if settings['idpay'] == 'on':
         settings['idpay'] = 'off'
         update_settings(settings)
-        keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='idpay')]]
+        keyboard = [[InlineKeyboardButton("<<", callback_data='idpay')]]
         reply_markup = InlineKeyboardMarkup(keyboard)
-        query.edit_message_text(text="✅😊 انجام شد", reply_markup=reply_markup)
+        query.edit_message_text(text="✔️ انجام شد", reply_markup=reply_markup)
     else:
-        query.answer("غیرفعال است", show_alert=True)
+        query.answer("Already OFF", show_alert=True)
 
 
 @app.on_callback_query(filters.regex('ONI'))
@@ -5993,11 +5991,11 @@ def call_ONI(bot, query):
     if settings['idpay'] == 'off':
         settings['idpay'] = 'on'
         update_settings(settings)
-        keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='idpay')]]
+        keyboard = [[InlineKeyboardButton("<<", callback_data='idpay')]]
         reply_markup = InlineKeyboardMarkup(keyboard)
-        query.edit_message_text(text="✅😊 انجام شد", reply_markup=reply_markup)
+        query.edit_message_text(text="✔️ انجام شد", reply_markup=reply_markup)
     else:
-        query.answer("فعال است", show_alert=True)
+        query.answer("Already ON", show_alert=True)
 
 
 @app.on_callback_query(filters.regex('zarinpal'))
@@ -6009,17 +6007,17 @@ def call_zarinpal(bot, query):
     if check_cache(chat_id) is True:
         delete_cache(chat_id)
     keyboard = [
-        [InlineKeyboardButton("تغییر دادن", callback_data='ChZarin')],
-        [InlineKeyboardButton("🔴 خاموش", callback_data='OFZ'), InlineKeyboardButton("🟢 روشن", callback_data='ONZ')],
-        [InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='ZBSHP')]
+        [InlineKeyboardButton("🔧Change", callback_data='ChZarin')],
+        [InlineKeyboardButton("🔴 Off", callback_data='OFZ'), InlineKeyboardButton("🟢 On", callback_data='ONZ')],
+        [InlineKeyboardButton("<<", callback_data='ZBSHP')]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     settings = get_settings()
     if settings['zarinpal'] == "off":
-        status = "🔴 خاموش"
+        status = "🔴 OFF"
     else:
-        status = "🟢 روشن"
-    text = f"💳Zarinpal : <code>{settings['zarinpal_address']}</code>\n\nوضعیت: {status}\n\nبرای اضافه کردن درگاه زرین پال کافیه به سایت zarinpal.com برید و یه درگاه شخصی بسازین و باید آدرس درگاه به ربات بفرستین مثلا آدرس شما این باشه:\nzarinp.al/name\n\n شما باید name بفرستین به ربات \nمتاسفانه این درگاه داخل ربات اتوماتیک نیست 💔"
+        status = "🟢 ON"
+    text = f"💳Zarinpal : <code>{settings['zarinpal_address']}</code>\n\nStatus: {status}\n\nبرای اضافه کردن درگاه زرین پال کافیه به سایت zarinpal.com برید و یه درگاه شخصی بسازین و باید آدرس درگاه به ربات بفرستین مثلا آدرس شما این باشه:\nzarinp.al/name\n\n شما باید name بفرستین به ربات \nمتاسفانه این درگاه داخل ربات اتوماتیک نیست 💔"
     query.edit_message_text(text=text, reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML, disable_web_page_preview=True)
 
 
@@ -6032,7 +6030,7 @@ def call_ChZarin(bot, query):
     if check_cache(chat_id) is True:
         delete_cache(chat_id)
     add_cache(chat_id, "change_zarinpal")
-    keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='zarinpal')]]
+    keyboard = [[InlineKeyboardButton("<<", callback_data='zarinpal')]]
     reply_markup = InlineKeyboardMarkup(keyboard)
     query.edit_message_text(text="آدرس درگاه به ربات بفرستین مثلا آدرس شما این باشه:\nzarinp.al/name\n\n شما باید name بفرستین به ربات ", reply_markup=reply_markup)
 
@@ -6047,11 +6045,11 @@ def call_OFZ(bot, query):
     if settings['zarinpal'] == 'on':
         settings['zarinpal'] = 'off'
         update_settings(settings)
-        keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='zarinpal')]]
+        keyboard = [[InlineKeyboardButton("<<", callback_data='zarinpal')]]
         reply_markup = InlineKeyboardMarkup(keyboard)
-        query.edit_message_text(text="✅😊 انجام شد", reply_markup=reply_markup)
+        query.edit_message_text(text="✔️ انجام شد", reply_markup=reply_markup)
     else:
-        query.answer("غیرفعال است", show_alert=True)
+        query.answer("Already OFF", show_alert=True)
 
 
 @app.on_callback_query(filters.regex('ONZ'))
@@ -6064,11 +6062,11 @@ def call_ONZ(bot, query):
     if settings['zarinpal'] == 'off':
         settings['zarinpal'] = 'on'
         update_settings(settings)
-        keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='zarinpal')]]
+        keyboard = [[InlineKeyboardButton("<<", callback_data='zarinpal')]]
         reply_markup = InlineKeyboardMarkup(keyboard)
-        query.edit_message_text(text="✅😊 انجام شد", reply_markup=reply_markup)
+        query.edit_message_text(text="✔️ انجام شد", reply_markup=reply_markup)
     else:
-        query.answer("فعال است", show_alert=True)
+        query.answer("Already ON", show_alert=True)
 
 
 @app.on_callback_query(filters.regex('plisio'))
@@ -6080,17 +6078,17 @@ def call_plisio(bot, query):
     if check_cache(chat_id) is True:
         delete_cache(chat_id)
     keyboard = [
-        [InlineKeyboardButton("🔧ثبت API", callback_data='ChPSio')],
-        [InlineKeyboardButton("🔴 خاموش", callback_data='OFP'), InlineKeyboardButton("🟢 روشن", callback_data='ONP')],
-        [InlineKeyboardButton("برگشت 🔙", callback_data='ZBSHP')]
+        [InlineKeyboardButton("🔧Change API", callback_data='ChPSio')],
+        [InlineKeyboardButton("🔴 Off", callback_data='OFP'), InlineKeyboardButton("🟢 On", callback_data='ONP')],
+        [InlineKeyboardButton("<< Back", callback_data='ZBSHP')]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     settings = get_settings()
     if settings['plisio'] == "off":
-        status = "🔴 خاموش"
+        status = "🔴 OFF"
     else:
-        status = "🟢 روشن"
-    text = f"💳plisio API: <code>{settings['plisio_API']}</code>\n\nوضعیت: {status}\n\nدرگاه پرداخت plisio.net\nبرای فعال کردن این قابلیت باید به داخل سایت برید و یه API بگیرین آموزش گرفتنشم : \n\nt.me/deltacommentsgp"
+        status = "🟢 ON"
+    text = f"💳plisio API: <code>{settings['plisio_API']}</code>\n\nStatus: {status}\n\nدرگاه پرداخت plisio.net\nبرای فعال کردن این قابلیت باید به داخل سایت برید و یه API بگیرین آموزش گرفتنشم : \n\nt.me/deltacommentsgp"
     query.edit_message_text(text=text, reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML, disable_web_page_preview=True)
 
 
@@ -6103,7 +6101,7 @@ def call_ChPSio(bot, query):
     if check_cache(chat_id) is True:
         delete_cache(chat_id)
     add_cache(chat_id, "change_plisio")
-    keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='plisio')]]
+    keyboard = [[InlineKeyboardButton("<<", callback_data='plisio')]]
     reply_markup = InlineKeyboardMarkup(keyboard)
     query.edit_message_text(text="API رو بفرستین", reply_markup=reply_markup)
 
@@ -6118,11 +6116,11 @@ def call_OFP(bot, query):
     if settings['plisio'] == 'on':
         settings['plisio'] = 'off'
         update_settings(settings)
-        keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='plisio')]]
+        keyboard = [[InlineKeyboardButton("<<", callback_data='plisio')]]
         reply_markup = InlineKeyboardMarkup(keyboard)
-        query.edit_message_text(text="✅😊 انجام شد", reply_markup=reply_markup)
+        query.edit_message_text(text="✔️ انجام شد", reply_markup=reply_markup)
     else:
-        query.answer("غیرفعال است", show_alert=True)
+        query.answer("Already OFF", show_alert=True)
 
 
 @app.on_callback_query(filters.regex('ONP'))
@@ -6135,11 +6133,11 @@ def call_ONP(bot, query):
     if settings['plisio'] == 'off':
         settings['plisio'] = 'on'
         update_settings(settings)
-        keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='plisio')]]
+        keyboard = [[InlineKeyboardButton("<<", callback_data='plisio')]]
         reply_markup = InlineKeyboardMarkup(keyboard)
-        query.edit_message_text(text="✅😊 انجام شد", reply_markup=reply_markup)
+        query.edit_message_text(text="✔️ انجام شد", reply_markup=reply_markup)
     else:
-        query.answer("فعال است", show_alert=True)
+        query.answer("Already ON", show_alert=True)
 
 
 @app.on_callback_query(filters.regex('ChangeWallet'))
@@ -6151,7 +6149,7 @@ def call_change(bot, query):
     if check_cache(chat_id) is True:
         delete_cache(chat_id)
     add_cache(chat_id, "change_wallet")
-    query.edit_message_text(text="آدرس کیف پول ترون خود را بفرستید")
+    query.edit_message_text(text="آدرس ولت ترون بفرست")
 
 
 @app.on_callback_query(filters.regex('OFT'))
@@ -6164,11 +6162,11 @@ def call_OFT(bot, query):
     if settings['trx_buy'] == 'on':
         settings['trx_buy'] = 'off'
         update_settings(settings)
-        keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='wallet')]]
+        keyboard = [[InlineKeyboardButton("<<", callback_data='wallet')]]
         reply_markup = InlineKeyboardMarkup(keyboard)
-        query.edit_message_text(text="✅😊 انجام شد", reply_markup=reply_markup)
+        query.edit_message_text(text="✔️ انجام شد", reply_markup=reply_markup)
     else:
-        query.answer("غیرفعال است", show_alert=True)
+        query.answer("Already OFF", show_alert=True)
 
 
 @app.on_callback_query(filters.regex('ONT'))
@@ -6181,11 +6179,11 @@ def call_ONT(bot, query):
     if settings['trx_buy'] == 'off':
         settings['trx_buy'] = 'on'
         update_settings(settings)
-        keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='wallet')]]
+        keyboard = [[InlineKeyboardButton("<<", callback_data='wallet')]]
         reply_markup = InlineKeyboardMarkup(keyboard)
-        query.edit_message_text(text="✅😊 انجام شد", reply_markup=reply_markup)
+        query.edit_message_text(text="✔️ انجام شد", reply_markup=reply_markup)
     else:
-        query.answer("فعال است", show_alert=True)
+        query.answer("Already ON", show_alert=True)
 
 
 @app.on_callback_query(filters.regex('CPSHNTX'))
@@ -6216,24 +6214,24 @@ def call_wallet(bot, query):
     settings = get_settings()
     if settings['currency_usdt'] == "on":
         emoji = "🟢"
-        cb = 'خاموش'
+        cb = 'off'
     else:
         emoji = "🔴"
-        cb = 'روشن'
+        cb = 'on'
     keyboard = [
-        [InlineKeyboardButton("تغییر دادن", callback_data='ChangeWallet')],
-        [InlineKeyboardButton("🔴 خاموش", callback_data='OFT'), InlineKeyboardButton("🟢 روشن", callback_data='ONT')],
+        [InlineKeyboardButton("🔧تغییر", callback_data='ChangeWallet')],
+        [InlineKeyboardButton("🔴 Off", callback_data='OFT'), InlineKeyboardButton("🟢 On", callback_data='ONT')],
         [InlineKeyboardButton(f"نشان دادن قیمت تتر: {emoji}", callback_data=f'wallet_{cb}')],
         [InlineKeyboardButton("تغییر کپشن", callback_data='CPSHNTX')],
-        [InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='ZBSHP')]
+        [InlineKeyboardButton("<<", callback_data='ZBSHP')]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     name, username, wallet, crypto = get_wallet_info()
     if settings['trx_buy'] == "off":
-        status = "🔴 خاموش"
+        status = "🔴 OFF"
     else:
-        status = "🟢 روشن"
-    text = f"💳Wallet: <code>{str(wallet)}</code>\n\n👤آخرین ادمینی که اطلاعات ادیت کرد \nنام: {name}\nنام کاربری: @{username}\nوضعیت: {status}\nکپشن: {settings['trx_caption']}\n\nمیتونین با خاموش روشن کردن این بخش فروش با این روش پرداخت فعال و غیرفعال کنین"
+        status = "🟢 ON"
+    text = f"💳Wallet: <code>{str(wallet)}</code>\n\n👤آخرین ادمینی که اطلاعات ادیت کرد \nName: {name}\nusername: @{username}\nStatus: {status}\nکپشن: {settings['trx_caption']}\n\nمیتونین با خاموش روشن کردن این بخش فروش با این روش پرداخت فعال و غیرفعال کنین"
     query.edit_message_text(text=text, reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
 
 
@@ -6247,11 +6245,11 @@ def call_OFC(bot, query):
     if settings['card_buy'] == 'on':
         settings['card_buy'] = 'off'
         update_settings(settings)
-        keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='Card')]]
+        keyboard = [[InlineKeyboardButton("<<", callback_data='Card')]]
         reply_markup = InlineKeyboardMarkup(keyboard)
-        query.edit_message_text(text="✅😊 انجام شد", reply_markup=reply_markup)
+        query.edit_message_text(text="✔️ انجام شد", reply_markup=reply_markup)
     else:
-        query.answer("غیرفعال است", show_alert=True)
+        query.answer("Already OFF", show_alert=True)
 
 
 @app.on_callback_query(filters.regex('ONC'))
@@ -6264,11 +6262,11 @@ def call_ONC(bot, query):
     if settings['card_buy'] == 'off':
         settings['card_buy'] = 'on'
         update_settings(settings)
-        keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='Card')]]
+        keyboard = [[InlineKeyboardButton("<<", callback_data='Card')]]
         reply_markup = InlineKeyboardMarkup(keyboard)
-        query.edit_message_text(text="✅😊 انجام شد", reply_markup=reply_markup)
+        query.edit_message_text(text="✔️ انجام شد", reply_markup=reply_markup)
     else:
-        query.answer("فعال است", show_alert=True)
+        query.answer("Already ON", show_alert=True)
 
 
 @app.on_callback_query(filters.regex('Card'))
@@ -6278,19 +6276,19 @@ def call_card(bot, query):
         query.answer("Access denied", show_alert=True)
         return
     keyboard = [
-        [InlineKeyboardButton("تغییر دادن", callback_data='Change')],
-        [InlineKeyboardButton("🔴 خاموش", callback_data='OFC'), InlineKeyboardButton("🟢 روشن", callback_data='ONC')],
+        [InlineKeyboardButton("🔧تغییر", callback_data='Change')],
+        [InlineKeyboardButton("🔴 Off", callback_data='OFC'), InlineKeyboardButton("🟢 On", callback_data='ONC')],
         [InlineKeyboardButton("تغییر کپشن", callback_data='CPSHNCBC')],
-        [InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='ZBSHP')]
+        [InlineKeyboardButton("<<", callback_data='ZBSHP')]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     name, username, card = get_card_info()
     settings = get_settings()
     if settings['card_buy'] == "off":
-        status = "🔴 خاموش"
+        status = "🔴 OFF"
     else:
-        status = "🟢 روشن"
-    text = f"💳Card: <code>{str(card)}</code>\n\n👤آخرین ادمینی که اطلاعاتو ادیت کرد \nنام: {name}\nنام کاربری: @{username}\nوضعیت: {status}\nکپشن: {settings['card_caption']}\n\nمیتونین با خاموش روشن کردن این بخش فروش با این روش پرداخت فعال و غیرفعال کنین"
+        status = "🟢 ON"
+    text = f"💳Card: <code>{str(card)}</code>\n\n👤آخرین ادمینی که اطلاعاتو ادیت کرد \nName: {name}\nusername: @{username}\nStatus: {status}\nکپشن: {settings['card_caption']}\n\nمیتونین با خاموش روشن کردن این بخش فروش با این روش پرداخت فعال و غیرفعال کنین"
     query.edit_message_text(text=text, reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
 
 
@@ -6331,7 +6329,7 @@ def call_ANS(bot, query):
         cache_list = [data.split("ANS_")[1]]
         add_collector(chat_id, "answer", cache_list, [])
         add_cache(chat_id, "answer")
-        bot.send_message(chat_id, "پیام خود را بفرستید 😉   یا  /cancel")
+        bot.send_message(chat_id, "پیامتون بفرستین  یا  /cancel")
     else:
         bot.send_message(chat_id, "Please /cancel it first")
 
@@ -6344,7 +6342,7 @@ def call_RLS(bot, query):
         return
     data = query.data
     chat_id = int(data.split("RLS_")[1])
-    keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='sellers')]]
+    keyboard = [[InlineKeyboardButton("<<", callback_data='sellers')]]
     reply_markup = InlineKeyboardMarkup(keyboard)
     update_user_wallet(chat_id, 0)
     delete_seller(chat_id)
@@ -6361,7 +6359,7 @@ def call_ELS(bot, query):
     data = query.data
     chat_id = int(data.split("ELS_")[1])
     text = "Ok send only a number\n\n0 = unlimited\n10 = 10 clients"
-    keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data=('SLM_' + str(chat_id)))]]
+    keyboard = [[InlineKeyboardButton("<<", callback_data=('SLM_' + str(chat_id)))]]
     reply_markup = InlineKeyboardMarkup(keyboard)
     query.edit_message_text(text=text, reply_markup=reply_markup)
     delete_cache(query.message.chat.id)
@@ -6378,9 +6376,9 @@ def call_BLS(bot, query):
     user_id = int(data.split("BLS_")[1])
     name, u, phone, value = get_full_user_data_id(user_id)
     keyboard = [
-        [InlineKeyboardButton("🪫کاهش", callback_data=f'MAUB_{str(user_id)}'), InlineKeyboardButton("🔋افزایش", callback_data=f'PAUB_{str(user_id)}')],
-        [InlineKeyboardButton("🧰 صفر کردن موجودی", callback_data=f'ZAUB_{str(user_id)}')],
-        [InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back_admin')]
+        [InlineKeyboardButton("➖کاهش", callback_data=f'MAUB_{str(user_id)}'), InlineKeyboardButton("➕افزایش", callback_data=f'PAUB_{str(user_id)}')],
+        [InlineKeyboardButton("0️⃣صفر کردن موجودی", callback_data=f'ZAUB_{str(user_id)}')],
+        [InlineKeyboardButton("<<", callback_data='back_admin')]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     query.edit_message_text(text=f"موجودی: {str(value)} تومن.\n\nName: {name}\nUsername: {u}\nPhone: {phone}", reply_markup=reply_markup)
@@ -6407,11 +6405,11 @@ def call_ALS(bot, query):
                 keyboard.append([InlineKeyboardButton(accounts[-1], callback_data=("IDADMIN_" + hosts[-1] + "$" + accounts[-1]))])
         else:
             keyboard.append([InlineKeyboardButton(accounts[0], callback_data=("IDADMIN_" + hosts[0] + "$" + accounts[0]))])
-        keyboard.append([InlineKeyboardButton("برگشت 🔙", callback_data='back_admin')])
+        keyboard.append([InlineKeyboardButton("<< Back", callback_data='back_admin')])
         reply_markup = InlineKeyboardMarkup(keyboard)
         query.edit_message_text(text=f"Founded by id \n\nChoose: ", reply_markup=reply_markup)
     else:
-        keyboard.append([InlineKeyboardButton("برگشت 🔙", callback_data='back_admin')])
+        keyboard.append([InlineKeyboardButton("<< Back", callback_data='back_admin')])
         reply_markup = InlineKeyboardMarkup(keyboard)
         query.edit_message_text(text="پیدا نشد❌", reply_markup=reply_markup)
 
@@ -6426,7 +6424,7 @@ def call_AUR(bot, query):
     data = query.data
     add_cache(chat_id, data)
     seller = int(data.split("AUR_")[1])
-    keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data=('SLM_' + str(seller)))]]
+    keyboard = [[InlineKeyboardButton("<<", callback_data=('SLM_' + str(seller)))]]
     reply_markup = InlineKeyboardMarkup(keyboard)
     query.edit_message_text(text="اکانتو به این صورت بفرستین ممکنه هر پنلی متفاوت باشه و ایرادی نداره درکل :\n\nHost : sub.domain.com\nUser : username", reply_markup=reply_markup)
 
@@ -6449,13 +6447,13 @@ def call_SLM(bot, query):
         Balance = str(old_value) + " Toman"
     except:
         Balance = "Error: remove and add seller again"
-    text = f"ID: {str(chat_id)}\nName: {Name}\nUsername: @{Username}\n\n🏷sales: {str(len(accounts))}\n🔻Limit: {Limit}\n💵Balance: {Balance}\n\nبا حذف فروشنده اکانت های فروشنده حذف نمیشن"
+    text = f"ID: {str(chat_id)}\nName: {Name}\nUsername: @{Username}\n\n🏷sales: {str(len(accounts))}\n🔻Limit: {Limit}\n💰Balance: {Balance}\n\nبا حذف فروشنده اکانت های فروشنده حذف نمیشن"
     keyboard = [
         [InlineKeyboardButton("🗑حذف ", callback_data=('RLS_' + str(chat_id))), InlineKeyboardButton("✏️تغییر محدودیت", callback_data=("ELS_" + str(chat_id)))],
-        [InlineKeyboardButton("💵 مدیریت موجودی", callback_data=("BLS_" + str(chat_id)))],
+        [InlineKeyboardButton("💰 مدیریت موجودی", callback_data=("BLS_" + str(chat_id)))],
         [InlineKeyboardButton("👤اکانت های فروشنده", callback_data=("ALS_" + str(chat_id)))],
         [InlineKeyboardButton("➕ افزودن اکانت", callback_data=("AUR_" + str(chat_id)))],
-        [InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='sellers')]
+        [InlineKeyboardButton("<<", callback_data='sellers')]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     query.edit_message_text(text=text, reply_markup=reply_markup)
@@ -6469,9 +6467,9 @@ def call_ADDSELLER(bot, query):
         return
     delete_cache(query.message.chat.id)
     add_cache(query.message.chat.id, "add_seller")
-    keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='sellers')]]
+    keyboard = [[InlineKeyboardButton("<<", callback_data='sellers')]]
     reply_markup = InlineKeyboardMarkup(keyboard)
-    query.edit_message_text(text="یه پیام از فروشنده فوروارد کنین اگه پروفایل مخفی باشه کار نمیکنه.", reply_markup=reply_markup)
+    query.edit_message_text(text="یه پیام از فروشنده فوروارد کنین اگه پروفایل هیدن باشه کار نمیکنه.", reply_markup=reply_markup)
 
 
 @app.on_callback_query(filters.regex('sellers'))
@@ -6495,7 +6493,7 @@ def call_sellers(bot, query):
         elif len(sellers) == 1:
             keyboard.append([InlineKeyboardButton(sellers[0][1], callback_data=("SLM_" + str(sellers[0][0])))])
     keyboard.append([InlineKeyboardButton("➕ افزودن فروشنده", callback_data='ADDSELLER')])
-    keyboard.append([InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back_admin')])
+    keyboard.append([InlineKeyboardButton("<<", callback_data='back_admin')])
     reply_markup = InlineKeyboardMarkup(keyboard)
     query.edit_message_text(text="🔻Select: ", reply_markup=reply_markup)
 
@@ -6506,9 +6504,9 @@ def call_price(bot, query):
     if settings['list_status'] == "off":
         query.answer("🔴 چیزی وجود نداره. ", show_alert=True)
         return
-    keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back')]]
+    keyboard = [[InlineKeyboardButton("<<", callback_data='back')]]
     if settings['buy'] == 'on':
-        keyboard[0].insert(1, InlineKeyboardButton("🛒 خرید اشتراک", callback_data='buy'))
+        keyboard[0].insert(1, InlineKeyboardButton("🛒 خرید", callback_data='buy'))
     reply_markup = InlineKeyboardMarkup(keyboard)
     text = settings['list']
     query.edit_message_text(text=text, reply_markup=reply_markup)
@@ -6528,7 +6526,7 @@ def call_CUWPD(bot, query):
         add_cache(chat_id, "userdeposit")
         keyboard = []
         Code = uuid4().hex[0:10]
-        keyboard.append([InlineKeyboardButton("برگشت 🔙", callback_data='UWM_' + Code)])
+        keyboard.append([InlineKeyboardButton("<< Back", callback_data='UWM_' + Code)])
         reply_markup = InlineKeyboardMarkup(keyboard)
         cache_list = [price, "💳 کارت به کارت"]
         add_code_buy(chat_id, Code, "userdeposit", cache_list)
@@ -6565,7 +6563,7 @@ def call_TUWPD(bot, query):
         add_cache(chat_id, "userdeposit")
         keyboard = []
         Code = uuid4().hex[0:10]
-        keyboard.append([InlineKeyboardButton("برگشت 🔙", callback_data='UWM_' + Code)])
+        keyboard.append([InlineKeyboardButton("<< Back", callback_data='UWM_' + Code)])
         reply_markup = InlineKeyboardMarkup(keyboard)
         cache_list = [price, "💲ترون"]
         add_code_buy(chat_id, Code, "userdeposit", cache_list)
@@ -6610,10 +6608,10 @@ def call_ZUWPD(bot, query):
         invoice_url = f"https://zarinp.al/{settings['zarinpal_address']}?amount={price + '0'}"
         keyboard = [
             [InlineKeyboardButton("لینک پرداخت 🔗", url=invoice_url)],
-            [InlineKeyboardButton("برگشت 🔙", callback_data='UWM_' + Code)]
+            [InlineKeyboardButton("<< Back", callback_data='UWM_' + Code)]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
-        cache_list = [price, "💳 درگاه زرین پال"]
+        cache_list = [price, "🟡 درگاه زرین پال"]
         add_code_buy(chat_id, Code, "userdeposit", cache_list)
         text = "⚪️ برای پرداخت با درگاه زرین پال دکمه لینک پرداخت کلیک کنین و به درگاه منتقل میشین و بعد از پرداخت حتما اسکرین شات پرداختتون همینجا بفرستین."
         query.edit_message_text(text=text, reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
@@ -6637,10 +6635,10 @@ def call_DUWPD(bot, query):
         invoice_url = f"https://idpay.ir/{settings['idpay_address']}?amount={price + '0'}"
         keyboard = [
             [InlineKeyboardButton("لینک پرداخت 🔗", url=invoice_url)],
-            [InlineKeyboardButton("برگشت 🔙", callback_data='UWM_' + Code)]
+            [InlineKeyboardButton("<< Back", callback_data='UWM_' + Code)]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
-        cache_list = [price, "💳 درگاه آیدی پی"]
+        cache_list = [price, "🔵 درگاه آیدی پی"]
         add_code_buy(chat_id, Code, "userdeposit", cache_list)
         text = "⚪️ برای پرداخت با درگاه آیدی پی دکمه لینک پرداخت کلیک کنین و به درگاه منتقل میشین و بعد از پرداخت حتما اسکرین شات پرداختتون همینجا بفرستین."
         query.edit_message_text(text=text, reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
@@ -6665,7 +6663,7 @@ def call_PUWPS(bot, query):
     if check_cache(chat_id) is False:
         data = query.data
         price = int(data.split("PUWPS_")[1])
-        query.edit_message_text(text="منتظر بمانید...")
+        query.edit_message_text(text="wait...")
         status, value = payment.GET_USD()
         amount = str('{:.2f}'.format(float(price / value)))
         server_msg, txn_id, invoice_url, invoice_total_sum, st = payment.new_invoice_plisio(settings['plisio_API'], amount)
@@ -6693,7 +6691,7 @@ def call_PUWPS(bot, query):
             reply_markup = InlineKeyboardMarkup(keyboard)
             query.edit_message_text(text=text, reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
         else:
-            keyboard = [[InlineKeyboardButton("برگشت 🔙", callback_data='UWM')]]
+            keyboard = [[InlineKeyboardButton("<< Back", callback_data='UWM')]]
             reply_markup = InlineKeyboardMarkup(keyboard)
             query.edit_message_text(text=server_msg, reply_markup=reply_markup)
 
@@ -6720,7 +6718,7 @@ def call_Ptxnid(bot, query):
             plisio_retry_time.append(int(time()))
         server_msg, tx_url, st = payment.check_status_invoice_plisio(settings['plisio_API'], txn_id)
         if st is True:
-            keyboard = [[InlineKeyboardButton("💵کیف", callback_data='UWM')]]
+            keyboard = [[InlineKeyboardButton("💰کیف", callback_data='UWM')]]
             reply_markup = InlineKeyboardMarkup(keyboard)
             if server_msg == "new":
                 plisio_retry_time[plisio_retry.index(txn_id)] = int(time())
@@ -6736,7 +6734,7 @@ def call_Ptxnid(bot, query):
                 plisio_retry.remove(txn_id)
                 plisio_attemp_del(chat_id)
             elif server_msg == "completed":
-                text = "✅ پرداخت شما تایید شد مبلغ به حساب شما اضافه شد"
+                text = "✅ پرداخت شما تایید مبلغ به حساب شما اضافه شد"
                 name, u, phone, old_value = get_full_user_data_id(chat_id)
                 new_value = Value + old_value
                 update_user_wallet(chat_id, new_value)
@@ -6780,7 +6778,7 @@ def call_traffic(bot, query):
                     keyboard.append([InlineKeyboardButton(accounts[-1], callback_data=("UTGB_" + hosts[-1] + "$" + accounts[-1]))])
             else:
                 keyboard.append([InlineKeyboardButton(accounts[0], callback_data=("UTGB_" + hosts[0] + "$" + accounts[0]))])
-            keyboard.append([InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back')])
+            keyboard.append([InlineKeyboardButton("<<", callback_data='back')])
             reply_markup = InlineKeyboardMarkup(keyboard)
             query.edit_message_text(text="یکی برای تمدید انتخاب کن", reply_markup=reply_markup)
         else:
@@ -6796,9 +6794,9 @@ def call_UTGB(bot, query):
     if check_exist_user(host, user) is True:
         settings = get_settings()
         keyboard = []
-        query.edit_message_text(text="منتظر بمانید...")
-        port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
-        Session = samisshbot.PANNEL(host, username, password, port, panel, 'User', user)
+        query.edit_message_text(text="wait...")
+        port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
+        Session = sshx.PANNEL(host, username, password, port, panel, 'User', user)
         text = "اطلاعات سرویس :\n\n" + change_infos_user_info(Session.User_info(settings['dropbear'], settings['tuic']))
         if "Error" in text:
             text = "مشکلی پیش اومده بعدا تلاش کنین یا به پشتیبانی اطلاع بدین"
@@ -6824,7 +6822,7 @@ def call_UTGB(bot, query):
                         tcb = f"{str(settings['plus-traffic'][i])} گیگابایت - {get_shortcut_of_price(settings['plus-prices'][i])}"
                         cb = f"TBP_{str(settings['plus-traffic'][i])}-{str(settings['plus-prices'][i])}:{user}@{host}"
                         keyboard.append([InlineKeyboardButton(tcb, callback_data=cb)])
-        keyboard.append([InlineKeyboardButton("برگشت 🔙", callback_data='back')])
+        keyboard.append([InlineKeyboardButton("<< Back", callback_data='back')])
         reply_markup = InlineKeyboardMarkup(keyboard)
         query.edit_message_text(text=text, reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
     else:
@@ -6844,18 +6842,18 @@ def call_TBP(bot, query):
         cb_pd = "DTPB_" + data
         cb_nx = "NTPB_" + data
         settings = get_settings()
-        keyboard = [[InlineKeyboardButton("💵کیف پول", callback_data=cb_bl)]]
+        keyboard = [[InlineKeyboardButton("💰کیف پول", callback_data=cb_bl)]]
         if settings['card_buy'] == "on":
             keyboard.append([InlineKeyboardButton("💳کارت به کارت", callback_data=cb_cc)])
         if settings['trx_buy'] == "on":
             keyboard.append([InlineKeyboardButton("💲ترون", callback_data=cb_tr)])
         if (settings['zarinpal'] == "on") and (settings['zarinpal_address'] != "None"):
-            keyboard.append([InlineKeyboardButton("💳 درگاه زرین پال", callback_data=cb_zp)])
+            keyboard.append([InlineKeyboardButton("🟡 درگاه زرین پال", callback_data=cb_zp)])
         if (settings['idpay'] == "on") and (settings['idpay_address'] != "None"):
-            keyboard.append([InlineKeyboardButton("💳 درگاه آیدی پی", callback_data=cb_pd)])
+            keyboard.append([InlineKeyboardButton("🔵 درگاه آیدی پی", callback_data=cb_pd)])
         if (settings['nextpay'] == "on") and (settings['nextpay_address'] != "None"):
-            keyboard.append([InlineKeyboardButton("💳 درگاه نکست پی", callback_data=cb_nx)])
-        keyboard.append([InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='traffic')])
+            keyboard.append([InlineKeyboardButton("⚪️ درگاه نکست پی", callback_data=cb_nx)])
+        keyboard.append([InlineKeyboardButton("<<", callback_data='traffic')])
         reply_markup = InlineKeyboardMarkup(keyboard)
         try:
             query.edit_message_text(text="روش پرداختو انتخاب کن:", reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
@@ -6883,7 +6881,7 @@ def call_CTPB(bot, query):
         add_cache(chat_id, "traffic")
         keyboard = []
         Code = uuid4().hex[0:10]
-        keyboard.append([InlineKeyboardButton("برگشت 🔙", callback_data='traffic_' + Code)])
+        keyboard.append([InlineKeyboardButton("<< Back", callback_data='traffic_' + Code)])
         reply_markup = InlineKeyboardMarkup(keyboard)
         cache_list = [GB, price, user, host, "💳 کارت به کارت"]
         add_code_buy(chat_id, Code, "traffic", cache_list)
@@ -6922,12 +6920,12 @@ def call_LTPB(bot, query):
         if old_value - price < 0:
             query.answer("موجودی کافی نیست ☹️", show_alert=True)
             return
-        keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back')]]
+        keyboard = [[InlineKeyboardButton("<<", callback_data='back')]]
         reply_markup = InlineKeyboardMarkup(keyboard)
-        query.edit_message_text(text="منتظر بمانید...")
+        query.edit_message_text(text="wait...")
         try:
-            port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
-            Session = samisshbot.PANNEL(host, username, password, port, panel, 'User', user)
+            port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
+            Session = sshx.PANNEL(host, username, password, port, panel, 'User', user)
             server_msg = Session.Update_Traffic(GB)
             if "Error" not in server_msg:
                 value = old_value - price
@@ -6938,7 +6936,7 @@ def call_LTPB(bot, query):
                 settings = get_settings()
                 if settings['buy_notification'] == "on":
                     name, USERNAME, phone, old_value = get_full_user_data_id(chat_id)
-                    keyboard = [[InlineKeyboardButton("ℹ️ اطلاعات کامل", callback_data=f"IDADMIN_{host}${user}")], [InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back')]]
+                    keyboard = [[InlineKeyboardButton("ℹ️ اطلاعات کامل", callback_data=f"IDADMIN_{host}${user}")], [InlineKeyboardButton("<<", callback_data='back')]]
                     reply_markup = InlineKeyboardMarkup(keyboard)
                     for admin in admin_id:
                         try:
@@ -6969,7 +6967,7 @@ def call_TTPB(bot, query):
         add_cache(chat_id, "traffic")
         keyboard = []
         Code = uuid4().hex[0:10]
-        keyboard.append([InlineKeyboardButton("برگشت 🔙", callback_data='traffic_' + Code)])
+        keyboard.append([InlineKeyboardButton("<< Back", callback_data='traffic_' + Code)])
         reply_markup = InlineKeyboardMarkup(keyboard)
         cache_list = [GB, price, user, host, "💲ترون"]
         add_code_buy(chat_id, Code, "traffic", cache_list)
@@ -7018,10 +7016,10 @@ def call_ZTPB(bot, query):
         invoice_url = f"https://zarinp.al/{settings['zarinpal_address']}?amount={price + '0'}"
         keyboard = [
             [InlineKeyboardButton("لینک پرداخت 🔗", url=invoice_url)],
-            [InlineKeyboardButton("برگشت 🔙", callback_data='traffic_' + Code)]
+            [InlineKeyboardButton("<< Back", callback_data='traffic_' + Code)]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
-        cache_list = [GB, price, user, host, "💳 درگاه زرین پال"]
+        cache_list = [GB, price, user, host, "🟡 درگاه زرین پال"]
         add_code_buy(chat_id, Code, "traffic", cache_list)
         text = "⚪️ برای پرداخت با درگاه زرین پال دکمه لینک پرداخت کلیک کنین و به درگاه منتقل میشین و بعد از پرداخت حتما اسکرین شات پرداختتون همینجا بفرستین."
         query.edit_message_text(text=text, reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
@@ -7049,10 +7047,10 @@ def call_DTPB(bot, query):
         invoice_url = f"https://idpay.ir/{settings['idpay_address']}?amount={price + '0'}"
         keyboard = [
             [InlineKeyboardButton("لینک پرداخت 🔗", url=invoice_url)],
-            [InlineKeyboardButton("برگشت 🔙", callback_data='traffic_' + Code)]
+            [InlineKeyboardButton("<< Back", callback_data='traffic_' + Code)]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
-        cache_list = [GB, price, user, host, "💳 درگاه آیدی پی"]
+        cache_list = [GB, price, user, host, "🔵 درگاه آیدی پی"]
         add_code_buy(chat_id, Code, "traffic", cache_list)
         text = "⚪️ برای پرداخت با درگاه آیدی پی دکمه لینک پرداخت کلیک کنین و به درگاه منتقل میشین و بعد از پرداخت حتما اسکرین شات پرداختتون همینجا بفرستین."
         query.edit_message_text(text=text, reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
@@ -7073,7 +7071,7 @@ def call_buy(bot, query):
     settings = get_settings()
     accounts, hosts, status = get_all_accounts_by_chat_id(chat_id)
     if ((settings['buy'] == 'on') and (settings['buy_only_customers'] == 'off')) or ((settings['buy_only_customers'] == 'on') and (len(accounts) >= 1)):
-        text = "1️⃣ مرحله یک:\n\n پلن مورد نظر خود را با توجه به نیازتون انتخاب کنید \n\n"
+        text = "یکی از گزینه هارو انتخاب کنین:\n\n"
         if chat_id in seller_id:
             for i in range(len(settings['seller_prices'])):
                 if settings['seller_traffic'][i] == 0:
@@ -7095,7 +7093,7 @@ def call_buy(bot, query):
                 tcb = f"{get_info_of_expiry(settings['days'][i])} - {str(settings['connections'][i])} کاربر - {traffic} - {get_shortcut_of_price(settings['prices'][i] - random_number)}"
                 cb = f"BU_{str(settings['days'][i])}-{str(settings['traffic'][i])}#{str(settings['connections'][i])}&{str(settings['prices'][i] - random_number)}"
                 keyboard.append([InlineKeyboardButton(tcb, callback_data=cb)])
-        keyboard.append([InlineKeyboardButton("برگشت 🔙", callback_data='back')])
+        keyboard.append([InlineKeyboardButton("<< Back", callback_data='back')])
         reply_markup = InlineKeyboardMarkup(keyboard)
         query.edit_message_text(text=text, reply_markup=reply_markup)
     else:
@@ -7121,7 +7119,7 @@ def call_CC(bot, query):
         add_cache(chat_id, "buy")
         keyboard = []
         Code = uuid4().hex[0:10]
-        keyboard.append([InlineKeyboardButton("برگشت 🔙", callback_data='buy_' + Code)])
+        keyboard.append([InlineKeyboardButton("<< Back", callback_data='buy_' + Code)])
         reply_markup = InlineKeyboardMarkup(keyboard)
         cache_list = [days, GB, client, price, query.message.chat.first_name, UNAME, Selected_host, "💳 کارت به کارت"]
         add_code_buy(chat_id, Code, "add", cache_list)
@@ -7163,7 +7161,7 @@ def call_TR(bot, query):
         add_cache(chat_id, "buy")
         keyboard = []
         Code = uuid4().hex[0:10]
-        keyboard.append([InlineKeyboardButton("برگشت 🔙", callback_data='buy_' + Code)])
+        keyboard.append([InlineKeyboardButton("<< Back", callback_data='buy_' + Code)])
         reply_markup = InlineKeyboardMarkup(keyboard)
         cache_list = [days, GB, client, price, query.message.chat.first_name, UNAME, Selected_host, "💲 ترون"]
         add_code_buy(chat_id, Code, "add", cache_list)
@@ -7214,10 +7212,10 @@ def call_ZP(bot, query):
         invoice_url = f"https://zarinp.al/{settings['zarinpal_address']}?amount={price + '0'}"
         keyboard = [
             [InlineKeyboardButton("لینک پرداخت 🔗", url=invoice_url)],
-            [InlineKeyboardButton("برگشت 🔙", callback_data='buy_' + Code)]
+            [InlineKeyboardButton("<< Back", callback_data='buy_' + Code)]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
-        cache_list = [days, GB, client, price, query.message.chat.first_name, UNAME, Selected_host, "💳 درگاه زرین پال"]
+        cache_list = [days, GB, client, price, query.message.chat.first_name, UNAME, Selected_host, "🟡 درگاه زرین پال"]
         add_code_buy(chat_id, Code, "add", cache_list)
         text = "⚪️ برای پرداخت با درگاه زرین پال دکمه لینک پرداخت کلیک کنین و به درگاه منتقل میشین و بعد از پرداخت حتما اسکرین شات پرداختتون همینجا بفرستین."
         query.edit_message_text(text=text, reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
@@ -7247,10 +7245,10 @@ def call_PD(bot, query):
         invoice_url = f"https://idpay.ir/{settings['idpay_address']}?amount={price + '0'}"
         keyboard = [
             [InlineKeyboardButton("لینک پرداخت 🔗", url=invoice_url)],
-            [InlineKeyboardButton("برگشت 🔙", callback_data='buy_' + Code)]
+            [InlineKeyboardButton("<< Back", callback_data='buy_' + Code)]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
-        cache_list = [days, GB, client, price, query.message.chat.first_name, UNAME, Selected_host, "💳 درگاه آیدی پی"]
+        cache_list = [days, GB, client, price, query.message.chat.first_name, UNAME, Selected_host, "🔵 درگاه آیدی پی"]
         add_code_buy(chat_id, Code, "add", cache_list)
         text = "⚪️ برای پرداخت با درگاه آیدی پی دکمه لینک پرداخت کلیک کنین و به درگاه منتقل میشین و بعد از پرداخت حتما اسکرین شات پرداختتون همینجا بفرستین."
         query.edit_message_text(text=text, reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
@@ -7281,10 +7279,10 @@ def call_BL(bot, query):
             host = get_random_server()
         else:
             host = Selected_host
-            hosts, remarks = samisshbot.HOSTS()
+            hosts, remarks = sshx.HOSTS()
             if host not in hosts:
                 host = None
-        keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back')]]
+        keyboard = [[InlineKeyboardButton("<<", callback_data='back')]]
         reply_markup = InlineKeyboardMarkup(keyboard)
         try:
             USERNAME = "@" + query.message.chat.username
@@ -7293,10 +7291,10 @@ def call_BL(bot, query):
         if host is not None:
             settings = get_settings()
             query.edit_message_text(text="درحال ساخت...")
-            port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
+            port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
             passw = get_password_by_settings()
             try:
-                Session = samisshbot.PANNEL(host, username, password, port, panel, 'Other', 'uname')
+                Session = sshx.PANNEL(host, username, password, port, panel, 'Other', 'uname')
                 if UNAME == "random":
                     user = host.split('.')[0] + "a" + str(randint(1243, 6523))
                 else:
@@ -7334,7 +7332,7 @@ def call_BL(bot, query):
                     cb = "ID_" + host + "$" + user
                     keyboard = [
                         [InlineKeyboardButton("ℹ️ اطلاعات کامل", callback_data=cb), InlineKeyboardButton("آموزش اتصال📡", callback_data='help')],
-                        [InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back')]
+                        [InlineKeyboardButton("<<", callback_data='back')]
                     ]
                     reply_markup = InlineKeyboardMarkup(keyboard)
                     if settings['server_custom_caption'].get(host, None) is not None:
@@ -7342,7 +7340,7 @@ def call_BL(bot, query):
                     sleep(0.1)
                     bot.send_message(chat_id, settings['after_buy'], reply_markup=reply_markup)
                     if settings['buy_notification'] == "on":
-                        keyboard = [[InlineKeyboardButton("ℹ️ اطلاعات کامل", callback_data=f"IDADMIN_{host}${user}")], [InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back')]]
+                        keyboard = [[InlineKeyboardButton("ℹ️ اطلاعات کامل", callback_data=f"IDADMIN_{host}${user}")], [InlineKeyboardButton("<<", callback_data='back')]]
                         reply_markup = InlineKeyboardMarkup(keyboard)
                         for admin in admin_id:
                             try:
@@ -7373,7 +7371,7 @@ def call_Uname(bot, query):
         selected = (data.split("?")[1]).split("_")[0]
         data = data.split("_")[1]
         if selected == "C":
-            keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='buy')]]
+            keyboard = [[InlineKeyboardButton("<<", callback_data='buy')]]
             reply_markup = InlineKeyboardMarkup(keyboard)
             query.edit_message_text(text="نام کاربری مورد نظرتو بفرست (فقط اعداد و حروف انگلیسی و کمتر از 12 کاراکتر)", reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
             add_cache(chat_id, "Uname_" + data)
@@ -7384,7 +7382,7 @@ def call_Uname(bot, query):
             cb_zp = "ZP_" + data + "?random"
             cb_pd = "PD_" + data + "?random"
             cb_nx = "NX_" + data + "?random"
-            keyboard = [[InlineKeyboardButton("💵کیف پول", callback_data=cb_bl)]]
+            keyboard = [[InlineKeyboardButton("💰کیف پول", callback_data=cb_bl)]]
             if check_seller_exist(chat_id) is True:
                 pass
             else:
@@ -7394,12 +7392,12 @@ def call_Uname(bot, query):
                 if settings['trx_buy'] == "on":
                     keyboard.append([InlineKeyboardButton("💲ترون", callback_data=cb_tr)])
                 if (settings['zarinpal'] == "on") and (settings['zarinpal_address'] != "None"):
-                    keyboard.append([InlineKeyboardButton("💳 درگاه زرین پال", callback_data=cb_zp)])
+                    keyboard.append([InlineKeyboardButton("🟡 درگاه زرین پال", callback_data=cb_zp)])
                 if (settings['idpay'] == "on") and (settings['idpay_address'] != "None"):
-                    keyboard.append([InlineKeyboardButton("💳 درگاه آیدی پی", callback_data=cb_pd)])
+                    keyboard.append([InlineKeyboardButton("🔵 درگاه آیدی پی", callback_data=cb_pd)])
                 if (settings['nextpay'] == "on") and (settings['nextpay_address'] != "None"):
-                    keyboard.append([InlineKeyboardButton("💳 درگاه نکست پی", callback_data=cb_nx)])
-            keyboard.append([InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='buy')])
+                    keyboard.append([InlineKeyboardButton("⚪️ درگاه نکست پی", callback_data=cb_nx)])
+            keyboard.append([InlineKeyboardButton("<<", callback_data='buy')])
             reply_markup = InlineKeyboardMarkup(keyboard)
             try:
                 query.edit_message_text(text="روش پرداختو انتخاب کن:", reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
@@ -7427,7 +7425,7 @@ def call_XVPSS(bot, query):
         cb_random = "Uname?R_" + data
         keyboard = [
             [InlineKeyboardButton("✏️دلخواه ", callback_data=cb_custom), InlineKeyboardButton("🔄رندوم", callback_data=cb_random)],
-            [InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='buy')]
+            [InlineKeyboardButton("<<", callback_data='buy')]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         try:
@@ -7453,7 +7451,7 @@ def call_BU(bot, query):
         cb_random = "Uname?R_" + data + "!random"
         keyboard = [
             [InlineKeyboardButton("✏️دلخواه ", callback_data=cb_custom), InlineKeyboardButton("🔄رندوم", callback_data=cb_random)],
-            [InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='buy')]
+            [InlineKeyboardButton("<<", callback_data='buy')]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         settings = get_settings()
@@ -7497,24 +7495,24 @@ def call_Confirmed(bot, query):
         UNAME = cache_list[5]
         Selected_host = cache_list[6]
         USERNAME = "None"
-        msg = bot.send_message(query.message.chat.id, "منتظر بمانید...").id
+        msg = bot.send_message(query.message.chat.id, "wait...").id
         try:
             settings = get_settings()
             if (Selected_host == "random") or ("*" in data):
                 host = get_random_server()
             else:
                 host = Selected_host
-                hosts, remarks = samisshbot.HOSTS()
+                hosts, remarks = sshx.HOSTS()
                 if host not in hosts:
-                    keyboard = [[InlineKeyboardButton("Confirm بصورت سرور رندوم", callback_data=f'{data}*')]]
+                    keyboard = [[InlineKeyboardButton("تایید بصورت سرور رندوم", callback_data=f'{data}*')]]
                     reply_markup = InlineKeyboardMarkup(keyboard)
                     bot.edit_message_text(query.message.chat.id, msg, "سرور انتخابی کاربر وجود نداره", reply_markup=reply_markup)
                     return
             if host is None:
                 query.answer(f"Error: Add a host", show_alert=True)
                 return
-            port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
-            Session = samisshbot.PANNEL(host, username, password, port, panel, 'Other', 'uname')
+            port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
+            Session = sshx.PANNEL(host, username, password, port, panel, 'Other', 'uname')
             if UNAME == "random":
                 user = host.split('.')[0] + "a" + str(randint(1243, 6523))
             else:
@@ -7552,7 +7550,7 @@ def call_Confirmed(bot, query):
                 cb = "ID_" + host + "$" + user
                 keyboard = [
                     [InlineKeyboardButton("ℹ️ اطلاعات کامل", callback_data=cb), InlineKeyboardButton("آموزش اتصال📡", callback_data='help')],
-                    [InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back')]
+                    [InlineKeyboardButton("<<", callback_data='back')]
                 ]
                 reply_markup = InlineKeyboardMarkup(keyboard)
                 if settings['server_custom_caption'].get(host, None) is not None:
@@ -7560,7 +7558,7 @@ def call_Confirmed(bot, query):
                 sleep(0.1)
                 bot.send_message(chat_id, settings['after_buy'], reply_markup=reply_markup)
                 delete_code_buy(code)
-                bot.edit_message_text(query.message.chat.id, msg, "اطلاعات به کاربر ارسال شد", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("full info", callback_data=f"IDADMIN_{host}${user}")], [InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back_admin')]]))
+                bot.edit_message_text(query.message.chat.id, msg, "اطلاعات به کاربر ارسال شد", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("full info", callback_data=f"IDADMIN_{host}${user}")], [InlineKeyboardButton("<<", callback_data='back_admin')]]))
             else:
                 bot.edit_message_text(query.message.chat.id, msg, f"Error: {text}")
         except Exception as e:
@@ -7568,20 +7566,20 @@ def call_Confirmed(bot, query):
         if code in process_codes:
             process_codes.remove(code)
     else:
-        if check_admin_Confirm(code) is True:
+        if check_admin_confirm(code) is True:
             Name, Username, Confirm, Checked = get_check_admin_data(code)
             query.answer(f"Checked by {Name}, Username: {Username}, Confirm: {Confirm}", show_alert=True)
         else:
             query.answer("The user cancel it.", show_alert=True)
 
 
-@app.on_callback_query(filters.regex("رد❌_"))
+@app.on_callback_query(filters.regex("NO❌_"))
 def call_NO(bot, query):
     if query.message.chat.id not in admin_id:
         query.answer("Access denied", show_alert=True)
         return
     data = query.data
-    code = data.split("رد❌_")[1]
+    code = data.split("NO❌_")[1]
     if check_code_exists(code) is True:
         try:
             username = "@" + query.message.chat.username
@@ -7593,7 +7591,7 @@ def call_NO(bot, query):
         delete_code_buy(code)
         query.answer("اطلاعات به کاربر ارسال شد", show_alert=True)
     else:
-        if check_admin_Confirm(code) is True:
+        if check_admin_confirm(code) is True:
             Name, Username, Confirm, Checked = get_check_admin_data(code)
             query.answer(f"Checked by {Name}, Username: {Username}, Confirm: {Confirm}", show_alert=True)
         else:
@@ -7625,7 +7623,7 @@ def call_upgrade(bot, query):
                     keyboard.append([InlineKeyboardButton(accounts[-1], callback_data=("UPG_" + hosts[-1] + "$" + accounts[-1]))])
             else:
                 keyboard.append([InlineKeyboardButton(accounts[0], callback_data=("UPG_" + hosts[0] + "$" + accounts[0]))])
-            keyboard.append([InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back')])
+            keyboard.append([InlineKeyboardButton("<<", callback_data='back')])
             reply_markup = InlineKeyboardMarkup(keyboard)
             query.edit_message_text(text="یکی برای تمدید انتخاب کن", reply_markup=reply_markup)
         else:
@@ -7640,11 +7638,11 @@ def call_UPG(bot, query):
     user = data.split("$")[1]
     if check_exist_user(host, user) is True:
         keyboard = []
-        query.edit_message_text(text="منتظر بمانید...")
+        query.edit_message_text(text="wait...")
         try:
             settings = get_settings()
-            port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
-            Session = samisshbot.PANNEL(host, username, password, port, panel, 'User', user)
+            port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
+            Session = sshx.PANNEL(host, username, password, port, panel, 'User', user)
             text = "اطلاعات سرویس :\n\n" + change_infos_user_info(Session.User_info(settings['dropbear'], settings['tuic']))
             if "Error" in text:
                 text = "مشکلی پیش اومده بعدا تلاش کنین یا به پشتیبانی اطلاع بدین"
@@ -7679,7 +7677,7 @@ def call_UPG(bot, query):
                         keyboard.append([InlineKeyboardButton(tcb, callback_data=cb)])
         except:
             text = "⚠️خطا"
-        keyboard.append([InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back')])
+        keyboard.append([InlineKeyboardButton("<<", callback_data='back')])
         reply_markup = InlineKeyboardMarkup(keyboard)
         query.edit_message_text(text=text, reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
     else:
@@ -7699,18 +7697,18 @@ def call_BU(bot, query):
         cb_pd = "UPIDP_" + data
         cb_nx = "UPNPX_" + data
         settings = get_settings()
-        keyboard = [[InlineKeyboardButton("💵کیف پول", callback_data=cb_bl)]]
+        keyboard = [[InlineKeyboardButton("💰کیف پول", callback_data=cb_bl)]]
         if settings['card_buy'] == "on":
             keyboard.append([InlineKeyboardButton("💳کارت به کارت", callback_data=cb_cc)])
         if settings['trx_buy'] == "on":
             keyboard.append([InlineKeyboardButton("💲ترون", callback_data=cb_tr)])
         if (settings['zarinpal'] == "on") and (settings['zarinpal_address'] != "None"):
-            keyboard.append([InlineKeyboardButton("💳 درگاه زرین پال", callback_data=cb_zp)])
+            keyboard.append([InlineKeyboardButton("🟡 درگاه زرین پال", callback_data=cb_zp)])
         if (settings['idpay'] == "on") and (settings['idpay_address'] != "None"):
-            keyboard.append([InlineKeyboardButton("💳 درگاه آیدی پی", callback_data=cb_pd)])
+            keyboard.append([InlineKeyboardButton("🔵 درگاه آیدی پی", callback_data=cb_pd)])
         if (settings['nextpay'] == "on") and (settings['nextpay_address'] != "None"):
-            keyboard.append([InlineKeyboardButton("💳 درگاه نکست پی", callback_data=cb_nx)])
-        keyboard.append([InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='upgrade')])
+            keyboard.append([InlineKeyboardButton("⚪️ درگاه نکست پی", callback_data=cb_nx)])
+        keyboard.append([InlineKeyboardButton("<<", callback_data='upgrade')])
         reply_markup = InlineKeyboardMarkup(keyboard)
         try:
             query.edit_message_text(text="روش پرداختو انتخاب کن:", reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
@@ -7738,12 +7736,12 @@ def call_UPKIF(bot, query):
         if old_value - price < 0:
             query.answer("موجودی کافی نیست ☹️", show_alert=True)
             return
-        keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back')]]
+        keyboard = [[InlineKeyboardButton("<<", callback_data='back')]]
         reply_markup = InlineKeyboardMarkup(keyboard)
         try:
-            query.edit_message_text(text="منتظر بمانید...")
-            port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
-            Session = samisshbot.PANNEL(host, username, password, port, panel, 'User', user)
+            query.edit_message_text(text="wait...")
+            port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
+            Session = sshx.PANNEL(host, username, password, port, panel, 'User', user)
             settings = get_settings()
             if settings['upgrade_days'] == "on":
                 try:
@@ -7769,7 +7767,7 @@ def call_UPKIF(bot, query):
                     print("Error (line checked_id) : ", str(e))
                 if settings['buy_notification'] == "on":
                     name, USERNAME, phone, old_value = get_full_user_data_id(chat_id)
-                    keyboard = [[InlineKeyboardButton("ℹ️ اطلاعات کامل", callback_data=f"IDADMIN_{host}${user}")], [InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back')]]
+                    keyboard = [[InlineKeyboardButton("ℹ️ اطلاعات کامل", callback_data=f"IDADMIN_{host}${user}")], [InlineKeyboardButton("<<", callback_data='back')]]
                     reply_markup = InlineKeyboardMarkup(keyboard)
                     for admin in admin_id:
                         try:
@@ -7802,7 +7800,7 @@ def call_UPTXR(bot, query):
         add_cache(chat_id, "upgrade")
         keyboard = []
         Code = uuid4().hex[0:10]
-        keyboard.append([InlineKeyboardButton("برگشت 🔙", callback_data='upgrade_' + Code)])
+        keyboard.append([InlineKeyboardButton("<< Back", callback_data='upgrade_' + Code)])
         reply_markup = InlineKeyboardMarkup(keyboard)
         cache_list = [days, GB, connection_limit, price, user, host, "💲ترون"]
         add_code_buy(chat_id, Code, "upgrade", cache_list)
@@ -7852,11 +7850,11 @@ def call_UPZPP(bot, query):
         invoice_url = f"https://zarinp.al/{settings['zarinpal_address']}?amount={price + '0'}"
         keyboard = [
             [InlineKeyboardButton("لینک پرداخت 🔗", url=invoice_url)],
-            [InlineKeyboardButton("برگشت 🔙", callback_data='upgrade_' + Code)]
+            [InlineKeyboardButton("<< Back", callback_data='upgrade_' + Code)]
         ]
         add_cache(chat_id, "upgrade")
         reply_markup = InlineKeyboardMarkup(keyboard)
-        cache_list = [days, GB, connection_limit, price, user, host, "💳 درگاه زرین پال"]
+        cache_list = [days, GB, connection_limit, price, user, host, "🟡 درگاه زرین پال"]
         add_code_buy(chat_id, Code, "upgrade", cache_list)
         text = "⚪️ برای پرداخت با درگاه زرین پال دکمه لینک پرداخت کلیک کنین و به درگاه منتقل میشین و بعد از پرداخت حتما اسکرین شات پرداختتون همینجا بفرستین."
         query.edit_message_text(text=text, reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
@@ -7885,11 +7883,11 @@ def call_UPIDP(bot, query):
         invoice_url = f"https://idpay.ir/{settings['idpay_address']}?amount={price + '0'}"
         keyboard = [
             [InlineKeyboardButton("لینک پرداخت 🔗", url=invoice_url)],
-            [InlineKeyboardButton("برگشت 🔙", callback_data='upgrade_' + Code)]
+            [InlineKeyboardButton("<< Back", callback_data='upgrade_' + Code)]
         ]
         add_cache(chat_id, "upgrade")
         reply_markup = InlineKeyboardMarkup(keyboard)
-        cache_list = [days, GB, connection_limit, price, user, host, "💳 درگاه آیدی پی"]
+        cache_list = [days, GB, connection_limit, price, user, host, "🔵 درگاه آیدی پی"]
         add_code_buy(chat_id, Code, "upgrade", cache_list)
         text = "⚪️ برای پرداخت با درگاه آیدی پی دکمه لینک پرداخت کلیک کنین و به درگاه منتقل میشین و بعد از پرداخت حتما اسکرین شات پرداختتون همینجا بفرستین."
         query.edit_message_text(text=text, reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
@@ -7917,7 +7915,7 @@ def call_UPC(bot, query):
         add_cache(chat_id, "upgrade")
         keyboard = []
         Code = uuid4().hex[0:10]
-        keyboard.append([InlineKeyboardButton("برگشت 🔙", callback_data='upgrade_' + Code)])
+        keyboard.append([InlineKeyboardButton("<< Back", callback_data='upgrade_' + Code)])
         reply_markup = InlineKeyboardMarkup(keyboard)
         cache_list = [days, GB, connection_limit, price, user, host, "💳 کارت به کارت"]
         add_code_buy(chat_id, Code, "upgrade", cache_list)
@@ -7963,11 +7961,11 @@ def call_Confirmed_UPGRADE(bot, query):
         connection_limit = int(cache_list[2])
         user = cache_list[4]
         host = cache_list[5]
-        msg = bot.send_message(query.message.chat.id, "منتظر بمانید...").id
+        msg = bot.send_message(query.message.chat.id, "wait...").id
         try:
-            port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
+            port, username, password, panel, route_path, sshport, udgpw, remark = sshx.HOST_INFO(host)
             text = f"🥰مرسی از خریدتون\n\n"
-            Session = samisshbot.PANNEL(host, username, password, port, panel, 'User', user)
+            Session = sshx.PANNEL(host, username, password, port, panel, 'User', user)
             settings = get_settings()
             if settings['upgrade_days'] == "on":
                 try:
@@ -7989,7 +7987,7 @@ def call_Confirmed_UPGRADE(bot, query):
                 else:
                     bot.send_message(chat_id, f"✅ تمدید شد\n\nUsername : {user}\nSSH Host : {host}")
                 delete_code_buy(code)
-                bot.edit_message_text(query.message.chat.id, msg, "اطلاعات به کاربر ارسال شد", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back_admin')]]))
+                bot.edit_message_text(query.message.chat.id, msg, "اطلاعات به کاربر ارسال شد", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("<<", callback_data='back_admin')]]))
                 try:
                     if user in checked_users:
                         checked_users.remove(user)
@@ -8003,7 +8001,7 @@ def call_Confirmed_UPGRADE(bot, query):
         if code in process_codes:
             process_codes.remove(code)
     else:
-        if check_admin_Confirm(code) is True:
+        if check_admin_confirm(code) is True:
             Name, Username, Confirm, Checked = get_check_admin_data(code)
             query.answer(f"Checked by {Name}, Username: {Username}, Confirm: {Confirm}", show_alert=True)
         else:
