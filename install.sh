@@ -19,10 +19,10 @@ if ! isRoot; then
 fi
 clear
 echo ""
-typessh "SSH Panel Installation :) By Sami4387" 0.4
+typessh "SSH Telegram Bot Installation :) By Sami4387" 0.3
 echo ""
 echo ""
-typessh "Please Wait . . ." 0.4
+typessh "Please Wait . . ." 0.3
 echo ""
 echo ""
 
