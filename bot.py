@@ -12539,8 +12539,8 @@ def image_users(bot, message):
             code, cache_list = get_code_buy_info(chat_id, "add")
             delete_all_buy(chat_id, "add")
             add_code_buy(chat_id, code, "add", cache_list)
-            t1 = f"server: {cache_list[6]}\nuser: {cache_list[5]}\ndays: {cache_list[0]}\nGB: {cache_list[1]}\nConnection: {cache_list[2]}\nPrice: {cache_list[3]} Toman\nPayment: {cache_list[7]}"
-            text = "id: <code>" + str(chat_id) + "</code>\nName: " + name + '\nUsername: ' + username + "\n\nاطلاعات خرید اکانت\n" + t1
+            t1 = f"🚦سرور: {cache_list[6]}\n✏️ نام اکانت: {cache_list[5]}\n⏰ مدت سرویس: {cache_list[0]}\n🔋حجم سرویس: {cache_list[1]} گیگ\n🧑‍💻 محدودیت: {cache_list[2]} کاربره\n💰مبلغ پرداختی: {cache_list[3]} تومان"
+            text = "🪪 آیدی کاربر: <code>" + str(chat_id) + "</code>\n👨‍💼 اسم کاربر: " + name + '\n⚡️ نام کاربری: ' + username + "\n\n❗️| خرید جدید ({cache_list[7]})\n\n" + t1
             cb = "Confirmed_" + code
             no = "رد❌_" + code
             keyboard = [[InlineKeyboardButton("تایید✅", callback_data=cb), InlineKeyboardButton("رد❌", callback_data=no)], [InlineKeyboardButton("پیام به کاربر ✉️", callback_data='ANS_' + str(chat_id))]]
@@ -12563,8 +12563,8 @@ def image_users(bot, message):
             code, cache_list = get_code_buy_info(chat_id, "upgrade")
             delete_all_buy(chat_id, "upgrade")
             add_code_buy(chat_id, code, "upgrade", cache_list)
-            t1 = f"♻ تمدید سرویس\ndays: {cache_list[0]}\nGB: {cache_list[1]}\nConnection: {cache_list[2]}\nprice: {cache_list[3]} Toman\nPayment: {cache_list[6]}\nHost: {cache_list[5]}\nUser: {cache_list[4]}"
-            text = "id: <code>" + str(chat_id) + "</code>\nName: " + name + '\nUsername: ' + username + "\n\nاطلاعات تمدید:\n" + t1
+            t1 = f"♻ تمدید سرویس\n⏰ مدت سرویس: {cache_list[0]}\n🔋حجم سرویس: {cache_list[1]} گیگ\n🧑‍💻 محدودیت: {cache_list[2]} کاربره\n💰مبلغ پرداختی: {cache_list[3]} تومان\n🚦سرور: {cache_list[5]}\n✏️ نام اکانت: {cache_list[4]}"
+            text = "🪪 آیدی کاربر: <code>" + str(chat_id) + "</code>\n👨‍💼 اسم کاربر: " + name + '\n⚡️ نام کاربری: ' + username + "\n\n♻️ تمدید سرویس ({cache_list[6]})\n\n" + t1
             cb = "ConfirmUPGRADE_" + code
             no = "رد❌_" + code
             keyboard = [[InlineKeyboardButton("تایید✅", callback_data=cb), InlineKeyboardButton("رد❌", callback_data=no)], [InlineKeyboardButton("پیام به کاربر ✉️", callback_data='ANS_' + str(chat_id))]]
@@ -12611,8 +12611,8 @@ def image_users(bot, message):
             code, cache_list = get_code_buy_info(chat_id, "userdeposit")
             delete_all_buy(chat_id, "userdeposit")
             add_code_buy(chat_id, code, "userdeposit", cache_list)
-            t1 = f"💵افزایش موجودی کیف پول\n\nPrice: {cache_list[0]}\nPayment: {cache_list[1]}"
-            text = "id: <code>" + str(chat_id) + "</code>\nName: " + name + '\nUsername: ' + username + "\n\nاطلاعات خرید:\n" + t1
+            t1 = f"💵افزایش موجودی کیف پول\n\n💰مبلغ پرداختی: {cache_list[0]} تومان\n"
+            text = "🪪 آیدی کاربر: <code>" + str(chat_id) + "</code>\n👨‍💼 اسم کاربر: " + name + '\n⚡️ نام کاربری: ' + username + "\n\n💵افزایش موجودی کیف پول ({cache_list[1]})\n\n" + t1
             cb = "ConfirmDeposit_" + code
             no = "رد❌_" + code
             keyboard = [[InlineKeyboardButton("تایید✅", callback_data=cb), InlineKeyboardButton("رد❌", callback_data=no)], [InlineKeyboardButton("پیام به کاربر ✉️", callback_data='ANS_' + str(chat_id))]]
