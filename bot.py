@@ -6533,7 +6533,7 @@ def call_CUWPD(bot, query):
         cache_list = [price, "💳 کارت به کارت"]
         add_code_buy(chat_id, Code, "userdeposit", cache_list)
         text = f"""
-        ️⃣ مرحله پنجم:
+       5️⃣ مرحله پنجم:
         
 مبلغ:
 {price} تومن
@@ -6577,7 +6577,7 @@ def call_TUWPD(bot, query):
         else:
             price = trx_price(price)
         text = f"""
-        ️⃣ مرحله پنجم:
+       5️⃣ مرحله پنجم:
         
 مبلغ: {price}
 
@@ -6891,7 +6891,7 @@ def call_CTPB(bot, query):
         cache_list = [GB, price, user, host, "💳 کارت به کارت"]
         add_code_buy(chat_id, Code, "traffic", cache_list)
         text = f"""
-        ️⃣ مرحله پنجم:
+       5️⃣ مرحله پنجم:
         
 مبلغ: {price} تومن
 به شماره کارت :
@@ -6983,7 +6983,7 @@ def call_TTPB(bot, query):
         else:
             price = trx_price(price)
         text = f"""
-        ️⃣ مرحله پنجم:
+       5️⃣ مرحله پنجم:
         
 مبلغ: {price}
 
@@ -7078,7 +7078,7 @@ def call_buy(bot, query):
     settings = get_settings()
     accounts, hosts, status = get_all_accounts_by_chat_id(chat_id)
     if ((settings['buy'] == 'on') and (settings['buy_only_customers'] == 'off')) or ((settings['buy_only_customers'] == 'on') and (len(accounts) >= 1)):
-        text = "یکی از گزینه هارو انتخاب کنین:\n\n"
+        text = "1️⃣ مرحله یک:\n\nپلن مورد نظر خودتو با توجه به نیازت انتخاب کن.🙂\n\n"
         if chat_id in seller_id:
             for i in range(len(settings['seller_prices'])):
                 if settings['seller_traffic'][i] == 0:
@@ -7131,7 +7131,7 @@ def call_CC(bot, query):
         cache_list = [days, GB, client, price, query.message.chat.first_name, UNAME, Selected_host, "💳 کارت به کارت"]
         add_code_buy(chat_id, Code, "add", cache_list)
         text = f"""
-        ️⃣ مرحله پنجم:
+       5️⃣ مرحله پنجم:
         
 مبلغ: {price} تومن
 به شماره کارت :
@@ -7179,7 +7179,7 @@ def call_TR(bot, query):
         else:
             price = trx_price(price)
         text = f"""
-        ️⃣ مرحله پنجم:
+       5️⃣ مرحله پنجم:
         
 مبلغ: {price}
 
@@ -7534,7 +7534,7 @@ def call_Confirmed(bot, query):
                     user = UNAME + str(randint(123, 350))
             user = user.lower()
             passw = get_password_by_settings()
-            t0 = "🥰مرسی از خریدتون\n\n"
+            t0 = "✅ خرید شما با موفقیت انجام شد.🥰\n\n🛜 مشخصات اکانت: \n\n"
             if chat_id in seller_id:
                 creator = "SELLER"
             else:
@@ -7552,7 +7552,7 @@ def call_Confirmed(bot, query):
                 HOST = ((text.split("SSH Host : ")[1]).split("\n")[0]).replace("<pre>", "").replace("</pre>", "").replace("<code>", "").replace("</code>", "").replace(" ", "")
                 url = f"ssh://{user}:{passw}@{HOST}:{port}#{user}"
                 photo = QR_Maker(url)
-                text += "\n\nURL: " + "<code>" + url + "</code>"
+                text += "\n\n🌐 لینک اتصال خودکار:\n\n " + "<code>" + url + "</code>"
                 bot.send_photo(chat_id, open(photo, 'rb'), text, parse_mode=enums.ParseMode.HTML)
                 os.remove(photo)
                 add_user_db(chat_id, name, USERNAME, user, host)
@@ -9319,7 +9319,7 @@ def call_QRCODE(bot, query):
         passw = ((text.split("Password : ")[1]).split("\n")[0])
         url = f"ssh://{user}:{passw}@{HOST}:{port}#{user}"
         photo = QR_Maker(url)
-        text = "URL: " + "<code>" + url + "</code>"
+        text = "🌐 لینک اتصال خودکار:\n\n  " + "<code>" + url + "</code>"
         bot.send_photo(chat_id, open(photo, 'rb'), text, parse_mode=enums.ParseMode.HTML)
         os.remove(photo)
         if check_seller_exist(chat_id) is False:
@@ -9540,7 +9540,7 @@ def call_test(bot, query):
                     HOST = ((text.split("SSH Host : ")[1]).split("\n")[0]).replace("<pre>", "").replace("</pre>", "").replace("<code>", "").replace("</code>", "").replace(" ", "")
                     url = f"ssh://{user}:{passw}@{HOST}:{port}#{user}"
                     photo = QR_Maker(url)
-                    text += "\n\nURL: " + "<code>" + url + "</code>"
+                    text += "\n\n🌐 لینک اتصال خودکار:\n\n " + "<code>" + url + "</code>"
                     bot.send_photo(chat_id, open(photo, 'rb'), text, parse_mode=enums.ParseMode.HTML)
                     os.remove(photo)
                     try:
@@ -12546,7 +12546,7 @@ def image_users(bot, message):
             code, cache_list = get_code_buy_info(chat_id, "add")
             delete_all_buy(chat_id, "add")
             add_code_buy(chat_id, code, "add", cache_list)
-            t1 = f"🚦سرور: {cache_list[6]}\n✏️ نام اکانت: {cache_list[5]}\n⏰ مدت سرویس: {cache_list[0]}\n🔋حجم سرویس: {cache_list[1]} گیگ\n🧑‍💻 محدودیت: {cache_list[2]} کاربره\n💰مبلغ پرداختی: {cache_list[3]} تومان"
+            t1 = f"🚦سرور: {cache_list[6]}\n✏️ نام اکانت: {cache_list[5]}\n⏰ مدت سرویس: {cache_list[0]} روز\n🔋حجم سرویس: {cache_list[1]} گیگ\n🧑‍💻 محدودیت: {cache_list[2]} کاربره\n💰مبلغ پرداختی: {cache_list[3]} تومان"
             text = "🪪 آیدی کاربر: <code>" + str(chat_id) + "</code>\n👨‍💼 اسم کاربر: " + name + '\n⚡️ نام کاربری: ' + username + "\n\n❗️| خرید جدید ({cache_list[7]})\n\n" + t1
             cb = "Confirmed_" + code
             no = "رد❌_" + code
@@ -12570,8 +12570,8 @@ def image_users(bot, message):
             code, cache_list = get_code_buy_info(chat_id, "upgrade")
             delete_all_buy(chat_id, "upgrade")
             add_code_buy(chat_id, code, "upgrade", cache_list)
-            t1 = f"♻ تمدید سرویس\n⏰ مدت سرویس: {cache_list[0]}\n🔋حجم سرویس: {cache_list[1]} گیگ\n🧑‍💻 محدودیت: {cache_list[2]} کاربره\n💰مبلغ پرداختی: {cache_list[3]} تومان\n🚦سرور: {cache_list[5]}\n✏️ نام اکانت: {cache_list[4]}"
-            text = "🪪 آیدی کاربر: <code>" + str(chat_id) + "</code>\n👨‍💼 اسم کاربر: " + name + '\n⚡️ نام کاربری: ' + username + "\n\n♻️ تمدید سرویس ({cache_list[6]})\n\n" + t1
+            t1 = f"♻ تمدید سرویس\n⏰ مدت سرویس: {cache_list[0]} روز\n🔋حجم سرویس: {cache_list[1]} گیگ\n🧑‍💻 محدودیت: {cache_list[2]} کاربره\n💰مبلغ پرداختی: {cache_list[3]} تومان\n🚦سرور: {cache_list[5]}\n✏️ نام اکانت: {cache_list[4]}\n📱 پرداخت: {cache_list[6]}"
+            text = "🪪 آیدی کاربر: <code>" + str(chat_id) + "</code>\n👨‍💼 اسم کاربر: " + name + '\n⚡️ نام کاربری: ' + username + "\n\n♻️ تمدید سرویس \n\n" + t1
             cb = "ConfirmUPGRADE_" + code
             no = "رد❌_" + code
             keyboard = [[InlineKeyboardButton("تایید✅", callback_data=cb), InlineKeyboardButton("رد❌", callback_data=no)], [InlineKeyboardButton("پیام به کاربر ✉️", callback_data='ANS_' + str(chat_id))]]
@@ -12594,8 +12594,8 @@ def image_users(bot, message):
             code, cache_list = get_code_buy_info(chat_id, "traffic")
             delete_all_buy(chat_id, "traffic")
             add_code_buy(chat_id, code, "traffic", cache_list)
-            t1 = f"🔄افزایش ترافیک\n\nGB: {cache_list[0]}\nprice: {cache_list[1]} Toman\nPayment: {cache_list[4]}\nHost: {cache_list[3]}\nUser: {cache_list[2]}"
-            text = "id: <code>" + str(chat_id) + "</code>\nName: " + name + '\nUsername: ' + username + "\n\nاطلاعات تمدید:\n" + t1
+            t1 = f"🔄افزایش ترافیک:\n\n🔋حجم سرویس: {cache_list[0]} گیگ\n💰مبلغ پرداختی: {cache_list[1]} Toman\n📱 پرداخت: {cache_list[4]}\n🚦سرور: {cache_list[3]}\n✏️ نام اکانت: {cache_list[2]}"
+            text = "🪪 آیدی کاربر: <code>" + str(chat_id) + "</code>\n👨‍💼 اسم کاربر: " + name + '\n⚡️ نام کاربری: ' + username + "\n\n🔄افزایش ترافیک:\n" + t1
             cb = "ConfirmTraffic_" + code
             no = "رد❌_" + code
             keyboard = [[InlineKeyboardButton("تایید✅", callback_data=cb), InlineKeyboardButton("رد❌", callback_data=no)]]
@@ -12618,8 +12618,8 @@ def image_users(bot, message):
             code, cache_list = get_code_buy_info(chat_id, "userdeposit")
             delete_all_buy(chat_id, "userdeposit")
             add_code_buy(chat_id, code, "userdeposit", cache_list)
-            t1 = f"💵افزایش موجودی کیف پول\n\n💰مبلغ پرداختی: {cache_list[0]} تومان\n"
-            text = "🪪 آیدی کاربر: <code>" + str(chat_id) + "</code>\n👨‍💼 اسم کاربر: " + name + '\n⚡️ نام کاربری: ' + username + "\n\n💵افزایش موجودی کیف پول ({cache_list[1]})\n\n" + t1
+            t1 = f"💵افزایش موجودی کیف پول\n\n💰مبلغ پرداختی: {cache_list[0]} تومان\n📱 پرداخت: {cache_list[1]}"
+            text = "🪪 آیدی کاربر: <code>" + str(chat_id) + "</code>\n👨‍💼 اسم کاربر: " + name + '\n⚡️ نام کاربری: ' + username + "\n\n💵افزایش موجودی کیف پول\n\n" + t1
             cb = "ConfirmDeposit_" + code
             no = "رد❌_" + code
             keyboard = [[InlineKeyboardButton("تایید✅", callback_data=cb), InlineKeyboardButton("رد❌", callback_data=no)], [InlineKeyboardButton("پیام به کاربر ✉️", callback_data='ANS_' + str(chat_id))]]
