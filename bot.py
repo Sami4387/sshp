@@ -2206,7 +2206,7 @@ def text_private(bot, message):
                         HOST = ((text.split("SSH Host : ")[1]).split("\n")[0]).replace("<pre>", "").replace("</pre>", "").replace("<code>", "").replace("</code>", "").replace(" ", "")
                         url = f'ssh://{cache_list[1]}:{passw}@{HOST}:{port}#{cache_list[1]}'
                         photo = QR_Maker(url)
-                        text += "\n\n🌐 لینک اتصال خودکار:\n\n " + "<code>" + url + "</code>"
+                        text += "\n\n🌐 لینک اتصال خودکار 👇:\n\n " + "<code>" + url + "</code>"
                         bot.send_photo(chat_id, open(photo, 'rb'), text, parse_mode=enums.ParseMode.HTML)
                         os.remove(photo)
                         cb = "IDADMIN_" + host + "$" + cache_list[1]
@@ -2475,7 +2475,7 @@ def text_private(bot, message):
                     HOST = ((text.split("SSH Host : ")[1]).split("\n")[0]).replace("<pre>", "").replace("</pre>", "").replace("<code>", "").replace("</code>", "").replace(" ", "")
                     url = f'ssh://{cache_list[1]}:{passw}@{HOST}:{port}#{cache_list[1]}'
                     photo = QR_Maker(url)
-                    text += "\n\n🌐 لینک اتصال خودکار:\n\n " + "<code>" + url + "</code>"
+                    text += "\n\n🌐 لینک اتصال خودکار 👇:\n\n " + "<code>" + url + "</code>"
                     bot.send_photo(chat_id, open(photo, 'rb'), text, parse_mode=enums.ParseMode.HTML)
                     os.remove(photo)
                     cb = "IDADMIN_" + host + "$" + cache_list[1]
@@ -7315,7 +7315,7 @@ def call_BL(bot, query):
                     else:
                         user = UNAME + str(randint(123, 350))
                 user = user.lower()
-                t0 = "✅ خرید شما با موفقیت انجام شد.🥰\n\n🛜 مشخصات اکانت: \n\n"
+                t0 = "✅ خرید شما با موفقیت انجام شد.🥰\n\n🛜 مشخصات اکانت 👇: \n\n"
                 if chat_id in seller_id:
                     creator = "SELLER"
                 else:
@@ -7332,7 +7332,7 @@ def call_BL(bot, query):
                     HOST = ((text.split("SSH Host : ")[1]).split("\n")[0]).replace("<pre>", "").replace("</pre>", "").replace("<code>", "").replace("</code>", "").replace(" ", "")
                     url = f"ssh://{user}:{passw}@{HOST}:{port}#{user}"
                     photo = QR_Maker(url)
-                    text += "\n\n🌐 لینک اتصال خودکار:\n\n " + "<code>" + url + "</code>"
+                    text += "\n\n🌐 لینک اتصال خودکار 👇:\n\n " + "<code>" + url + "</code>"
                     add_user_db(chat_id, name, USERNAME, user, host)
                     value = old_value - price
                     update_user_wallet(chat_id, value)
@@ -7534,7 +7534,7 @@ def call_Confirmed(bot, query):
                     user = UNAME + str(randint(123, 350))
             user = user.lower()
             passw = get_password_by_settings()
-            t0 = "✅ خرید شما با موفقیت انجام شد.🥰\n\n🛜 مشخصات اکانت: \n\n"
+            t0 = "✅ خرید شما با موفقیت انجام شد.🥰\n\n🛜 مشخصات اکانت 👇: \n\n"
             if chat_id in seller_id:
                 creator = "SELLER"
             else:
@@ -7552,7 +7552,7 @@ def call_Confirmed(bot, query):
                 HOST = ((text.split("SSH Host : ")[1]).split("\n")[0]).replace("<pre>", "").replace("</pre>", "").replace("<code>", "").replace("</code>", "").replace(" ", "")
                 url = f"ssh://{user}:{passw}@{HOST}:{port}#{user}"
                 photo = QR_Maker(url)
-                text += "\n\n🌐 لینک اتصال خودکار:\n\n " + "<code>" + url + "</code>"
+                text += "\n\n🌐 لینک اتصال خودکار 👇:\n\n " + "<code>" + url + "</code>"
                 bot.send_photo(chat_id, open(photo, 'rb'), text, parse_mode=enums.ParseMode.HTML)
                 os.remove(photo)
                 add_user_db(chat_id, name, USERNAME, user, host)
@@ -7567,7 +7567,7 @@ def call_Confirmed(bot, query):
                 sleep(0.1)
                 bot.send_message(chat_id, settings['after_buy'], reply_markup=reply_markup)
                 delete_code_buy(code)
-                bot.edit_message_text(query.message.chat.id, msg, "اطلاعات به کاربر ارسال شد", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("full info", callback_data=f"IDADMIN_{host}${user}")], [InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back_admin')]]))
+                bot.edit_message_text(query.message.chat.id, msg, "اطلاعات به کاربر ارسال شد", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("ℹ️ اطلاعات کامل", callback_data=f"IDADMIN_{host}${user}")], [InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back_admin')]]))
             else:
                 bot.edit_message_text(query.message.chat.id, msg, f"Error: {text}")
         except Exception as e:
@@ -9319,7 +9319,7 @@ def call_QRCODE(bot, query):
         passw = ((text.split("Password : ")[1]).split("\n")[0])
         url = f"ssh://{user}:{passw}@{HOST}:{port}#{user}"
         photo = QR_Maker(url)
-        text = "🌐 لینک اتصال خودکار:\n\n  " + "<code>" + url + "</code>"
+        text = "🌐 لینک اتصال خودکار 👇:\n\n  " + "<code>" + url + "</code>"
         bot.send_photo(chat_id, open(photo, 'rb'), text, parse_mode=enums.ParseMode.HTML)
         os.remove(photo)
         if check_seller_exist(chat_id) is False:
@@ -9540,7 +9540,7 @@ def call_test(bot, query):
                     HOST = ((text.split("SSH Host : ")[1]).split("\n")[0]).replace("<pre>", "").replace("</pre>", "").replace("<code>", "").replace("</code>", "").replace(" ", "")
                     url = f"ssh://{user}:{passw}@{HOST}:{port}#{user}"
                     photo = QR_Maker(url)
-                    text += "\n\n🌐 لینک اتصال خودکار:\n\n " + "<code>" + url + "</code>"
+                    text += "\n\n🌐 لینک اتصال خودکار 👇:\n\n " + "<code>" + url + "</code>"
                     bot.send_photo(chat_id, open(photo, 'rb'), text, parse_mode=enums.ParseMode.HTML)
                     os.remove(photo)
                     try:
@@ -12546,8 +12546,8 @@ def image_users(bot, message):
             code, cache_list = get_code_buy_info(chat_id, "add")
             delete_all_buy(chat_id, "add")
             add_code_buy(chat_id, code, "add", cache_list)
-            t1 = f"🚦سرور: {cache_list[6]}\n✏️ نام اکانت: {cache_list[5]}\n⏰ مدت سرویس: {cache_list[0]} روز\n🔋حجم سرویس: {cache_list[1]} گیگ\n🧑‍💻 محدودیت: {cache_list[2]} کاربره\n💰مبلغ پرداختی: {cache_list[3]} تومان"
-            text = "🪪 آیدی کاربر: <code>" + str(chat_id) + "</code>\n👨‍💼 اسم کاربر: " + name + '\n⚡️ نام کاربری: ' + username + "\n\n❗️| خرید جدید ({cache_list[7]})\n\n" + t1
+            t1 = f"🚦سرور: {cache_list[6]}\n✏️ نام اکانت: {cache_list[5]}\n⏰ مدت سرویس: {cache_list[0]} روز\n🔋حجم سرویس: {cache_list[1]} گیگ\n🧑‍💻 محدودیت: {cache_list[2]} کاربره\n💰مبلغ پرداختی: {cache_list[3]} تومان\n📱 پرداخت: {cache_list[7]}"
+            text = "🪪 آیدی کاربر: <code>" + str(chat_id) + "</code>\n👨‍💼 اسم کاربر: " + name + '\n⚡️ نام کاربری: ' + username + "\n\n❗️|💳 خرید جدید\n\n" + t1
             cb = "Confirmed_" + code
             no = "رد❌_" + code
             keyboard = [[InlineKeyboardButton("تایید✅", callback_data=cb), InlineKeyboardButton("رد❌", callback_data=no)], [InlineKeyboardButton("پیام به کاربر ✉️", callback_data='ANS_' + str(chat_id))]]
