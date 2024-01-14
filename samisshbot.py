@@ -1580,7 +1580,7 @@ class PANNEL:
                 Clients = str(info[0]).replace('\n', '').replace(' ', '')
                 Active = str(info[2]).replace('\n', '').replace(' ', '')
                 Disabled = str(info[3]).replace('\n', '').replace(' ', '')
-                text = f'🖥Host: {self.host}\nCPU: {cpu}\nRAM: {ram}\nStorage: {storage}\nServer Traffic: {str(server_traffic)}\nClients Traffic: {str(clients_usage)}\n👤Clients: {Clients}\n✔️Active: {Active}\n🔴Disabled: {Disabled}\n🟢Online: {str(onlines)}'
+                text = f'🖥سرور: {self.host}\nسی پی یو: {cpu}\nرم: {ram}\nحافظه: {storage}\nترافیک مصرفی سرور: {str(server_traffic)}\nترافیک مصرفی کاربران: {str(clients_usage)}\n👤اتعداد مشترکین: {Clients}\n✔️فعال: {Active}\n🔴غیرفعال: {Disabled}\n🟢آنلاین: {str(onlines)}'
                 return text
             except Exception as e:
                 return "Error: " + str(e)
@@ -1609,7 +1609,7 @@ class PANNEL:
                         if (sec.attributes['title'] == "دانلود") or (sec.attributes['title'] == "آپلود"):
                             band_info.append((sec.text()).replace(" ", "").replace("\n", "").replace(",", ""))
                 server_traffic, clients_usage = get_traffic_rocket(band_info)
-                text = f"🖥Host: {self.host}\nCPU: {cpu}\nRAM: {ram}\nStorage: {storage}\nServer Traffic: {str(server_traffic)}\nClients Traffic: {str(clients_usage)}\n👤Clients: {str(clients)}\n✔️Active: {str(active)}\n🔴Disabled: {str(disabled)}\n🟢Online: {str(onlines)}"
+                text = f"🖥سرور: {self.host}\nسی پی یو: {cpu}\nرم: {ram}\nحافظه: {storage}\nترافیک مصرفی سرور: {str(server_traffic)}\nترافیک مصرفی کاربران: {str(clients_usage)}\n👤تعداد مشترکین: {str(clients)}\n✔️فعال: {str(active)}\n🔴غیرفعال: {str(disabled)}\n🟢آنلاین: {str(onlines)}"
                 return text
             except Exception as e:
                 return "Error: " + str(e)
@@ -1634,7 +1634,7 @@ class PANNEL:
                         t = t.replace("Client", "").replace("کلاینت", "")
                     band_info.append(t)
                 server_traffic, clients_usage = get_traffic_xpanel(band_info)
-                text = f"🖥Host: {self.host}\nCPU: {cpu}\nRAM: {ram}\nStorage: {storage}\nServer Traffic: {str(server_traffic)}\nClients Traffic: {str(clients_usage)}\n👤Clients: {str(clients)}\n✔️Active: {str(active)}\n🔴Disabled: {str(disabled)}\n🟢Online: {str(onlines)}"
+                text = f"🖥سرور: {self.host}\nسی پی یو: {cpu}\nرم: {ram}\nحافظه: {storage}\nترافیک مصرفی سرور: {str(server_traffic)}\nترافیک مصرفی کاربران: {str(clients_usage)}\n👤تعداد مشترکین: {str(clients)}\n✔️فعال: {str(active)}\n🔴غیرفعال: {str(disabled)}\n🟢آنلاین: {str(onlines)}"
                 return text
             except Exception as e:
                 return "Error: " + str(e)
@@ -1681,7 +1681,7 @@ class PANNEL:
                 down = float(str("{:.2f}".format(float(data_down // 1024 // 1024 / 1024))))
                 clients_usage = str("{:.2f}".format(float(up + down))) + " GB"
                 clients = clients_c
-                text = f"🖥Host: {self.host}\nUptime: {uptime}\nX-ray version: {x_ray}\nCPU: {cpu_percentage}%\nCore/s: {cpu_cores}\nMax speed: {cpu_max_speed}\nRAM: {memory}\nStorage: {storage}\nServer Traffic: {str(server_traffic)}\nClients Traffic: {str(clients_usage)}\n👤Clients: {str(clients)}\n✔️Active: {str(active)}\n🔴Disabled: {str(disabled)}\n🟢Online: {str(onlines)}"
+                text = f"🖥سرور: {self.host}\nآپ تایم: {uptime}\nورژن ایکس ری: {x_ray}\nسی پی یو: {cpu_percentage}%\nهسته/ها: {cpu_cores}\nحداکثر سرعت: {cpu_max_speed}\nرم: {memory}\nحافظه: {storage}\nترافیک مصرفی سرور: {str(server_traffic)}\nترافیک مصرفی کاربران: {str(clients_usage)}\n👤تعداد مشترکین: {str(clients)}\n✔️فعال: {str(active)}\n🔴غیرفعال: {str(disabled)}\n🟢آنلاین: {str(onlines)}"
                 return text
             except Exception as e:
                 return "Error: " + str(e)
