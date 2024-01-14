@@ -11877,42 +11877,42 @@ def call_NSCLS(bot, query):
     settings = get_settings()
     if settings['notification'] == "on":
         emoji = "🟢"
-        cb = 'خاموش'
+        cb = 'off'
         emoji_cb = "🔴"
     else:
         emoji = "🔴"
-        cb = 'روشن'
+        cb = 'on'
         emoji_cb = "🟢"
     if settings['phone_notification'] == "on":
         emoji_2 = "🟢"
-        cb_2 = 'خاموش'
+        cb_2 = 'off'
         emoji_cb_2 = "🔴"
     else:
         emoji_2 = "🔴"
-        cb_2 = 'روشن'
+        cb_2 = 'on'
         emoji_cb_2 = "🟢"
     if settings['buy_notification'] == "on":
         emoji_3 = "🟢"
-        cb_3 = 'خاموش'
+        cb_3 = 'off'
         emoji_cb_3 = "🔴"
     else:
         emoji_3 = "🔴"
-        cb_3 = 'روشن'
+        cb_3 = 'on'
         emoji_cb_3 = "🟢"
     if settings['notify_test_account'] == "on":
         emoji_4 = "🟢"
-        cb_4 = 'خاموش'
+        cb_4 = 'off'
         emoji_cb_4 = "🔴"
     else:
         emoji_4 = "🔴"
-        cb_4 = 'روشن'
+        cb_4 = 'on'
         emoji_cb_4 = "🟢"
     keyboard = [
-        [InlineKeyboardButton(f"کاربر جدید: {cb} {emoji_cb}", callback_data=f'NSCXZ_{cb}')],
-        [InlineKeyboardButton(f"شماره تلفن: {cb_2} {emoji_cb_2}", callback_data=f'SVJLD_{cb_2}')],
-        [InlineKeyboardButton(f"خرید: {cb_3} {emoji_cb_3}", callback_data=f'SWHFlN_{cb_3}')],
-        [InlineKeyboardButton(f"اکانت تست: {cb_4} {emoji_cb_4}", callback_data=f'vogrog_{cb_4}')],
-        [InlineKeyboardButton("🗒پیام قبل از عضویت", callback_data='QPAEOI')]
+        [InlineKeyboardButton(f"New user: {cb} {emoji_cb}", callback_data=f'NSCXZ_{cb}')],
+        [InlineKeyboardButton(f"Phone: {cb_2} {emoji_cb_2}", callback_data=f'SVJLD_{cb_2}')],
+        [InlineKeyboardButton(f"Buy: {cb_3} {emoji_cb_3}", callback_data=f'SWHFlN_{cb_3}')],
+        [InlineKeyboardButton(f"Test: {cb_4} {emoji_cb_4}", callback_data=f'vogrog_{cb_4}')],
+        [InlineKeyboardButton("🗒پیام قبل استارت", callback_data='QPAEOI')]
     ]
     t0 = "\n\nCurrent: \nپیغام کاربر جدید: " + settings['notification'] + " " + emoji + "\nشماره تلفن کاربر: " + settings['phone_notification'] + " " + emoji_2 + "\nپیغام خرید کاربر: " + settings['buy_notification'] + " " + emoji_3 + "\nپیغام دریافت اکانت تست: " + settings['notify_test_account'] + " " + emoji_4
     text = '<b>تنظیمات اعلانات</b>\n\n' + 'بهتون اطلاع میده کی عضو ربات شده \n\nگزینه دوم وقتی کاربر شمارشو میده به شما اطلاع بده\n\nگزینه سوم وقتی کاربر یا فروشنده از طریق کیف پول خریدی انجام دادن به شما اطلاع رسانی بشه فرقی نداره که خرید یا تمدید باشه\n\nگزینه چهارم برای اطلاع رسانی اکانت تست هست هرکی که دریافت کنه اطلاع میده بهتون\n\nگزینه پنجم میتونین برای کاربر یه پیامی رو تنظیم کنین که بعد از استارت نمایش داده بشه و فقط یکبار نشون داده میشه' + t0
@@ -12044,68 +12044,68 @@ def call_RWUAD(bot, query):
     settings = get_settings()
     if settings['delete_user'] == "on":
         emoji = "🟢"
-        cb = 'خاموش'
+        cb = 'off'
         emoji_cb = "🔴"
     else:
         emoji = "🔴"
-        cb = 'روشن'
+        cb = 'on'
         emoji_cb = "🟢"
     if settings['select_server_users'] == "on":
         emoji_2 = "🟢"
-        cb_2 = 'خاموش'
+        cb_2 = 'off'
         emoji_cb_2 = "🔴"
     else:
         emoji_2 = "🔴"
-        cb_2 = 'روشن'
+        cb_2 = 'on'
         emoji_cb_2 = "🟢"
     if settings['dropbear'] == "on":
         emoji_3 = "🟢"
-        cb_3 = 'خاموش'
+        cb_3 = 'off'
         emoji_cb_3 = "🔴"
     else:
         emoji_3 = "🔴"
-        cb_3 = 'روشن'
+        cb_3 = 'on'
         emoji_cb_3 = "🟢"
     if settings['info_service'] == "on":
         emoji_4 = "🟢"
-        cb_4 = 'خاموش'
+        cb_4 = 'off'
         emoji_cb_4 = "🔴"
     else:
         emoji_4 = "🔴"
-        cb_4 = 'روشن'
+        cb_4 = 'on'
         emoji_cb_4 = "🟢"
     if settings['tuic'] == "on":
         emoji_5 = "🟢"
-        cb_5 = 'خاموش'
+        cb_5 = 'off'
         emoji_cb_5 = "🔴"
     else:
         emoji_5 = "🔴"
-        cb_5 = 'روشن'
+        cb_5 = 'on'
         emoji_cb_5 = "🟢"
     if settings['online_access'] == "on":
         emoji_6 = "🟢"
-        cb_6 = 'خاموش'
+        cb_6 = 'off'
         emoji_cb_6 = "🔴"
     else:
         emoji_6 = "🔴"
-        cb_6 = 'روشن'
+        cb_6 = 'on'
         emoji_cb_6 = "🟢"
     if settings['change_password'] == "on":
         emoji_7 = "🟢"
-        cb_7 = 'خاموش'
+        cb_7 = 'off'
         emoji_cb_7 = "🔴"
     else:
         emoji_7 = "🔴"
-        cb_7 = 'روشن'
+        cb_7 = 'on'
         emoji_cb_7 = "🟢"
     keyboard = [
-        [InlineKeyboardButton(f"حذف اکانت: {cb} {emoji_cb}", callback_data=f'JDOSSK_{cb}')],
-        [InlineKeyboardButton(f"انتخاب سرور: {cb_2} {emoji_cb_2}", callback_data=f'CJSLC_{cb_2}')],
-        [InlineKeyboardButton(f"پورت دراپ بیر: {cb_3} {emoji_cb_3}", callback_data=f'Dropbear_{cb_3}')],
-        [InlineKeyboardButton(f"اطلاعات سرویس: {cb_4} {emoji_cb_4}", callback_data=f'ISCSO_{cb_4}')],
-        [InlineKeyboardButton(f"توییک: {cb_5} {emoji_cb_5}", callback_data=f'TCOAD_{cb_5}')],
-        [InlineKeyboardButton(f"وضعیت آنلاین: {cb_6} {emoji_cb_6}", callback_data=f'PWFDI_{cb_6}')],
-        [InlineKeyboardButton(f"تغییر پسورد: {cb_7} {emoji_cb_7}", callback_data=f'KJGNSD_{cb_7}')]
+        [InlineKeyboardButton(f"Delete: {cb} {emoji_cb}", callback_data=f'JDOSSK_{cb}')],
+        [InlineKeyboardButton(f"Server selection: {cb_2} {emoji_cb_2}", callback_data=f'CJSLC_{cb_2}')],
+        [InlineKeyboardButton(f"Dropbear Port: {cb_3} {emoji_cb_3}", callback_data=f'Dropbear_{cb_3}')],
+        [InlineKeyboardButton(f"Account info button: {cb_4} {emoji_cb_4}", callback_data=f'ISCSO_{cb_4}')],
+        [InlineKeyboardButton(f"Tuic: {cb_5} {emoji_cb_5}", callback_data=f'TCOAD_{cb_5}')],
+        [InlineKeyboardButton(f"online access: {cb_6} {emoji_cb_6}", callback_data=f'PWFDI_{cb_6}')],
+        [InlineKeyboardButton(f"Change Password: {cb_7} {emoji_cb_7}", callback_data=f'KJGNSD_{cb_7}')]
     ]
     t0 = "\n\nCurrent: \nحذف کلی اکانت: " + settings['delete_user'] + " " + emoji + "\nانتخاب سرور: " + settings['select_server_users'] + " " + emoji_2 + "\nپورت درآپ بیر: " + settings['dropbear'] + " " + emoji_3 + "\nاطلاعات سرویس: " + settings['info_service'] + " " + emoji_4 + "\nتوییک: " + settings['tuic'] + " " + emoji_5 + "\nوضعیت آنلاین: " + settings['online_access'] + " " + emoji_6 + "\nتغییر پسوورد: " + settings['change_password'] + " " + emoji_7
     text = '<b>تنظیمات دسترسی کاربران</b>\n\n' + "با گزینه اول میتونین دسترسی کاربر برای دلیت اکانت محدود کنین که خاموش باشه دکمه حذف اکانت برای کاربر نمایش داده نمیشه و نمیتونه حذف کنه اکانت خودشو و اگه روشن باشه میتونه اینکارو انجام بده\n\nگزینه دوم اگه روشن باشه کاربر میتونه سرور دلبخواه رو انتخاب کنه و اگه خاموش باشه بصورت رندوم بهش داده میشه (هیچ آدرسی فرستاده نمیشه قبل خرید)\n\nگزینه سوم برای پورت دراپ بیر هست که اگه روشن باشه پورت دراپ بیر برای کاربر میفرسته\n\nگزینه چهارم برای دکمه اطلاعات سرویس هست که نمایش داده بشه یا نه\n\nگزینه پنجم توییک هستش که فرستاده بشه یا نه (اگه روشن باشه هم برای کاربر هم برای ادمین و فروشنده ارسال میشه)\n\nگزینه شیشم کاربرا میتونن آنلاینی های اکانتشون ببینن\n\nگزینه هفتم مجوز تغییر پسورد توسط کاربر " + t0
@@ -12279,7 +12279,7 @@ def contact_update(bot, message):
             username = 'Null'
         if (get_settings()['irphone'] == 'on'):
             if ("+98" in phone_number) or ("+ 98" in phone_number) or (phone_number[0:3] == "+98") or (phone_number[0:2] == "98"):
-                message.reply_text("‎✅", reply_markup=ReplyKeyboardRemove())
+                message.reply_text("‎✅ شما با موفقیت عضو ربات شدید.", reply_markup=ReplyKeyboardRemove())
                 message.reply_text(settings['start'], reply_markup=User_Tools_keys(), parse_mode=enums.ParseMode.HTML)
                 if check_user_phone_exist(chat_id) is False:
                     update_phone_number(chat_id, phone_number)
@@ -12287,7 +12287,7 @@ def contact_update(bot, message):
                 message.reply_text("فقط شماره های ایران مورد قبول هست", reply_markup=ReplyKeyboardRemove())
                 notify = False
         else:
-            message.reply_text("‎✅", reply_markup=ReplyKeyboardRemove())
+            message.reply_text("‎✅ شما با موفقیت عضو ربات شدید.", reply_markup=ReplyKeyboardRemove())
             message.reply_text(settings['start'], reply_markup=User_Tools_keys(), parse_mode=enums.ParseMode.HTML)
             if check_user_phone_exist(chat_id) is False:
                 update_phone_number(chat_id, phone_number)
@@ -12295,7 +12295,7 @@ def contact_update(bot, message):
             for admin in admin_id:
                 try:
                     mention = "<a href='tg://user?id=" + str(chat_id) + "'>" + name + "</a>"
-                    text = f"⚪️Phone number\n{mention}\nID: <code>{str(chat_id)}</code>\nUsername: {username}\nPhone number: {phone_number}"
+                    text = f"📞تایید شماره موبایل:\n👨‍💼اسم کاربر: {mention}\n▫️آیدی کاربر: <code>{str(chat_id)}</code>\n⚡️ نام کاربری: {username}\n📞 شماره تلفن: {phone_number}\n\nبا موفقیت در ربات عضو شد.😉"
                     bot.send_message(admin, text, parse_mode=enums.ParseMode.HTML)
                 except:
                     pass
@@ -12539,8 +12539,8 @@ def image_users(bot, message):
             code, cache_list = get_code_buy_info(chat_id, "add")
             delete_all_buy(chat_id, "add")
             add_code_buy(chat_id, code, "add", cache_list)
-            t1 = f"server: {cache_list[6]}\nuser: {cache_list[5]}\ndays: {cache_list[0]}\nGB: {cache_list[1]}\nConnection: {cache_list[2]}\nPrice: {cache_list[3]} Toman\nPayment: {cache_list[7]}"
-            text = "id: <code>" + str(chat_id) + "</code>\nName: " + name + '\nUsername: ' + username + "\n\nاطلاعات خرید اکانت\n" + t1
+            t1 = f"🚦سرور: {cache_list[6]}\n✏️ نام اکانت: {cache_list[5]}\n⏰ مدت سرویس: {cache_list[0]}\n🔋حجم سرویس: {cache_list[1]} گیگ\n🧑‍💻 محدودیت: {cache_list[2]} کاربره\n💰مبلغ پرداختی: {cache_list[3]} تومان"
+            text = "🪪 آیدی کاربر: <code>" + str(chat_id) + "</code>\n👨‍💼 اسم کاربر: " + name + '\n⚡️ نام کاربری: ' + username + "\n\n❗️| خرید جدید ({cache_list[7]})\n\n" + t1
             cb = "Confirmed_" + code
             no = "رد❌_" + code
             keyboard = [[InlineKeyboardButton("تایید✅", callback_data=cb), InlineKeyboardButton("رد❌", callback_data=no)], [InlineKeyboardButton("پیام به کاربر ✉️", callback_data='ANS_' + str(chat_id))]]
@@ -12563,8 +12563,8 @@ def image_users(bot, message):
             code, cache_list = get_code_buy_info(chat_id, "upgrade")
             delete_all_buy(chat_id, "upgrade")
             add_code_buy(chat_id, code, "upgrade", cache_list)
-            t1 = f"♻ تمدید سرویس\ndays: {cache_list[0]}\nGB: {cache_list[1]}\nConnection: {cache_list[2]}\nprice: {cache_list[3]} Toman\nPayment: {cache_list[6]}\nHost: {cache_list[5]}\nUser: {cache_list[4]}"
-            text = "id: <code>" + str(chat_id) + "</code>\nName: " + name + '\nUsername: ' + username + "\n\nاطلاعات تمدید:\n" + t1
+            t1 = f"♻ تمدید سرویس\n⏰ مدت سرویس: {cache_list[0]}\n🔋حجم سرویس: {cache_list[1]} گیگ\n🧑‍💻 محدودیت: {cache_list[2]} کاربره\n💰مبلغ پرداختی: {cache_list[3]} تومان\n🚦سرور: {cache_list[5]}\n✏️ نام اکانت: {cache_list[4]}"
+            text = "🪪 آیدی کاربر: <code>" + str(chat_id) + "</code>\n👨‍💼 اسم کاربر: " + name + '\n⚡️ نام کاربری: ' + username + "\n\n♻️ تمدید سرویس ({cache_list[6]})\n\n" + t1
             cb = "ConfirmUPGRADE_" + code
             no = "رد❌_" + code
             keyboard = [[InlineKeyboardButton("تایید✅", callback_data=cb), InlineKeyboardButton("رد❌", callback_data=no)], [InlineKeyboardButton("پیام به کاربر ✉️", callback_data='ANS_' + str(chat_id))]]
@@ -12611,8 +12611,8 @@ def image_users(bot, message):
             code, cache_list = get_code_buy_info(chat_id, "userdeposit")
             delete_all_buy(chat_id, "userdeposit")
             add_code_buy(chat_id, code, "userdeposit", cache_list)
-            t1 = f"💵افزایش موجودی کیف پول\n\nPrice: {cache_list[0]}\nPayment: {cache_list[1]}"
-            text = "id: <code>" + str(chat_id) + "</code>\nName: " + name + '\nUsername: ' + username + "\n\nاطلاعات خرید:\n" + t1
+            t1 = f"💵افزایش موجودی کیف پول\n\n💰مبلغ پرداختی: {cache_list[0]} تومان\n"
+            text = "🪪 آیدی کاربر: <code>" + str(chat_id) + "</code>\n👨‍💼 اسم کاربر: " + name + '\n⚡️ نام کاربری: ' + username + "\n\n💵افزایش موجودی کیف پول ({cache_list[1]})\n\n" + t1
             cb = "ConfirmDeposit_" + code
             no = "رد❌_" + code
             keyboard = [[InlineKeyboardButton("تایید✅", callback_data=cb), InlineKeyboardButton("رد❌", callback_data=no)], [InlineKeyboardButton("پیام به کاربر ✉️", callback_data='ANS_' + str(chat_id))]]
