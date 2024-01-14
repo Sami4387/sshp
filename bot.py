@@ -100,7 +100,7 @@ def User_Tools_keys():
         [InlineKeyboardButton("🆘 آموزش", callback_data='help')]
     ]
     settings = get_settings()
-    if settings['buy'] == 'روشن':
+    if settings['buy'] == 'on':
         keyboard.insert(0, [InlineKeyboardButton("♻ تمدید", callback_data='upgrade'), InlineKeyboardButton("🛒 خرید اشتراک", callback_data='buy')])
     if settings['list_status'] == "on":
         for i in range(len(keyboard)):
@@ -114,7 +114,7 @@ def User_Tools_keys():
                 break
     if settings['test'] == "on":
         keyboard.insert(1, [InlineKeyboardButton("🗒 اکانت تست", callback_data='test')])
-    if settings['buy-traffic'] == 'روشن':
+    if settings['buy-traffic'] == 'on':
         keyboard.insert(1, [InlineKeyboardButton("🩸 خرید ترافیک", callback_data='traffic')])
     if settings['proxy'] != "None":
         keyboard.insert(-1, [InlineKeyboardButton("🆓 پروکسی تلگرام", callback_data='FREEPX')])
@@ -1746,13 +1746,13 @@ def text_private(bot, message):
                                     [InlineKeyboardButton("🔑تغییر پسورد", callback_data=('SELFCPA_' + cb))],
                                     [InlineKeyboardButton("📲 کد QR و لینک اتصال", callback_data=f'QRCODE_{cb}')]
                                 ]
-                                if (settings['buy'] == 'روشن') or (chat_id in seller_id):
+                                if (settings['buy'] == 'on') or (chat_id in seller_id):
                                     keyboard[0].insert(1, InlineKeyboardButton("♻ تمدید سرویس", callback_data=("UPG_" + cb)))
-                                if (settings['buy-traffic'] == 'روشن') or (chat_id in seller_id):
+                                if (settings['buy-traffic'] == 'on') or (chat_id in seller_id):
                                     keyboard[1].insert(1, InlineKeyboardButton("🩸 افزایش حجم سرویس", callback_data=("UTGB_" + cb)))
-                                if (settings['delete_user'] == 'روشن') or (chat_id in seller_id):
+                                if (settings['delete_user'] == 'on') or (chat_id in seller_id):
                                     keyboard.append([InlineKeyboardButton("❌حذف اکانت ", callback_data=("DJVYS_" + cb))])
-                                if (settings['online_access'] == 'روشن') or (chat_id in seller_id):
+                                if (settings['online_access'] == 'on') or (chat_id in seller_id):
                                     keyboard.append([InlineKeyboardButton("🟢 کاربران آنلاین", callback_data=("BDKSC_" + cb))])
                                 keyboard.append([InlineKeyboardButton("⤵️ برگرد به منوی قبلی ", callback_data='back')])
                                 password_retry_del(chat_id)
@@ -1857,13 +1857,13 @@ def text_private(bot, message):
                                     [InlineKeyboardButton("🔑تغییر پسورد", callback_data=('SELFCPA_' + cb))],
                                     [InlineKeyboardButton("📲 کد QR و لینک اتصال", callback_data=f'QRCODE_{cb}')]
                                 ]
-                                if (settings['buy'] == 'روشن') or (chat_id in seller_id):
+                                if (settings['buy'] == 'on') or (chat_id in seller_id):
                                     keyboard[0].insert(1, InlineKeyboardButton("♻ تمدید سرویس", callback_data=("UPG_" + cb)))
-                                if (settings['buy-traffic'] == 'روشن') or (chat_id in seller_id):
+                                if (settings['buy-traffic'] == 'on') or (chat_id in seller_id):
                                     keyboard[1].insert(1, InlineKeyboardButton("🩸 افزایش حجم سرویس", callback_data=("UTGB_" + cb)))
-                                if (settings['delete_user'] == 'روشن') or (chat_id in seller_id):
+                                if (settings['delete_user'] == 'on') or (chat_id in seller_id):
                                     keyboard.append([InlineKeyboardButton("❌حذف اکانت ", callback_data=("DJVYS_" + cb))])
-                                if (settings['online_access'] == 'روشن') or (chat_id in seller_id):
+                                if (settings['online_access'] == 'on') or (chat_id in seller_id):
                                     keyboard.append([InlineKeyboardButton("🟢 کاربران آنلاین", callback_data=("BDKSC_" + cb))])
                                 keyboard.append([InlineKeyboardButton("⤵️ برگرد به منوی قبلی ", callback_data='back')])
                                 password_retry_del(chat_id)
@@ -6507,7 +6507,7 @@ def call_price(bot, query):
         query.answer("🔴 چیزی وجود نداره. ", show_alert=True)
         return
     keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back')]]
-    if settings['buy'] == 'روشن':
+    if settings['buy'] == 'on':
         keyboard[0].insert(1, InlineKeyboardButton("🛒 خرید اشتراک", callback_data='buy'))
     reply_markup = InlineKeyboardMarkup(keyboard)
     text = settings['list']
@@ -7072,7 +7072,7 @@ def call_buy(bot, query):
     keyboard = []
     settings = get_settings()
     accounts, hosts, status = get_all_accounts_by_chat_id(chat_id)
-    if ((settings['buy'] == 'روشن') and (settings['buy_only_customers'] == 'خاموش')) or ((settings['buy_only_customers'] == 'روشن') and (len(accounts) >= 1)):
+    if ((settings['buy'] == 'on') and (settings['buy_only_customers'] == 'off')) or ((settings['buy_only_customers'] == 'on') and (len(accounts) >= 1)):
         text = "یکی از گزینه هارو انتخاب کنین:\n\n"
         if chat_id in seller_id:
             for i in range(len(settings['seller_prices'])):
@@ -7314,7 +7314,7 @@ def call_BL(bot, query):
                 else:
                     creator = "USER"
                 description = f"[ Bot - {creator} ] Date: ( {str(jdatetime.datetime.now()).split('.')[0]} ), userID: {str(chat_id)}, Username: {USERNAME}"
-                if settings['first_connect'] == 'روشن':
+                if settings['first_connect'] == 'on':
                     first_connect = True
                 else:
                     first_connect = False
@@ -7533,7 +7533,7 @@ def call_Confirmed(bot, query):
             else:
                 creator = "USER"
             description = f"[ Bot - {creator} ] Date: ( {str(jdatetime.datetime.now()).split('.')[0]} ), userID: {str(chat_id)}, Username: {USERNAME}"
-            if settings['first_connect'] == 'روشن':
+            if settings['first_connect'] == 'on':
                 first_connect = True
             else:
                 first_connect = False
@@ -7614,7 +7614,7 @@ def call_upgrade(bot, query):
     if status is False:
         query.answer("سرویسی پیدا نشد. اگه سرویسی دارین دکمه اطلاعات سرویس بزنین و بفرستین 🙂", show_alert=True)
     else:
-        if ((settings['buy'] == 'روشن') and (settings['buy_only_customers'] == 'خاموش')) or ((settings['buy_only_customers'] == 'روشن') and (len(accounts) >= 1)):
+        if ((settings['buy'] == 'on') and (settings['buy_only_customers'] == 'off')) or ((settings['buy_only_customers'] == 'on') and (len(accounts) >= 1)):
             if len(accounts) >= 2:
                 if len(accounts) % 2 == 0:
                     for i in range(0, len(accounts) - 1, 2):
@@ -9419,13 +9419,13 @@ def call_ID(bot, query):
                 [InlineKeyboardButton("🔑تغییر پسورد", callback_data=('SELFCPA_' + cb))],
                 [InlineKeyboardButton("📲 کد QR و لینک اتصال", callback_data=f'QRCODE_{cb}')]
             ]
-            if (settings['buy'] == 'روشن') or (chat_id in seller_id):
+            if (settings['buy'] == 'on') or (chat_id in seller_id):
                 keyboard[0].insert(1, InlineKeyboardButton("♻ تمدید سرویس", callback_data=("UPG_" + cb)))
-            if (settings['buy-traffic'] == 'روشن') or (chat_id in seller_id):
+            if (settings['buy-traffic'] == 'on') or (chat_id in seller_id):
                 keyboard[1].insert(1, InlineKeyboardButton("🩸 افزایش حجم سرویس", callback_data=("UTGB_" + cb)))
-            if (settings['delete_user'] == 'روشن') or (chat_id in seller_id):
+            if (settings['delete_user'] == 'on') or (chat_id in seller_id):
                 keyboard.append([InlineKeyboardButton("❌حذف اکانت ", callback_data=("DJVYS_" + cb))])
-            if (settings['online_access'] == 'روشن') or (chat_id in seller_id):
+            if (settings['online_access'] == 'on') or (chat_id in seller_id):
                 keyboard.append([InlineKeyboardButton("🟢 کاربران آنلاین", callback_data=("BDKSC_" + cb))])
             keyboard.append([InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='service')])
             reply_markup = InlineKeyboardMarkup(keyboard)
@@ -9734,7 +9734,7 @@ def call_PAUB(bot, query):
 @app.on_callback_query(filters.regex('voucher'))
 def call_voucher(bot, query):
     settings = get_settings()
-    if settings['buy'] == 'روشن':
+    if settings['buy'] == 'on':
         chat_id = query.message.chat.id
         if check_cache(chat_id) is True:
             delete_cache(chat_id)
@@ -9752,7 +9752,7 @@ def call_voucher(bot, query):
 @app.on_callback_query(filters.regex('UWPM'))
 def call_UWPM(bot, query):
     settings = get_settings()
-    if settings['buy'] == 'روشن':
+    if settings['buy'] == 'on':
         chat_id = query.message.chat.id
         if check_cache(chat_id) is True:
             delete_cache(chat_id)
@@ -10022,15 +10022,15 @@ def call_WLMSG(bot, query):
     settings = get_settings()
     if settings['list_status'] == "on":
         emoji = "🟢"
-        cb = 'خاموش'
+        cb = 'off'
         emoji_cb = "🔴"
     else:
         emoji = "🔴"
-        cb = 'روشن'
+        cb = 'on'
         emoji_cb = "🟢"
     keyboard = [
-        [InlineKeyboardButton("ویرایش ✏️", callback_data='ELMSG')],
-        [InlineKeyboardButton(f"نمایش دکمه: {cb} {emoji_cb}", callback_data=f'OWQZQ_{cb}')]
+        [InlineKeyboardButton("Edit✏️", callback_data='ELMSG')],
+        [InlineKeyboardButton(f"Show Button: {cb} {emoji_cb}", callback_data=f'OWQZQ_{cb}')]
     ]
     text = '<b>Price MSG Settings</b>\n\n' + "Text:\n\n" + settings['list'] + "\n\nStatus: " + settings['list_status'] + " " + emoji
     keyboard.append([InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='settings')])
@@ -10218,11 +10218,11 @@ def call_ZQUC(bot, query):
     settings = get_settings()
     if settings['upgrade_days'] == "on":
         emoji = "🟢"
-        cb = 'خاموش'
+        cb = 'off'
         emoji_cb = "🔴"
     else:
         emoji = "🔴"
-        cb = 'روشن'
+        cb = 'on'
         emoji_cb = "🟢"
     keyboard = [
         [InlineKeyboardButton(f"{cb} {emoji_cb}", callback_data=f'JDXSF_{cb}')],
@@ -10288,11 +10288,11 @@ def call_ZBSHP(bot, query):
     settings = get_settings()
     if settings['first_connect'] == "on":
         emoji = "🟢"
-        cb = 'خاموش'
+        cb = 'off'
         emoji_cb = "🔴"
     else:
         emoji = "🔴"
-        cb = 'روشن'
+        cb = 'on'
         emoji_cb = "🟢"
     keyboard = [
         [InlineKeyboardButton("💵 ولت ترون", callback_data='wallet'), InlineKeyboardButton("💳 کارت", callback_data='Card')],
@@ -10324,16 +10324,16 @@ def call_CSNDF(bot, query):
     settings = get_settings()
     if "_" in data:
         data = data.split("_")[1]
-        if data in ["روشن", "خاموش"]:
+        if data in ["on", "off"]:
             settings['random_price'] = data
         update_settings(settings)
     settings = get_settings()
     if settings['random_price'] == "on":
         emoji = "🟢"
-        cb = 'خاموش'
+        cb = 'off'
     else:
         emoji = "🔴"
-        cb = 'روشن'
+        cb = 'on'
     keyboard = [
         [InlineKeyboardButton(f"قیمت رندوم : {settings['random_price']} {emoji}", callback_data=f'CSNDF_{cb}')],
         [InlineKeyboardButton("🔄 تغییر قیمت رندوم", callback_data='JLDKH')],
@@ -10383,15 +10383,15 @@ def call_DKSJJHJ(bot, query):
     settings = get_settings()
     if settings['default_password_status'] == "on":
         emoji = "🟢"
-        cb = 'خاموش'
+        cb = 'off'
     else:
         emoji = "🔴"
-        cb = 'روشن'
-    if settings['password_method'] == "عدد":
+        cb = 'on'
+    if settings['password_method'] == "number":
         cb_c = "عدد"
-    elif settings['password_method'] == "حروف":
+    elif settings['password_method'] == "letters":
         cb_c = "حروف"
-    elif settings['password_method'] == "حروف و عدد":
+    elif settings['password_method'] == "number&letters":
         cb_c = "عدد و حروف"
     keyboard = [
         [InlineKeyboardButton(f"رمز پیشفرض: {settings['default_password_status']} {emoji}", callback_data=f'DKSJJHJ_{cb}')],
@@ -10461,19 +10461,19 @@ def call_BSOPtion(bot, query):
     settings = get_settings()
     if settings['buy'] == "on":
         emoji = "🟢"
-        cb = 'خاموش'
+        cb = 'off'
         emoji_cb = "🔴"
     else:
         emoji = "🔴"
-        cb = 'روشن'
+        cb = 'on'
         emoji_cb = "🟢"
     if settings['buy_only_customers'] == "on":
         emoji_2 = "🟢"
-        cb_2 = 'خاموش'
+        cb_2 = 'off'
         emoji_cb_2 = "🔴"
     else:
         emoji_2 = "🔴"
-        cb_2 = 'روشن'
+        cb_2 = 'on'
         emoji_cb_2 = "🟢"
     keyboard = [
         [InlineKeyboardButton(f"وضعیت خرید {cb} {emoji_cb}", callback_data=f'EBS_{cb}')],
@@ -10946,11 +10946,11 @@ def call_INVS(bot, query):
     settings = get_settings()
     if settings['invite'] == "on":
         emoji = "🟢"
-        cb = 'خاموش'
+        cb = 'off'
         emoji_cb = "🔴"
     else:
         emoji = "🔴"
-        cb = 'روشن'
+        cb = 'on'
         emoji_cb = "🟢"
     keyboard = [
         [InlineKeyboardButton("✏️تغییر مبلغ دعوت", callback_data='ENVS')],
@@ -11020,24 +11020,24 @@ def call_SID(bot, query):
     settings = get_settings()
     if settings['support_status'] == "on":
         emoji = "🟢"
-        cb = 'خاموش'
+        cb = 'off'
         emoji_cb = "🔴"
     else:
         emoji = "🔴"
-        cb = 'روشن'
+        cb = 'on'
         emoji_cb = "🟢"
     if settings['support_chat'] == "on":
         emoji_2 = "🟢"
-        cb_2 = 'خاموش'
+        cb_2 = 'off'
         emoji_cb_2 = "🔴"
     else:
         emoji_2 = "🔴"
-        cb_2 = 'روشن'
+        cb_2 = 'on'
         emoji_cb_2 = "🟢"
     keyboard = [
-        [InlineKeyboardButton("ویرایش ✏️", callback_data='EAID'), InlineKeyboardButton("حذف ✖️", callback_data='DAID')],
-        [InlineKeyboardButton(f"پشتیبانی: {cb} {emoji_cb}", callback_data=f'VSQBX_{cb}')],
-        [InlineKeyboardButton(f"چت: {cb_2} {emoji_cb_2}", callback_data=f'DHKNNL_{cb_2}')]
+        [InlineKeyboardButton("Edit✏️", callback_data='EAID'), InlineKeyboardButton("Delete✖️", callback_data='DAID')],
+        [InlineKeyboardButton(f"Support: {cb} {emoji_cb}", callback_data=f'VSQBX_{cb}')],
+        [InlineKeyboardButton(f"Chat: {cb_2} {emoji_cb_2}", callback_data=f'DHKNNL_{cb_2}')]
     ]
     text = '<b>تنظیمات پشتیبانی</b>\n\n' + "میتونین یه پیام پشتیبانی رو قرار بدین و وقتی کاربر دکمه پشتیبانی رو بزنه پیامی که تنظیم کردین نمایش داده بشه\n\nگزینه دوم خاموش باشه به کاربر گزینه پشتیبانی نمایش داده نمیشه\n\nگزینه سوم چت هست با خاموش کردن دیگه کاربر نمیتونه از داخل ربات بهتون پیام بده و فقط پیام پشتیبانی براش نمایش داده میشه\n\nCurrent: " + settings['support'] + "\n\nپشتیبانی: " + settings['support_status'] + " " + emoji + "\nچت: " + settings['support_chat'] + " " + emoji_2
     keyboard.append([InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='settings')])
@@ -11141,10 +11141,10 @@ def call_CVM(bot, query):
         update_settings(settings)
     if settings['custom_tutorial_only_button'] == "on":
         emoji = "🟢"
-        cb = 'خاموش'
+        cb = 'off'
     else:
         emoji = "🔴"
-        cb = 'روشن'
+        cb = 'on'
     keyboard = [
         [InlineKeyboardButton(f"Button: {settings['custom_tutorial_only_button']} {emoji}", callback_data=f'CVM_{cb}')],
         [InlineKeyboardButton("ویرایش ✏️", callback_data='EVM')]
@@ -11207,10 +11207,10 @@ def call_CTI(bot, query):
         update_settings(settings)
     if settings['tutorial_ios'] == "on":
         emoji = "🟢"
-        cb = 'خاموش'
+        cb = 'off'
     else:
         emoji = "🔴"
-        cb = 'روشن'
+        cb = 'on'
     keyboard = [
         [InlineKeyboardButton(f"Button: {settings['tutorial_ios']} {emoji}", callback_data=f'CTI_{cb}')],
         [InlineKeyboardButton("ویرایش ✏️", callback_data='ETI')]
@@ -11252,10 +11252,10 @@ def call_CTA(bot, query):
         update_settings(settings)
     if settings['tutorial_android'] == "on":
         emoji = "🟢"
-        cb = 'خاموش'
+        cb = 'off'
     else:
         emoji = "🔴"
-        cb = 'روشن'
+        cb = 'on'
     keyboard = [
         [InlineKeyboardButton(f"Button: {settings['tutorial_android']} {emoji}", callback_data=f'CTA_{cb}')],
         [InlineKeyboardButton("ویرایش ✏️", callback_data='ETA')]
@@ -11297,10 +11297,10 @@ def call_CTM(bot, query):
         update_settings(settings)
     if settings['tutorial_mac'] == "on":
         emoji = "🟢"
-        cb = 'خاموش'
+        cb = 'off'
     else:
         emoji = "🔴"
-        cb = 'روشن'
+        cb = 'on'
     keyboard = [
         [InlineKeyboardButton(f"Button: {settings['tutorial_mac']} {emoji}", callback_data=f'CTM_{cb}')],
         [InlineKeyboardButton("ویرایش ✏️", callback_data='ETM')]
@@ -11342,10 +11342,10 @@ def call_CTW(bot, query):
         update_settings(settings)
     if settings['tutorial_windows'] == "on":
         emoji = "🟢"
-        cb = 'خاموش'
+        cb = 'off'
     else:
         emoji = "🔴"
-        cb = 'روشن'
+        cb = 'on'
     keyboard = [
         [InlineKeyboardButton(f"Button: {settings['tutorial_windows']} {emoji}", callback_data=f'CTW_{cb}')],
         [InlineKeyboardButton("ویرایش ✏️", callback_data='ETW')]
@@ -11380,11 +11380,11 @@ def call_TASET(bot, query):
     settings = get_settings()
     if settings['test'] == "on":
         emoji = "🟢"
-        cb = 'خاموش'
+        cb = 'off'
         emoji_cb = "🔴"
     else:
         emoji = "🔴"
-        cb = 'روشن'
+        cb = 'on'
         emoji_cb = "🟢"
     keyboard = [
         [InlineKeyboardButton(f"{cb} {emoji_cb}", callback_data=f'ETOR_{cb}')],
@@ -11464,11 +11464,11 @@ def call_BTOPtion(bot, query):
     settings = get_settings()
     if settings['buy-traffic'] == "on":
         emoji = "🟢"
-        cb = 'خاموش'
+        cb = 'off'
         emoji_cb = "🔴"
     else:
         emoji = "🔴"
-        cb = 'روشن'
+        cb = 'on'
         emoji_cb = "🟢"
     keyboard = [
         [InlineKeyboardButton(f"{cb} {emoji_cb}", callback_data=f'EBT_{cb}')],
@@ -11579,24 +11579,24 @@ def call_PNS(bot, query):
     settings = get_settings()
     if settings['phone'] == "on":
         emoji = "🟢"
-        cb = 'خاموش'
+        cb = 'off'
         emoji_cb = "🔴"
     else:
         emoji = "🔴"
-        cb = 'روشن'
+        cb = 'on'
         emoji_cb = "🟢"
 
     if settings['irphone'] == "on":
         emoji_2 = "🟢"
-        cb_2 = 'خاموش'
+        cb_2 = 'off'
         emoji_cb_2 = "🔴"
     else:
         emoji_2 = "🔴"
-        cb_2 = 'روشن'
+        cb_2 = 'on'
         emoji_cb_2 = "🟢"
     keyboard = [
-        [InlineKeyboardButton(f"شماره تلفن {cb} {emoji_cb}", callback_data=f'EWPN_{cb}')],
-        [InlineKeyboardButton(f"شماره ایرانی {cb_2} {emoji_cb_2}", callback_data=f'EIPN_{cb_2}')],
+        [InlineKeyboardButton(f"Phone {cb} {emoji_cb}", callback_data=f'EWPN_{cb}')],
+        [InlineKeyboardButton(f"IRAN {cb_2} {emoji_cb_2}", callback_data=f'EIPN_{cb_2}')],
     ]
     text = f"<b>تنظبمات شماره تلفن</b>\n\nبا روشن بودن گزینه phone کاربرا باید برای استفاده از ربات شمارشون بفرستن و با روشن بودن گزینه iran فقط کاربرای ایرانی میتونن از امکانات ربات استفاده کنن  \n\n<b>Current</b>\nدریافت شماره تلفن: {settings['phone']} {emoji}\nفقط شماره تلفن ایرانی: {settings['irphone']} {emoji_2} "
     keyboard.append([InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='settings')])
@@ -11645,23 +11645,23 @@ def call_XSM(bot, query):
     settings = get_settings()
     if settings['seller_custom'] == "on":
         emoji = "🟢"
-        cb = 'خاموش'
+        cb = 'off'
         emoji_cb = "🔴"
     else:
         emoji = "🔴"
-        cb = 'روشن'
+        cb = 'on'
         emoji_cb = "🟢"
     if settings['select_server_sellers'] == "on":
         emoji_2 = "🟢"
-        cb_2 = 'خاموش'
+        cb_2 = 'off'
         emoji_cb_2 = "🔴"
     else:
         emoji_2 = "🔴"
-        cb_2 = 'روشن'
+        cb_2 = 'on'
         emoji_cb_2 = "🟢"
     keyboard = [
-        [InlineKeyboardButton(f"آزادانه: {cb} {emoji_cb}", callback_data=f'ESM_{cb}')],
-        [InlineKeyboardButton(f"انتخاب سرور: {cb_2} {emoji_cb_2}", callback_data=f'OSKSC_{cb_2}')],
+        [InlineKeyboardButton(f"Custom: {cb} {emoji_cb}", callback_data=f'ESM_{cb}')],
+        [InlineKeyboardButton(f"Server selection: {cb_2} {emoji_cb_2}", callback_data=f'OSKSC_{cb_2}')],
         [InlineKeyboardButton("لیست قیمت خرید و تمدید اکانت", callback_data='SPBAL')],
         [InlineKeyboardButton("لیست خرید ترافیک", callback_data='SPBTL')],
     ]
@@ -11877,42 +11877,42 @@ def call_NSCLS(bot, query):
     settings = get_settings()
     if settings['notification'] == "on":
         emoji = "🟢"
-        cb = 'خاموش'
+        cb = 'off'
         emoji_cb = "🔴"
     else:
         emoji = "🔴"
-        cb = 'روشن'
+        cb = 'on'
         emoji_cb = "🟢"
     if settings['phone_notification'] == "on":
         emoji_2 = "🟢"
-        cb_2 = 'خاموش'
+        cb_2 = 'off'
         emoji_cb_2 = "🔴"
     else:
         emoji_2 = "🔴"
-        cb_2 = 'روشن'
+        cb_2 = 'on'
         emoji_cb_2 = "🟢"
     if settings['buy_notification'] == "on":
         emoji_3 = "🟢"
-        cb_3 = 'خاموش'
+        cb_3 = 'off'
         emoji_cb_3 = "🔴"
     else:
         emoji_3 = "🔴"
-        cb_3 = 'روشن'
+        cb_3 = 'on'
         emoji_cb_3 = "🟢"
     if settings['notify_test_account'] == "on":
         emoji_4 = "🟢"
-        cb_4 = 'خاموش'
+        cb_4 = 'off'
         emoji_cb_4 = "🔴"
     else:
         emoji_4 = "🔴"
-        cb_4 = 'روشن'
+        cb_4 = 'on'
         emoji_cb_4 = "🟢"
     keyboard = [
-        [InlineKeyboardButton(f"کاربر جدید: {cb} {emoji_cb}", callback_data=f'NSCXZ_{cb}')],
-        [InlineKeyboardButton(f"شماره تلفن: {cb_2} {emoji_cb_2}", callback_data=f'SVJLD_{cb_2}')],
-        [InlineKeyboardButton(f"خرید: {cb_3} {emoji_cb_3}", callback_data=f'SWHFlN_{cb_3}')],
-        [InlineKeyboardButton(f"اکانت تست: {cb_4} {emoji_cb_4}", callback_data=f'vogrog_{cb_4}')],
-        [InlineKeyboardButton("🗒پیام قبل از عضویت", callback_data='QPAEOI')]
+        [InlineKeyboardButton(f"New user: {cb} {emoji_cb}", callback_data=f'NSCXZ_{cb}')],
+        [InlineKeyboardButton(f"Phone: {cb_2} {emoji_cb_2}", callback_data=f'SVJLD_{cb_2}')],
+        [InlineKeyboardButton(f"Buy: {cb_3} {emoji_cb_3}", callback_data=f'SWHFlN_{cb_3}')],
+        [InlineKeyboardButton(f"Test: {cb_4} {emoji_cb_4}", callback_data=f'vogrog_{cb_4}')],
+        [InlineKeyboardButton("🗒پیام قبل استارت", callback_data='QPAEOI')]
     ]
     t0 = "\n\nCurrent: \nپیغام کاربر جدید: " + settings['notification'] + " " + emoji + "\nشماره تلفن کاربر: " + settings['phone_notification'] + " " + emoji_2 + "\nپیغام خرید کاربر: " + settings['buy_notification'] + " " + emoji_3 + "\nپیغام دریافت اکانت تست: " + settings['notify_test_account'] + " " + emoji_4
     text = '<b>تنظیمات اعلانات</b>\n\n' + 'بهتون اطلاع میده کی عضو ربات شده \n\nگزینه دوم وقتی کاربر شمارشو میده به شما اطلاع بده\n\nگزینه سوم وقتی کاربر یا فروشنده از طریق کیف پول خریدی انجام دادن به شما اطلاع رسانی بشه فرقی نداره که خرید یا تمدید باشه\n\nگزینه چهارم برای اطلاع رسانی اکانت تست هست هرکی که دریافت کنه اطلاع میده بهتون\n\nگزینه پنجم میتونین برای کاربر یه پیامی رو تنظیم کنین که بعد از استارت نمایش داده بشه و فقط یکبار نشون داده میشه' + t0
@@ -12044,68 +12044,68 @@ def call_RWUAD(bot, query):
     settings = get_settings()
     if settings['delete_user'] == "on":
         emoji = "🟢"
-        cb = 'خاموش'
+        cb = 'off'
         emoji_cb = "🔴"
     else:
         emoji = "🔴"
-        cb = 'روشن'
+        cb = 'on'
         emoji_cb = "🟢"
     if settings['select_server_users'] == "on":
         emoji_2 = "🟢"
-        cb_2 = 'خاموش'
+        cb_2 = 'off'
         emoji_cb_2 = "🔴"
     else:
         emoji_2 = "🔴"
-        cb_2 = 'روشن'
+        cb_2 = 'on'
         emoji_cb_2 = "🟢"
     if settings['dropbear'] == "on":
         emoji_3 = "🟢"
-        cb_3 = 'خاموش'
+        cb_3 = 'off'
         emoji_cb_3 = "🔴"
     else:
         emoji_3 = "🔴"
-        cb_3 = 'روشن'
+        cb_3 = 'on'
         emoji_cb_3 = "🟢"
     if settings['info_service'] == "on":
         emoji_4 = "🟢"
-        cb_4 = 'خاموش'
+        cb_4 = 'off'
         emoji_cb_4 = "🔴"
     else:
         emoji_4 = "🔴"
-        cb_4 = 'روشن'
+        cb_4 = 'on'
         emoji_cb_4 = "🟢"
     if settings['tuic'] == "on":
         emoji_5 = "🟢"
-        cb_5 = 'خاموش'
+        cb_5 = 'off'
         emoji_cb_5 = "🔴"
     else:
         emoji_5 = "🔴"
-        cb_5 = 'روشن'
+        cb_5 = 'on'
         emoji_cb_5 = "🟢"
     if settings['online_access'] == "on":
         emoji_6 = "🟢"
-        cb_6 = 'خاموش'
+        cb_6 = 'off'
         emoji_cb_6 = "🔴"
     else:
         emoji_6 = "🔴"
-        cb_6 = 'روشن'
+        cb_6 = 'on'
         emoji_cb_6 = "🟢"
     if settings['change_password'] == "on":
         emoji_7 = "🟢"
-        cb_7 = 'خاموش'
+        cb_7 = 'off'
         emoji_cb_7 = "🔴"
     else:
         emoji_7 = "🔴"
-        cb_7 = 'روشن'
+        cb_7 = 'on'
         emoji_cb_7 = "🟢"
     keyboard = [
-        [InlineKeyboardButton(f"حذف اکانت: {cb} {emoji_cb}", callback_data=f'JDOSSK_{cb}')],
-        [InlineKeyboardButton(f"انتخاب سرور: {cb_2} {emoji_cb_2}", callback_data=f'CJSLC_{cb_2}')],
-        [InlineKeyboardButton(f"پورت دراپ بیر: {cb_3} {emoji_cb_3}", callback_data=f'Dropbear_{cb_3}')],
-        [InlineKeyboardButton(f"اطلاعات سرویس: {cb_4} {emoji_cb_4}", callback_data=f'ISCSO_{cb_4}')],
-        [InlineKeyboardButton(f"توییک: {cb_5} {emoji_cb_5}", callback_data=f'TCOAD_{cb_5}')],
-        [InlineKeyboardButton(f"وضعیت آنلاین: {cb_6} {emoji_cb_6}", callback_data=f'PWFDI_{cb_6}')],
-        [InlineKeyboardButton(f"تغییر پسورد: {cb_7} {emoji_cb_7}", callback_data=f'KJGNSD_{cb_7}')]
+        [InlineKeyboardButton(f"Delete: {cb} {emoji_cb}", callback_data=f'JDOSSK_{cb}')],
+        [InlineKeyboardButton(f"Server selection: {cb_2} {emoji_cb_2}", callback_data=f'CJSLC_{cb_2}')],
+        [InlineKeyboardButton(f"Dropbear Port: {cb_3} {emoji_cb_3}", callback_data=f'Dropbear_{cb_3}')],
+        [InlineKeyboardButton(f"Account info button: {cb_4} {emoji_cb_4}", callback_data=f'ISCSO_{cb_4}')],
+        [InlineKeyboardButton(f"Tuic: {cb_5} {emoji_cb_5}", callback_data=f'TCOAD_{cb_5}')],
+        [InlineKeyboardButton(f"online access: {cb_6} {emoji_cb_6}", callback_data=f'PWFDI_{cb_6}')],
+        [InlineKeyboardButton(f"Change Password: {cb_7} {emoji_cb_7}", callback_data=f'KJGNSD_{cb_7}')]
     ]
     t0 = "\n\nCurrent: \nحذف کلی اکانت: " + settings['delete_user'] + " " + emoji + "\nانتخاب سرور: " + settings['select_server_users'] + " " + emoji_2 + "\nپورت درآپ بیر: " + settings['dropbear'] + " " + emoji_3 + "\nاطلاعات سرویس: " + settings['info_service'] + " " + emoji_4 + "\nتوییک: " + settings['tuic'] + " " + emoji_5 + "\nوضعیت آنلاین: " + settings['online_access'] + " " + emoji_6 + "\nتغییر پسوورد: " + settings['change_password'] + " " + emoji_7
     text = '<b>تنظیمات دسترسی کاربران</b>\n\n' + "با گزینه اول میتونین دسترسی کاربر برای دلیت اکانت محدود کنین که خاموش باشه دکمه حذف اکانت برای کاربر نمایش داده نمیشه و نمیتونه حذف کنه اکانت خودشو و اگه روشن باشه میتونه اینکارو انجام بده\n\nگزینه دوم اگه روشن باشه کاربر میتونه سرور دلبخواه رو انتخاب کنه و اگه خاموش باشه بصورت رندوم بهش داده میشه (هیچ آدرسی فرستاده نمیشه قبل خرید)\n\nگزینه سوم برای پورت دراپ بیر هست که اگه روشن باشه پورت دراپ بیر برای کاربر میفرسته\n\nگزینه چهارم برای دکمه اطلاعات سرویس هست که نمایش داده بشه یا نه\n\nگزینه پنجم توییک هستش که فرستاده بشه یا نه (اگه روشن باشه هم برای کاربر هم برای ادمین و فروشنده ارسال میشه)\n\nگزینه شیشم کاربرا میتونن آنلاینی های اکانتشون ببینن\n\nگزینه هفتم مجوز تغییر پسورد توسط کاربر " + t0
@@ -12269,7 +12269,7 @@ def contact_update(bot, message):
     phone_number = str(message.contact.phone_number)
     settings = get_settings()
     notify = False
-    if settings['phone_notification'] == 'روشن':
+    if settings['phone_notification'] == 'on':
         notify = True
     if chat_id == message.contact.user_id:
         name = message.from_user.first_name
@@ -12277,7 +12277,7 @@ def contact_update(bot, message):
             username = "@" + message.from_user.username
         except:
             username = 'Null'
-        if (get_settings()['irphone'] == 'روشن'):
+        if (get_settings()['irphone'] == 'on'):
             if ("+98" in phone_number) or ("+ 98" in phone_number) or (phone_number[0:3] == "+98") or (phone_number[0:2] == "98"):
                 message.reply_text("‎✅", reply_markup=ReplyKeyboardRemove())
                 message.reply_text(settings['start'], reply_markup=User_Tools_keys(), parse_mode=enums.ParseMode.HTML)
