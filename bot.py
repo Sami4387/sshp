@@ -102,24 +102,24 @@ def User_Tools_keys():
     settings = get_settings()
     if settings['buy'] == 'روشن':
         keyboard.insert(0, [InlineKeyboardButton("♻ تمدید", callback_data='upgrade'), InlineKeyboardButton("🛒 خرید اشتراک", callback_data='buy')])
-    if settings['list_status'] == "روشن":
+    if settings['list_status'] == "on":
         for i in range(len(keyboard)):
             if InlineKeyboardButton("💵کیف پول", callback_data='UWM') in keyboard[i]:
                 keyboard[i].insert(1, InlineKeyboardButton("💸 قیمت سرویس ها", callback_data='price'))
                 break
-    if settings['info_service'] == "روشن":
+    if settings['info_service'] == "on":
         for i in range(len(keyboard)):
             if InlineKeyboardButton("📱 سرویس های من", callback_data='service') in keyboard[i]:
                 keyboard[i].insert(0, InlineKeyboardButton("❗️ اطلاعات سرویس", callback_data='config'))
                 break
-    if settings['test'] == "روشن":
+    if settings['test'] == "on":
         keyboard.insert(1, [InlineKeyboardButton("🗒 اکانت تست", callback_data='test')])
     if settings['buy-traffic'] == 'روشن':
         keyboard.insert(1, [InlineKeyboardButton("🩸 خرید ترافیک", callback_data='traffic')])
     if settings['proxy'] != "None":
         keyboard.insert(-1, [InlineKeyboardButton("🆓 پروکسی تلگرام", callback_data='FREEPX')])
     inv = True
-    if settings['invite'] == "روشن":
+    if settings['invite'] == "on":
         for i in range(len(keyboard)):
             if InlineKeyboardButton("🆓 پروکسی تلگرام", callback_data='FREEPX') in keyboard[i]:
                 keyboard[i].insert(0, InlineKeyboardButton("🎁 دریافت هدیه", callback_data='referral'))
@@ -129,7 +129,7 @@ def User_Tools_keys():
                 inv = False
     if inv is False:
         keyboard.append([InlineKeyboardButton("🎁 دریافت هدیه", callback_data='referral')])
-    if settings['support_status'] == "روشن":
+    if settings['support_status'] == "on":
         for i in range(len(keyboard)):
             if InlineKeyboardButton("🆘 آموزش", callback_data='help') in keyboard[i]:
                 keyboard[i].insert(0, InlineKeyboardButton("👥 پشتیبانی", callback_data='support'))
@@ -496,7 +496,7 @@ def get_shortcut_of_price(price):
 
 def get_random_number_if_on():
     settings = get_settings()
-    if settings['random_price'] == "روشن":
+    if settings['random_price'] == "on":
         range_num = randint(0, ((settings['random_price_max'] - settings['random_price_min']) // 100))
         return range_num * 100
     else:
@@ -505,7 +505,7 @@ def get_random_number_if_on():
 
 def get_password_by_settings():
     settings = get_settings()
-    if settings['default_password_status'] == "روشن":
+    if settings['default_password_status'] == "on":
         password = settings['default_password']
     else:
         F, L = ("",)*2
@@ -1597,7 +1597,7 @@ def start_user(bot, message):
         if len(link) >= 7:
             try:
                 ref_chat_id = int(link.split('/start ')[1])
-                if ((check_referral_exists(ref_chat_id) is True) and (chat_id != ref_chat_id)) and (settings['invite'] == "روشن"):
+                if ((check_referral_exists(ref_chat_id) is True) and (chat_id != ref_chat_id)) and (settings['invite'] == "on"):
                     name, referrals = get_referral_info(ref_chat_id)
                     if (chat_id not in referrals):
                         if len(referrals) < settings['invitation_limit']:
@@ -1614,7 +1614,7 @@ def start_user(bot, message):
             add_referral(chat_id, name, username, [])
         if check_user_exists_in_clients_table(chat_id) is False:
             add_client_db(chat_id, name, username, 'None', 0)
-            if settings['notification'] == "روشن":
+            if settings['notification'] == "on":
                 for admin in admin_id:
                     try:
                         mention = "<a href='tg://user?id=" + str(chat_id) + "'>" + name + "</a>"
@@ -1630,20 +1630,20 @@ def start_user(bot, message):
         reply_markup = ReplyKeyboardMarkup(Buttons, resize_keyboard=True)
         text = "لطفا برای استفاده از ربات دکمه پایین کلیک کنین و شمارتون بفرستین👇"
         if settings['sponser'] == "None":
-            if (settings['phone'] == "روشن") and (check_user_phone_exist(chat_id) is False):
+            if (settings['phone'] == "on") and (check_user_phone_exist(chat_id) is False):
                 message.reply_text(text, reply_markup=reply_markup)
             else:
                 message.reply_text(settings['start'], reply_markup=User_Tools_keys(), parse_mode=enums.ParseMode.HTML)
         else:
             try:
                 chat_member = bot.get_chat_member(settings['sponser'], chat_id)
-                if (settings['phone'] == "روشن") and (check_user_phone_exist(chat_id) is False):
+                if (settings['phone'] == "on") and (check_user_phone_exist(chat_id) is False):
                     message.reply_text(text, reply_markup=reply_markup)
                 else:
                     message.reply_text(settings['start'], reply_markup=User_Tools_keys(), parse_mode=enums.ParseMode.HTML)
 
             except NotAcceptable:
-                if (settings['phone'] == "روشن") and (check_user_phone_exist(chat_id) is False):
+                if (settings['phone'] == "on") and (check_user_phone_exist(chat_id) is False):
                     message.reply_text(text, reply_markup=reply_markup)
                 else:
                     message.reply_text(settings['start'], reply_markup=User_Tools_keys(), parse_mode=enums.ParseMode.HTML)
@@ -1655,7 +1655,7 @@ def start_user(bot, message):
                     reply_markup = InlineKeyboardMarkup(keyboard)
                     message.reply_text(text, reply_markup=reply_markup)
                 else:
-                    if (settings['phone'] == "روشن") and (check_user_phone_exist(chat_id) is False):
+                    if (settings['phone'] == "on") and (check_user_phone_exist(chat_id) is False):
                         message.reply_text(text, reply_markup=reply_markup)
                     else:
                         message.reply_text(settings['start'], reply_markup=User_Tools_keys(), parse_mode=enums.ParseMode.HTML)
@@ -1925,15 +1925,15 @@ def text_private(bot, message):
                         else:
                             settings = get_settings()
                             keyboard = [[InlineKeyboardButton("💵کیف پول", callback_data=cb_bl)]]
-                            if settings['card_buy'] == "روشن":
+                            if settings['card_buy'] == "on":
                                 keyboard.append([InlineKeyboardButton("💳کارت به کارت", callback_data=cb_cc)])
-                            if settings['trx_buy'] == "روشن":
+                            if settings['trx_buy'] == "on":
                                 keyboard.append([InlineKeyboardButton("💲ترون", callback_data=cb_tr)])
-                            if (settings['zarinpal'] == "روشن") and (settings['zarinpal_address'] != "None"):
+                            if (settings['zarinpal'] == "on") and (settings['zarinpal_address'] != "None"):
                                 keyboard.append([InlineKeyboardButton("💳 درگاه زرین پال", callback_data=cb_zp)])
-                            if (settings['idpay'] == "روشن") and (settings['idpay_address'] != "None"):
+                            if (settings['idpay'] == "on") and (settings['idpay_address'] != "None"):
                                 keyboard.append([InlineKeyboardButton("💳 درگاه آیدی پی", callback_data=cb_pd)])
-                            if (settings['nextpay'] == "روشن") and (settings['nextpay_address'] != "None"):
+                            if (settings['nextpay'] == "on") and (settings['nextpay_address'] != "None"):
                                 keyboard.append([InlineKeyboardButton("💳 درگاه نکست پی", callback_data=cb_nx)])
                         keyboard.append([InlineKeyboardButton("⤵️ برگرد به منوی قبلی ", callback_data='buy')])
                         reply_markup = InlineKeyboardMarkup(keyboard)
@@ -2014,17 +2014,17 @@ def text_private(bot, message):
                         cb_nx = "NUWPD_" + str(deposit)
                         settings = get_settings()
                         keyboard = []
-                        if settings['card_buy'] == "روشن":
+                        if settings['card_buy'] == "on":
                             keyboard.append([InlineKeyboardButton("💳کارت به کارت", callback_data=cb_cc)])
-                        if settings['trx_buy'] == "روشن":
+                        if settings['trx_buy'] == "on":
                             keyboard.append([InlineKeyboardButton("💲ترون", callback_data=cb_tr)])
-                        if (settings['plisio'] == "روشن") and (settings['plisio_API'] != "None"):
+                        if (settings['plisio'] == "on") and (settings['plisio_API'] != "None"):
                             keyboard.append([InlineKeyboardButton("💳 درگاه  Plisio", callback_data=cb_pl)])
-                        if (settings['zarinpal'] == "روشن") and (settings['zarinpal_address'] != "None"):
+                        if (settings['zarinpal'] == "on") and (settings['zarinpal_address'] != "None"):
                             keyboard.append([InlineKeyboardButton("💳 درگاه زرین پال", callback_data=cb_zp)])
-                        if (settings['idpay'] == "روشن") and (settings['idpay_address'] != "None"):
+                        if (settings['idpay'] == "on") and (settings['idpay_address'] != "None"):
                             keyboard.append([InlineKeyboardButton("💳 درگاه آیدی پی", callback_data=cb_pd)])
-                        if (settings['nextpay'] == "روشن") and (settings['nextpay_address'] != "None"):
+                        if (settings['nextpay'] == "on") and (settings['nextpay_address'] != "None"):
                             keyboard.append([InlineKeyboardButton("💳 درگاه نکست پی", callback_data=cb_nx)])
                         keyboard.append([InlineKeyboardButton("برگشت 🔙", callback_data='UWM')])
                         reply_markup = InlineKeyboardMarkup(keyboard)
@@ -5023,20 +5023,20 @@ def call_Join(bot, query):
     reply_markup = ReplyKeyboardMarkup(Buttons, resize_keyboard=True)
     text = "لطفا برای استفاده از ربات دکمه پایین کلیک کنین و شمارتون بفرستین👇"
     if (get_settings())['sponser'] == "None":
-        if ((get_settings())['phone'] == "روشن") and (check_user_phone_exist(chat_id) is False):
+        if ((get_settings())['phone'] == "on") and (check_user_phone_exist(chat_id) is False):
             bot.send_message(chat_id, text, reply_markup=reply_markup)
         else:
             query.edit_message_text((get_settings())['start'], reply_markup=User_Tools_keys(), parse_mode=enums.ParseMode.HTML)
     else:
         try:
             chat_member = bot.get_chat_member((get_settings())['sponser'], query.message.chat.id)
-            if ((get_settings())['phone'] == "روشن") and (check_user_phone_exist(chat_id) is False):
+            if ((get_settings())['phone'] == "on") and (check_user_phone_exist(chat_id) is False):
                 bot.send_message(chat_id, text, reply_markup=reply_markup)
             else:
                 query.edit_message_text((get_settings())['start'], reply_markup=User_Tools_keys(), parse_mode=enums.ParseMode.HTML)
 
         except NotAcceptable:
-            if ((get_settings())['phone'] == "روشن") and (check_user_phone_exist(chat_id) is False):
+            if ((get_settings())['phone'] == "on") and (check_user_phone_exist(chat_id) is False):
                 bot.send_message(chat_id, text, reply_markup=reply_markup)
             else:
                 query.edit_message_text((get_settings())['start'], reply_markup=User_Tools_keys(), parse_mode=enums.ParseMode.HTML)
@@ -5045,7 +5045,7 @@ def call_Join(bot, query):
             if "USER_NOT_PARTICIPANT" in str(e):
                 query.answer("جوین نشدی😑", show_alert=True)
             else:
-                if ((get_settings())['phone'] == "روشن") and (check_user_phone_exist(chat_id) is False):
+                if ((get_settings())['phone'] == "on") and (check_user_phone_exist(chat_id) is False):
                     bot.send_message(chat_id, text, reply_markup=reply_markup)
                 else:
                     query.edit_message_text((get_settings())['start'], reply_markup=User_Tools_keys(), parse_mode=enums.ParseMode.HTML)
@@ -5463,7 +5463,7 @@ def call_create(bot, query):
             accounts, hosts, status = get_all_accounts_by_chat_id(chat_id)
             if (Limit == 0) or (Limit >= len(accounts)):
                 settings = get_settings()
-                if settings['seller_custom'] == "خاموش":
+                if settings['seller_custom'] == "off":
                     keyboard = [[InlineKeyboardButton("🌎Direct", callback_data='buy')]]
                 else:
                     keyboard = [[InlineKeyboardButton("🌎Direct", callback_data="SCC_D")]]
@@ -5485,7 +5485,7 @@ def call_SCC(bot, query):
     chat_id = query.message.chat.id
     status = data.split("SCC_")[1]
     settings = get_settings()
-    if settings['select_server_sellers'] == "روشن":
+    if settings['select_server_sellers'] == "on":
         query.edit_message_text(text="سرور مورد نظر انتخاب کنین:", reply_markup=server_cb_creator("DMNONE_"))
     else:
         hosts, remarks = samisshbot.HOSTS()
@@ -5848,7 +5848,7 @@ def call_perfectmoney(bot, query):
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     settings = get_settings()
-    if settings['perfect_money'] == "خاموش":
+    if settings['perfect_money'] == "off":
         status = "🔴 خاموش"
     else:
         status = "🟢 روشن"
@@ -5902,8 +5902,8 @@ def call_OFM(bot, query):
         query.answer("Access denied", show_alert=True)
         return
     settings = get_settings()
-    if settings['perfect_money'] == 'روشن':
-        settings['perfect_money'] = 'خاموش'
+    if settings['perfect_money'] == 'on':
+        settings['perfect_money'] = 'off'
         update_settings(settings)
         keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='perfectmoney')]]
         reply_markup = InlineKeyboardMarkup(keyboard)
@@ -5919,8 +5919,8 @@ def call_ONM(bot, query):
         query.answer("Access denied", show_alert=True)
         return
     settings = get_settings()
-    if settings['perfect_money'] == 'خاموش':
-        settings['perfect_money'] = 'روشن'
+    if settings['perfect_money'] == 'off':
+        settings['perfect_money'] = 'on'
         update_settings(settings)
         keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='perfectmoney')]]
         reply_markup = InlineKeyboardMarkup(keyboard)
@@ -5944,7 +5944,7 @@ def call_idpay(bot, query):
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     settings = get_settings()
-    if settings['idpay'] == "خاموش":
+    if settings['idpay'] == "off":
         status = "🔴 خاموش"
     else:
         status = "🟢 روشن"
@@ -5973,8 +5973,8 @@ def call_OFI(bot, query):
         query.answer("Access denied", show_alert=True)
         return
     settings = get_settings()
-    if settings['idpay'] == 'روشن':
-        settings['idpay'] = 'خاموش'
+    if settings['idpay'] == 'on':
+        settings['idpay'] = 'off'
         update_settings(settings)
         keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='idpay')]]
         reply_markup = InlineKeyboardMarkup(keyboard)
@@ -5990,8 +5990,8 @@ def call_ONI(bot, query):
         query.answer("Access denied", show_alert=True)
         return
     settings = get_settings()
-    if settings['idpay'] == 'خاموش':
-        settings['idpay'] = 'روشن'
+    if settings['idpay'] == 'off':
+        settings['idpay'] = 'on'
         update_settings(settings)
         keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='idpay')]]
         reply_markup = InlineKeyboardMarkup(keyboard)
@@ -6015,7 +6015,7 @@ def call_zarinpal(bot, query):
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     settings = get_settings()
-    if settings['zarinpal'] == "خاموش":
+    if settings['zarinpal'] == "off":
         status = "🔴 خاموش"
     else:
         status = "🟢 روشن"
@@ -6044,8 +6044,8 @@ def call_OFZ(bot, query):
         query.answer("Access denied", show_alert=True)
         return
     settings = get_settings()
-    if settings['zarinpal'] == 'روشن':
-        settings['zarinpal'] = 'خاموش'
+    if settings['zarinpal'] == 'on':
+        settings['zarinpal'] = 'off'
         update_settings(settings)
         keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='zarinpal')]]
         reply_markup = InlineKeyboardMarkup(keyboard)
@@ -6061,8 +6061,8 @@ def call_ONZ(bot, query):
         query.answer("Access denied", show_alert=True)
         return
     settings = get_settings()
-    if settings['zarinpal'] == 'خاموش':
-        settings['zarinpal'] = 'روشن'
+    if settings['zarinpal'] == 'off':
+        settings['zarinpal'] = 'on'
         update_settings(settings)
         keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='zarinpal')]]
         reply_markup = InlineKeyboardMarkup(keyboard)
@@ -6086,7 +6086,7 @@ def call_plisio(bot, query):
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     settings = get_settings()
-    if settings['plisio'] == "خاموش":
+    if settings['plisio'] == "off":
         status = "🔴 خاموش"
     else:
         status = "🟢 روشن"
@@ -6115,8 +6115,8 @@ def call_OFP(bot, query):
         query.answer("Access denied", show_alert=True)
         return
     settings = get_settings()
-    if settings['plisio'] == 'روشن':
-        settings['plisio'] = 'خاموش'
+    if settings['plisio'] == 'on':
+        settings['plisio'] = 'off'
         update_settings(settings)
         keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='plisio')]]
         reply_markup = InlineKeyboardMarkup(keyboard)
@@ -6132,8 +6132,8 @@ def call_ONP(bot, query):
         query.answer("Access denied", show_alert=True)
         return
     settings = get_settings()
-    if settings['plisio'] == 'خاموش':
-        settings['plisio'] = 'روشن'
+    if settings['plisio'] == 'off':
+        settings['plisio'] = 'on'
         update_settings(settings)
         keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='plisio')]]
         reply_markup = InlineKeyboardMarkup(keyboard)
@@ -6161,8 +6161,8 @@ def call_OFT(bot, query):
         query.answer("Access denied", show_alert=True)
         return
     settings = get_settings()
-    if settings['trx_buy'] == 'روشن':
-        settings['trx_buy'] = 'خاموش'
+    if settings['trx_buy'] == 'on':
+        settings['trx_buy'] = 'off'
         update_settings(settings)
         keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='wallet')]]
         reply_markup = InlineKeyboardMarkup(keyboard)
@@ -6178,8 +6178,8 @@ def call_ONT(bot, query):
         query.answer("Access denied", show_alert=True)
         return
     settings = get_settings()
-    if settings['trx_buy'] == 'خاموش':
-        settings['trx_buy'] = 'روشن'
+    if settings['trx_buy'] == 'off':
+        settings['trx_buy'] = 'on'
         update_settings(settings)
         keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='wallet')]]
         reply_markup = InlineKeyboardMarkup(keyboard)
@@ -6214,7 +6214,7 @@ def call_wallet(bot, query):
         settings['currency_usdt'] = data
         update_settings(settings)
     settings = get_settings()
-    if settings['currency_usdt'] == "روشن":
+    if settings['currency_usdt'] == "on":
         emoji = "🟢"
         cb = 'خاموش'
     else:
@@ -6229,7 +6229,7 @@ def call_wallet(bot, query):
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     name, username, wallet, crypto = get_wallet_info()
-    if settings['trx_buy'] == "خاموش":
+    if settings['trx_buy'] == "off":
         status = "🔴 خاموش"
     else:
         status = "🟢 روشن"
@@ -6244,8 +6244,8 @@ def call_OFC(bot, query):
         query.answer("Access denied", show_alert=True)
         return
     settings = get_settings()
-    if settings['card_buy'] == 'روشن':
-        settings['card_buy'] = 'خاموش'
+    if settings['card_buy'] == 'on':
+        settings['card_buy'] = 'off'
         update_settings(settings)
         keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='Card')]]
         reply_markup = InlineKeyboardMarkup(keyboard)
@@ -6261,8 +6261,8 @@ def call_ONC(bot, query):
         query.answer("Access denied", show_alert=True)
         return
     settings = get_settings()
-    if settings['card_buy'] == 'خاموش':
-        settings['card_buy'] = 'روشن'
+    if settings['card_buy'] == 'off':
+        settings['card_buy'] = 'on'
         update_settings(settings)
         keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='Card')]]
         reply_markup = InlineKeyboardMarkup(keyboard)
@@ -6286,7 +6286,7 @@ def call_card(bot, query):
     reply_markup = InlineKeyboardMarkup(keyboard)
     name, username, card = get_card_info()
     settings = get_settings()
-    if settings['card_buy'] == "خاموش":
+    if settings['card_buy'] == "off":
         status = "🔴 خاموش"
     else:
         status = "🟢 روشن"
@@ -6503,7 +6503,7 @@ def call_sellers(bot, query):
 @app.on_callback_query(filters.regex('price'))
 def call_price(bot, query):
     settings = get_settings()
-    if settings['list_status'] == "خاموش":
+    if settings['list_status'] == "off":
         query.answer("🔴 چیزی وجود نداره. ", show_alert=True)
         return
     keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back')]]
@@ -6516,7 +6516,7 @@ def call_price(bot, query):
 
 @app.on_callback_query(filters.regex('CUWPD_'))
 def call_CUWPD(bot, query):
-    if get_settings()['card_buy'] == "خاموش":
+    if get_settings()['card_buy'] == "off":
         query.answer("این روش پرداخت توسط ادمین غیرفعال شده", show_alert=True)
         return
     chat_id = query.message.chat.id
@@ -6553,7 +6553,7 @@ def call_CUWPD(bot, query):
 
 @app.on_callback_query(filters.regex('TUWPD_'))
 def call_TUWPD(bot, query):
-    if get_settings()['trx_buy'] == "خاموش":
+    if get_settings()['trx_buy'] == "off":
         query.answer("این روش پرداخت توسط ادمین غیرفعال شده", show_alert=True)
         return
     chat_id = query.message.chat.id
@@ -6570,7 +6570,7 @@ def call_TUWPD(bot, query):
         cache_list = [price, "💲ترون"]
         add_code_buy(chat_id, Code, "userdeposit", cache_list)
         settings = get_settings()
-        if settings['currency_usdt'] == "روشن":
+        if settings['currency_usdt'] == "on":
             price = str("{:.2f}".format(float(int(price) / Toman_USD()))) + " USDT تتر"
         else:
             price = trx_price(price)
@@ -6597,7 +6597,7 @@ def call_TUWPD(bot, query):
 @app.on_callback_query(filters.regex('ZUWPD_'))
 def call_ZUWPD(bot, query):
     settings = get_settings()
-    if (settings['zarinpal'] == "خاموش") or (settings['zarinpal_address'] == "None"):
+    if (settings['zarinpal'] == "off") or (settings['zarinpal_address'] == "None"):
         query.answer("این روش پرداخت توسط ادمین غیرفعال شده", show_alert=True)
         return
     chat_id = query.message.chat.id
@@ -6624,7 +6624,7 @@ def call_ZUWPD(bot, query):
 @app.on_callback_query(filters.regex('DUWPD_'))
 def call_DUWPD(bot, query):
     settings = get_settings()
-    if (settings['idpay'] == "خاموش") or (settings['idpay_address'] == "None"):
+    if (settings['idpay'] == "off") or (settings['idpay_address'] == "None"):
         query.answer("این روش پرداخت توسط ادمین غیرفعال شده", show_alert=True)
         return
     chat_id = query.message.chat.id
@@ -6651,7 +6651,7 @@ def call_DUWPD(bot, query):
 @app.on_callback_query(filters.regex('PUWPS_'))
 def call_PUWPS(bot, query):
     settings = get_settings()
-    if (settings['plisio'] == "خاموش") or (settings['plisio_API'] == "None"):
+    if (settings['plisio'] == "off") or (settings['plisio_API'] == "None"):
         query.answer("این روش پرداخت توسط ادمین غیرفعال شده", show_alert=True)
         return
     chat_id = query.message.chat.id
@@ -6769,7 +6769,7 @@ def call_traffic(bot, query):
     if status is False:
         query.answer("سرویسی پیدا نشد. اگه سرویسی دارین دکمه اطلاعات سرویس بزنین و بفرستین 🙂", show_alert=True)
     else:
-        if ((settings['buy-traffic'] == 'روشن') and (settings['buy_only_customers'] == 'خاموش')) or ((settings['buy_only_customers'] == 'روشن') and (len(accounts) >= 1)):
+        if ((settings['buy-traffic'] == 'on') and (settings['buy_only_customers'] == 'off')) or ((settings['buy_only_customers'] == 'on') and (len(accounts) >= 1)):
             if len(accounts) >= 2:
                 if len(accounts) % 2 == 0:
                     for i in range(0, len(accounts) - 1, 2):
@@ -6808,7 +6808,7 @@ def call_UTGB(bot, query):
             else:
                 text += "\n\nبرای افزایش ترافیک یکی از گزینه هارو انتخاب کنین🙂"
                 if chat_id in seller_id:
-                    if settings['seller_custom'] == "روشن":
+                    if settings['seller_custom'] == "on":
                         cache_list = [host, user]
                         add_collector(chat_id, "plus", cache_list, [])
                         delete_cache(chat_id)
@@ -6845,15 +6845,15 @@ def call_TBP(bot, query):
         cb_nx = "NTPB_" + data
         settings = get_settings()
         keyboard = [[InlineKeyboardButton("💵کیف پول", callback_data=cb_bl)]]
-        if settings['card_buy'] == "روشن":
+        if settings['card_buy'] == "on":
             keyboard.append([InlineKeyboardButton("💳کارت به کارت", callback_data=cb_cc)])
-        if settings['trx_buy'] == "روشن":
+        if settings['trx_buy'] == "on":
             keyboard.append([InlineKeyboardButton("💲ترون", callback_data=cb_tr)])
-        if (settings['zarinpal'] == "روشن") and (settings['zarinpal_address'] != "None"):
+        if (settings['zarinpal'] == "on") and (settings['zarinpal_address'] != "None"):
             keyboard.append([InlineKeyboardButton("💳 درگاه زرین پال", callback_data=cb_zp)])
-        if (settings['idpay'] == "روشن") and (settings['idpay_address'] != "None"):
+        if (settings['idpay'] == "on") and (settings['idpay_address'] != "None"):
             keyboard.append([InlineKeyboardButton("💳 درگاه آیدی پی", callback_data=cb_pd)])
-        if (settings['nextpay'] == "روشن") and (settings['nextpay_address'] != "None"):
+        if (settings['nextpay'] == "on") and (settings['nextpay_address'] != "None"):
             keyboard.append([InlineKeyboardButton("💳 درگاه نکست پی", callback_data=cb_nx)])
         keyboard.append([InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='traffic')])
         reply_markup = InlineKeyboardMarkup(keyboard)
@@ -6868,7 +6868,7 @@ def call_TBP(bot, query):
 
 @app.on_callback_query(filters.regex('CTPB_'))
 def call_CTPB(bot, query):
-    if get_settings()['card_buy'] == "خاموش":
+    if get_settings()['card_buy'] == "off":
         query.answer("این روش پرداخت توسط ادمین غیرفعال شده", show_alert=True)
         return
     chat_id = query.message.chat.id
@@ -6936,7 +6936,7 @@ def call_LTPB(bot, query):
                 reply_markup = InlineKeyboardMarkup(keyboard)
                 query.edit_message_text(text=f"🥰ترافیک اکانتتون با موفقیت افزایش پیدا کرد\n{user}\n\nبرای آموزش وصل شدن به سرویس دکمه پایینو بزنین", reply_markup=reply_markup)
                 settings = get_settings()
-                if settings['buy_notification'] == "روشن":
+                if settings['buy_notification'] == "on":
                     name, USERNAME, phone, old_value = get_full_user_data_id(chat_id)
                     keyboard = [[InlineKeyboardButton("ℹ️ اطلاعات کامل", callback_data=f"IDADMIN_{host}${user}")], [InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back')]]
                     reply_markup = InlineKeyboardMarkup(keyboard)
@@ -6954,7 +6954,7 @@ def call_LTPB(bot, query):
 
 @app.on_callback_query(filters.regex('TTPB_'))
 def call_TTPB(bot, query):
-    if get_settings()['trx_buy'] == "خاموش":
+    if get_settings()['trx_buy'] == "off":
         query.answer("این روش پرداخت توسط ادمین غیرفعال شده", show_alert=True)
         return
     chat_id = query.message.chat.id
@@ -6974,7 +6974,7 @@ def call_TTPB(bot, query):
         cache_list = [GB, price, user, host, "💲ترون"]
         add_code_buy(chat_id, Code, "traffic", cache_list)
         settings = get_settings()
-        if settings['currency_usdt'] == "روشن":
+        if settings['currency_usdt'] == "on":
             price = str("{:.2f}".format(float(int(price) / Toman_USD()))) + " USDT تتر"
         else:
             price = trx_price(price)
@@ -7002,7 +7002,7 @@ def call_TTPB(bot, query):
 @app.on_callback_query(filters.regex('ZTPB_'))
 def call_ZTPB(bot, query):
     settings = get_settings()
-    if (settings['zarinpal'] == "خاموش") or (settings['zarinpal_address'] == "None"):
+    if (settings['zarinpal'] == "off") or (settings['zarinpal_address'] == "None"):
         query.answer("این روش پرداخت توسط ادمین غیرفعال شده", show_alert=True)
         return
     chat_id = query.message.chat.id
@@ -7033,7 +7033,7 @@ def call_ZTPB(bot, query):
 @app.on_callback_query(filters.regex('DTPB_'))
 def call_DTPB(bot, query):
     settings = get_settings()
-    if (settings['idpay'] == "خاموش") or (settings['idpay_address'] == "None"):
+    if (settings['idpay'] == "off") or (settings['idpay_address'] == "None"):
         query.answer("این روش پرداخت توسط ادمین غیرفعال شده", show_alert=True)
         return
     chat_id = query.message.chat.id
@@ -7104,7 +7104,7 @@ def call_buy(bot, query):
 
 @app.on_callback_query(filters.regex('CC_'))
 def call_CC(bot, query):
-    if get_settings()['card_buy'] == "خاموش":
+    if get_settings()['card_buy'] == "off":
         query.answer("این روش پرداخت توسط ادمین غیرفعال شده", show_alert=True)
         return
     chat_id = query.message.chat.id
@@ -7146,7 +7146,7 @@ def call_CC(bot, query):
 
 @app.on_callback_query(filters.regex('TR_'))
 def call_TR(bot, query):
-    if get_settings()['trx_buy'] == "خاموش":
+    if get_settings()['trx_buy'] == "off":
         query.answer("این روش پرداخت توسط ادمین غیرفعال شده", show_alert=True)
         return
     chat_id = query.message.chat.id
@@ -7168,7 +7168,7 @@ def call_TR(bot, query):
         cache_list = [days, GB, client, price, query.message.chat.first_name, UNAME, Selected_host, "💲 ترون"]
         add_code_buy(chat_id, Code, "add", cache_list)
         settings = get_settings()
-        if settings['currency_usdt'] == "روشن":
+        if settings['currency_usdt'] == "on":
             price = str("{:.2f}".format(float(int(price) / Toman_USD()))) + " USDT تتر"
         else:
             price = trx_price(price)
@@ -7196,7 +7196,7 @@ def call_TR(bot, query):
 @app.on_callback_query(filters.regex('ZP_'))
 def call_ZP(bot, query):
     settings = get_settings()
-    if (settings['zarinpal'] == "خاموش") or (settings['zarinpal_address'] == "None"):
+    if (settings['zarinpal'] == "off") or (settings['zarinpal_address'] == "None"):
         query.answer("این روش پرداخت توسط ادمین غیرفعال شده", show_alert=True)
         return
     chat_id = query.message.chat.id
@@ -7229,7 +7229,7 @@ def call_ZP(bot, query):
 @app.on_callback_query(filters.regex('PD_'))
 def call_PD(bot, query):
     settings = get_settings()
-    if (settings['idpay'] == "خاموش") or (settings['idpay_address'] == "None"):
+    if (settings['idpay'] == "off") or (settings['idpay_address'] == "None"):
         query.answer("این روش پرداخت توسط ادمین غیرفعال شده", show_alert=True)
         return
     chat_id = query.message.chat.id
@@ -7341,7 +7341,7 @@ def call_BL(bot, query):
                         bot.send_message(chat_id, settings['server_custom_caption'][host])
                     sleep(0.1)
                     bot.send_message(chat_id, settings['after_buy'], reply_markup=reply_markup)
-                    if settings['buy_notification'] == "روشن":
+                    if settings['buy_notification'] == "on":
                         keyboard = [[InlineKeyboardButton("ℹ️ اطلاعات کامل", callback_data=f"IDADMIN_{host}${user}")], [InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back')]]
                         reply_markup = InlineKeyboardMarkup(keyboard)
                         for admin in admin_id:
@@ -7389,15 +7389,15 @@ def call_Uname(bot, query):
                 pass
             else:
                 settings = get_settings()
-                if settings['card_buy'] == "روشن":
+                if settings['card_buy'] == "on":
                     keyboard.append([InlineKeyboardButton("💳کارت به کارت", callback_data=cb_cc)])
-                if settings['trx_buy'] == "روشن":
+                if settings['trx_buy'] == "on":
                     keyboard.append([InlineKeyboardButton("💲ترون", callback_data=cb_tr)])
-                if (settings['zarinpal'] == "روشن") and (settings['zarinpal_address'] != "None"):
+                if (settings['zarinpal'] == "on") and (settings['zarinpal_address'] != "None"):
                     keyboard.append([InlineKeyboardButton("💳 درگاه زرین پال", callback_data=cb_zp)])
-                if (settings['idpay'] == "روشن") and (settings['idpay_address'] != "None"):
+                if (settings['idpay'] == "on") and (settings['idpay_address'] != "None"):
                     keyboard.append([InlineKeyboardButton("💳 درگاه آیدی پی", callback_data=cb_pd)])
-                if (settings['nextpay'] == "روشن") and (settings['nextpay_address'] != "None"):
+                if (settings['nextpay'] == "on") and (settings['nextpay_address'] != "None"):
                     keyboard.append([InlineKeyboardButton("💳 درگاه نکست پی", callback_data=cb_nx)])
             keyboard.append([InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='buy')])
             reply_markup = InlineKeyboardMarkup(keyboard)
@@ -7458,12 +7458,12 @@ def call_BU(bot, query):
         reply_markup = InlineKeyboardMarkup(keyboard)
         settings = get_settings()
         if chat_id in seller_id:
-            if settings['select_server_sellers'] == "روشن":
+            if settings['select_server_sellers'] == "on":
                 query.edit_message_text(text="یکی از سرور هارو انتخاب کنین:", reply_markup=server_cb_creator_user("XVPSS_", data))
             else:
                 query.edit_message_text(text="نام کاربری ؟\nمیتونید نام کاربری دلخواه خودتون بفرستین یا بصورت رندوم انتخاب میشه\n\nیکی از گزینه هارو انتخاب کنین:", reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
         else:
-            if settings['select_server_users'] == "روشن":
+            if settings['select_server_users'] == "on":
                 query.edit_message_text(text="یکی از سرور هارو انتخاب کنین:", reply_markup=server_cb_creator_user("XVPSS_", data))
             else:
                 query.edit_message_text(text="نام کاربری ؟\nمیتونید نام کاربری دلخواه خودتون بفرستین یا بصورت رندوم انتخاب میشه\n\nیکی از گزینه هارو انتخاب کنین:", reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
@@ -7652,7 +7652,7 @@ def call_UPG(bot, query):
                 text += "\n\nبرای تمدید یکی از گزینه هارو انتخاب کنین🙂"
                 keyboard = []
                 if chat_id in seller_id:
-                    if settings['seller_custom'] == "روشن":
+                    if settings['seller_custom'] == "on":
                         cache_list = [host, user]
                         delete_cache(chat_id)
                         add_collector(chat_id, "update", cache_list, [])
@@ -7700,15 +7700,15 @@ def call_BU(bot, query):
         cb_nx = "UPNPX_" + data
         settings = get_settings()
         keyboard = [[InlineKeyboardButton("💵کیف پول", callback_data=cb_bl)]]
-        if settings['card_buy'] == "روشن":
+        if settings['card_buy'] == "on":
             keyboard.append([InlineKeyboardButton("💳کارت به کارت", callback_data=cb_cc)])
-        if settings['trx_buy'] == "روشن":
+        if settings['trx_buy'] == "on":
             keyboard.append([InlineKeyboardButton("💲ترون", callback_data=cb_tr)])
-        if (settings['zarinpal'] == "روشن") and (settings['zarinpal_address'] != "None"):
+        if (settings['zarinpal'] == "on") and (settings['zarinpal_address'] != "None"):
             keyboard.append([InlineKeyboardButton("💳 درگاه زرین پال", callback_data=cb_zp)])
-        if (settings['idpay'] == "روشن") and (settings['idpay_address'] != "None"):
+        if (settings['idpay'] == "on") and (settings['idpay_address'] != "None"):
             keyboard.append([InlineKeyboardButton("💳 درگاه آیدی پی", callback_data=cb_pd)])
-        if (settings['nextpay'] == "روشن") and (settings['nextpay_address'] != "None"):
+        if (settings['nextpay'] == "on") and (settings['nextpay_address'] != "None"):
             keyboard.append([InlineKeyboardButton("💳 درگاه نکست پی", callback_data=cb_nx)])
         keyboard.append([InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='upgrade')])
         reply_markup = InlineKeyboardMarkup(keyboard)
@@ -7745,7 +7745,7 @@ def call_UPKIF(bot, query):
             port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
             Session = samisshbot.PANNEL(host, username, password, port, panel, 'User', user)
             settings = get_settings()
-            if settings['upgrade_days'] == "روشن":
+            if settings['upgrade_days'] == "on":
                 try:
                     data = change_infos_user_info(Session.User_info(settings['dropbear'], settings['tuic']))
                     old_days = int((data.split('Days : ')[1]).split("\n")[0])
@@ -7767,7 +7767,7 @@ def call_UPKIF(bot, query):
                         checked_id.remove(checked_id[checked_users.index(user)])
                 except Exception as e:
                     print("Error (line checked_id) : ", str(e))
-                if settings['buy_notification'] == "روشن":
+                if settings['buy_notification'] == "on":
                     name, USERNAME, phone, old_value = get_full_user_data_id(chat_id)
                     keyboard = [[InlineKeyboardButton("ℹ️ اطلاعات کامل", callback_data=f"IDADMIN_{host}${user}")], [InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back')]]
                     reply_markup = InlineKeyboardMarkup(keyboard)
@@ -7785,7 +7785,7 @@ def call_UPKIF(bot, query):
 
 @app.on_callback_query(filters.regex('UPTXR_'))
 def call_UPTXR(bot, query):
-    if get_settings()['trx_buy'] == "خاموش":
+    if get_settings()['trx_buy'] == "off":
         query.answer("این روش پرداخت توسط ادمین غیرفعال شده", show_alert=True)
         return
     chat_id = query.message.chat.id
@@ -7807,7 +7807,7 @@ def call_UPTXR(bot, query):
         cache_list = [days, GB, connection_limit, price, user, host, "💲ترون"]
         add_code_buy(chat_id, Code, "upgrade", cache_list)
         settings = get_settings()
-        if settings['currency_usdt'] == "روشن":
+        if settings['currency_usdt'] == "on":
             price = str("{:.2f}".format(float(int(price) / Toman_USD()))) + " USDT تتر"
         else:
             price = trx_price(price)
@@ -7835,7 +7835,7 @@ def call_UPTXR(bot, query):
 @app.on_callback_query(filters.regex('UPZPP_'))
 def call_UPZPP(bot, query):
     settings = get_settings()
-    if (settings['zarinpal'] == "خاموش") or (settings['zarinpal_address'] == "None"):
+    if (settings['zarinpal'] == "off") or (settings['zarinpal_address'] == "None"):
         query.answer("این روش پرداخت توسط ادمین غیرفعال شده", show_alert=True)
         return
     chat_id = query.message.chat.id
@@ -7868,7 +7868,7 @@ def call_UPZPP(bot, query):
 @app.on_callback_query(filters.regex('UPIDP_'))
 def call_UPIDP(bot, query):
     settings = get_settings()
-    if (settings['idpay'] == "خاموش") or (settings['idpay_address'] == "None"):
+    if (settings['idpay'] == "off") or (settings['idpay_address'] == "None"):
         query.answer("این روش پرداخت توسط ادمین غیرفعال شده", show_alert=True)
         return
     chat_id = query.message.chat.id
@@ -7900,7 +7900,7 @@ def call_UPIDP(bot, query):
 
 @app.on_callback_query(filters.regex('UPC_'))
 def call_UPC(bot, query):
-    if get_settings()['card_buy'] == "خاموش":
+    if get_settings()['card_buy'] == "off":
         query.answer("این روش پرداخت توسط ادمین غیرفعال شده", show_alert=True)
         return
     chat_id = query.message.chat.id
@@ -7969,7 +7969,7 @@ def call_Confirmed_UPGRADE(bot, query):
             text = f"🥰مرسی از خریدتون\n\n"
             Session = samisshbot.PANNEL(host, username, password, port, panel, 'User', user)
             settings = get_settings()
-            if settings['upgrade_days'] == "روشن":
+            if settings['upgrade_days'] == "on":
                 try:
                     data = change_infos_user_info(Session.User_info(settings['dropbear'], settings['tuic']))
                     old_days = int((data.split('Days : ')[1]).split("\n")[0])
@@ -8101,7 +8101,7 @@ def call_Confirmed_deposit(bot, query):
 
 @app.on_callback_query(filters.regex('config'))
 def call_config(bot, query):
-    if get_settings()['info_service'] == "خاموش":
+    if get_settings()['info_service'] == "off":
         query.answer("Access denied", show_alert=True)
         return
     chat_id = query.message.chat.id
@@ -9259,7 +9259,7 @@ def call_service(bot, query):
 
 @app.on_callback_query(filters.regex('SELFCPA_'))
 def call_SELFCPA(bot, query):
-    if get_settings()['change_password'] == "خاموش":
+    if get_settings()['change_password'] == "off":
         query.answer("Access denied", show_alert=True)
         return
     chat_id = query.message.chat.id
@@ -9445,11 +9445,11 @@ def call_support(bot, query):
         delete_cache(chat_id)
     if check_cache(chat_id) is False:
         settings = get_settings()
-        if settings['support_status'] == "خاموش":
+        if settings['support_status'] == "off":
             query.answer("🔴 پشتیبانی غیرفعال هست. ", show_alert=True)
             return
         keyboard = []
-        if settings['support_chat'] == "روشن":
+        if settings['support_chat'] == "on":
             randomize = []
             for i in range(len(admin_id)*100):
                 if len(admin_id) != len(randomize):
@@ -9499,7 +9499,7 @@ def call_test(bot, query):
     keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back')]]
     reply_markup = InlineKeyboardMarkup(keyboard)
     settings = get_settings()
-    if settings['test'] == "خاموش":
+    if settings['test'] == "off":
         query.answer("این بخش غیرفعاله!", show_alert=True)
     else:
         if check_test_exists(chat_id) is False:
@@ -9549,7 +9549,7 @@ def call_test(bot, query):
                     ]
                     reply_markup = InlineKeyboardMarkup(keyboard)
                     bot.send_message(chat_id, "برای آموزش وصل شدن به سرویس دکمه پایینو بزنین", reply_markup=reply_markup)
-                    if settings['notify_test_account'] == "روشن":
+                    if settings['notify_test_account'] == "on":
                         name, USERNAME, phone, old_value = get_full_user_data_id(chat_id)
                         keyboard = [[InlineKeyboardButton("ℹ️ اطلاعات کامل", callback_data=f"IDADMIN_{host}${user}")], [InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back')]]
                         reply_markup = InlineKeyboardMarkup(keyboard)
@@ -9574,22 +9574,22 @@ def call_test(bot, query):
 @app.on_callback_query(filters.regex('help'))
 def call_help(bot, query):
     settings = get_settings()
-    if settings['tutorial_windows'] == "روشن" and settings['tutorial_android'] == "روشن" and settings['tutorial_ios'] == "روشن" and settings['tutorial_mac'] == "روشن":
+    if settings['tutorial_windows'] == "on" and settings['tutorial_android'] == "on" and settings['tutorial_ios'] == "on" and settings['tutorial_mac'] == "on":
         keyboard = [
             [InlineKeyboardButton("IOS🍏", callback_data='IOS'), InlineKeyboardButton("Android🤖", callback_data='Android')],
             [InlineKeyboardButton("Mac🍎", callback_data='Mac'), InlineKeyboardButton("Windows💻", callback_data='Windows')]
         ]
     else:
         keyboard = []
-        if settings['tutorial_windows'] == "روشن":
+        if settings['tutorial_windows'] == "on":
             keyboard.append([InlineKeyboardButton("Windows💻", callback_data='Windows')])
-        if settings['tutorial_android'] == "روشن":
+        if settings['tutorial_android'] == "on":
             keyboard.append([InlineKeyboardButton("Android🤖", callback_data='Android')])
-        if settings['tutorial_ios'] == "روشن":
+        if settings['tutorial_ios'] == "on":
             keyboard.append([InlineKeyboardButton("IOS🍏", callback_data='IOS')])
-        if settings['tutorial_mac'] == "روشن":
+        if settings['tutorial_mac'] == "on":
             keyboard.append([InlineKeyboardButton("Mac🍎", callback_data='Mac')])
-    if settings['custom_tutorial_only_button'] == "روشن":
+    if settings['custom_tutorial_only_button'] == "on":
         keyboard.append([InlineKeyboardButton(settings['custom_tutorial_only_button_name'], callback_data='CtSAELF')])
     keyboard.append([InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back')])
     reply_markup = InlineKeyboardMarkup(keyboard)
@@ -9659,7 +9659,7 @@ def call_CtSAELF(bot, query):
 
 @app.on_callback_query(filters.regex('referral'))
 def call_referral(bot, query):
-    if get_settings()['invite'] == "خاموش":
+    if get_settings()['invite'] == "off":
         query.answer("در حال حاضر امکان استفاده از این قابلیت وجود نداره", show_alert=True)
         return
     chat_id = query.message.chat.id
@@ -9740,7 +9740,7 @@ def call_voucher(bot, query):
             delete_cache(chat_id)
         keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='UWM')]]
         reply_markup = InlineKeyboardMarkup(keyboard)
-        if (settings['perfect_money'] == "روشن") and (settings['perfect_money_account_id'] != "None"):
+        if (settings['perfect_money'] == "on") and (settings['perfect_money_account_id'] != "None"):
             add_cache(chat_id, "voucher")
             query.edit_message_text(text="کد e-Voucher بصورت عدد بفرستین:", reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
         else:
@@ -9757,7 +9757,7 @@ def call_UWPM(bot, query):
         if check_cache(chat_id) is True:
             delete_cache(chat_id)
         data = query.data
-        if (settings['perfect_money'] == "روشن") and (settings['perfect_money_account_id'] != "None") and ("!" not in data):
+        if (settings['perfect_money'] == "on") and (settings['perfect_money_account_id'] != "None") and ("!" not in data):
             keyboard = [
                 [InlineKeyboardButton("🔴 پرفکت مانی", callback_data='voucher')],
                 [InlineKeyboardButton("دیگر روش های پرداخت ", callback_data='UWPM!')],
@@ -10020,7 +10020,7 @@ def call_WLMSG(bot, query):
         return
     delete_cache(chat_id)
     settings = get_settings()
-    if settings['list_status'] == "روشن":
+    if settings['list_status'] == "on":
         emoji = "🟢"
         cb = 'خاموش'
         emoji_cb = "🔴"
@@ -10216,7 +10216,7 @@ def call_ZQUC(bot, query):
         query.answer("Access denied", show_alert=True)
         return
     settings = get_settings()
-    if settings['upgrade_days'] == "روشن":
+    if settings['upgrade_days'] == "on":
         emoji = "🟢"
         cb = 'خاموش'
         emoji_cb = "🔴"
@@ -10286,7 +10286,7 @@ def call_ZBSHP(bot, query):
         query.answer("Access denied", show_alert=True)
         return
     settings = get_settings()
-    if settings['first_connect'] == "روشن":
+    if settings['first_connect'] == "on":
         emoji = "🟢"
         cb = 'خاموش'
         emoji_cb = "🔴"
@@ -10328,7 +10328,7 @@ def call_CSNDF(bot, query):
             settings['random_price'] = data
         update_settings(settings)
     settings = get_settings()
-    if settings['random_price'] == "روشن":
+    if settings['random_price'] == "on":
         emoji = "🟢"
         cb = 'خاموش'
     else:
@@ -10381,7 +10381,7 @@ def call_DKSJJHJ(bot, query):
                 settings['password_method'] = "عدد"
         update_settings(settings)
     settings = get_settings()
-    if settings['default_password_status'] == "روشن":
+    if settings['default_password_status'] == "on":
         emoji = "🟢"
         cb = 'خاموش'
     else:
@@ -10459,7 +10459,7 @@ def call_BSOPtion(bot, query):
         query.answer("Access denied", show_alert=True)
         return
     settings = get_settings()
-    if settings['buy'] == "روشن":
+    if settings['buy'] == "on":
         emoji = "🟢"
         cb = 'خاموش'
         emoji_cb = "🔴"
@@ -10467,7 +10467,7 @@ def call_BSOPtion(bot, query):
         emoji = "🔴"
         cb = 'روشن'
         emoji_cb = "🟢"
-    if settings['buy_only_customers'] == "روشن":
+    if settings['buy_only_customers'] == "on":
         emoji_2 = "🟢"
         cb_2 = 'خاموش'
         emoji_cb_2 = "🔴"
@@ -10944,7 +10944,7 @@ def call_INVS(bot, query):
         return
     delete_cache(chat_id)
     settings = get_settings()
-    if settings['invite'] == "روشن":
+    if settings['invite'] == "on":
         emoji = "🟢"
         cb = 'خاموش'
         emoji_cb = "🔴"
@@ -11018,7 +11018,7 @@ def call_SID(bot, query):
     if check_cache(chat_id) is True:
         delete_cache(chat_id)
     settings = get_settings()
-    if settings['support_status'] == "روشن":
+    if settings['support_status'] == "on":
         emoji = "🟢"
         cb = 'خاموش'
         emoji_cb = "🔴"
@@ -11026,7 +11026,7 @@ def call_SID(bot, query):
         emoji = "🔴"
         cb = 'روشن'
         emoji_cb = "🟢"
-    if settings['support_chat'] == "روشن":
+    if settings['support_chat'] == "on":
         emoji_2 = "🟢"
         cb_2 = 'خاموش'
         emoji_cb_2 = "🔴"
@@ -11139,7 +11139,7 @@ def call_CVM(bot, query):
         data = data.split("_")[1]
         settings['custom_tutorial_only_button'] = data
         update_settings(settings)
-    if settings['custom_tutorial_only_button'] == "روشن":
+    if settings['custom_tutorial_only_button'] == "on":
         emoji = "🟢"
         cb = 'خاموش'
     else:
@@ -11205,7 +11205,7 @@ def call_CTI(bot, query):
         data = data.split("_")[1]
         settings['tutorial_ios'] = data
         update_settings(settings)
-    if settings['tutorial_ios'] == "روشن":
+    if settings['tutorial_ios'] == "on":
         emoji = "🟢"
         cb = 'خاموش'
     else:
@@ -11250,7 +11250,7 @@ def call_CTA(bot, query):
         data = data.split("_")[1]
         settings['tutorial_android'] = data
         update_settings(settings)
-    if settings['tutorial_android'] == "روشن":
+    if settings['tutorial_android'] == "on":
         emoji = "🟢"
         cb = 'خاموش'
     else:
@@ -11295,7 +11295,7 @@ def call_CTM(bot, query):
         data = data.split("_")[1]
         settings['tutorial_mac'] = data
         update_settings(settings)
-    if settings['tutorial_mac'] == "روشن":
+    if settings['tutorial_mac'] == "on":
         emoji = "🟢"
         cb = 'خاموش'
     else:
@@ -11340,7 +11340,7 @@ def call_CTW(bot, query):
         data = data.split("_")[1]
         settings['tutorial_windows'] = data
         update_settings(settings)
-    if settings['tutorial_windows'] == "روشن":
+    if settings['tutorial_windows'] == "on":
         emoji = "🟢"
         cb = 'خاموش'
     else:
@@ -11378,7 +11378,7 @@ def call_TASET(bot, query):
         query.answer("Access denied", show_alert=True)
         return
     settings = get_settings()
-    if settings['test'] == "روشن":
+    if settings['test'] == "on":
         emoji = "🟢"
         cb = 'خاموش'
         emoji_cb = "🔴"
@@ -11462,7 +11462,7 @@ def call_BTOPtion(bot, query):
         query.answer("Access denied", show_alert=True)
         return
     settings = get_settings()
-    if settings['buy-traffic'] == "روشن":
+    if settings['buy-traffic'] == "on":
         emoji = "🟢"
         cb = 'خاموش'
         emoji_cb = "🔴"
@@ -11577,7 +11577,7 @@ def call_PNS(bot, query):
         query.answer("Access denied", show_alert=True)
         return
     settings = get_settings()
-    if settings['phone'] == "روشن":
+    if settings['phone'] == "on":
         emoji = "🟢"
         cb = 'خاموش'
         emoji_cb = "🔴"
@@ -11586,7 +11586,7 @@ def call_PNS(bot, query):
         cb = 'روشن'
         emoji_cb = "🟢"
 
-    if settings['irphone'] == "روشن":
+    if settings['irphone'] == "on":
         emoji_2 = "🟢"
         cb_2 = 'خاموش'
         emoji_cb_2 = "🔴"
@@ -11643,7 +11643,7 @@ def call_XSM(bot, query):
         query.answer("Access denied", show_alert=True)
         return
     settings = get_settings()
-    if settings['seller_custom'] == "روشن":
+    if settings['seller_custom'] == "on":
         emoji = "🟢"
         cb = 'خاموش'
         emoji_cb = "🔴"
@@ -11651,7 +11651,7 @@ def call_XSM(bot, query):
         emoji = "🔴"
         cb = 'روشن'
         emoji_cb = "🟢"
-    if settings['select_server_sellers'] == "روشن":
+    if settings['select_server_sellers'] == "on":
         emoji_2 = "🟢"
         cb_2 = 'خاموش'
         emoji_cb_2 = "🔴"
@@ -11875,7 +11875,7 @@ def call_NSCLS(bot, query):
         query.answer("Access denied", show_alert=True)
         return
     settings = get_settings()
-    if settings['notification'] == "روشن":
+    if settings['notification'] == "on":
         emoji = "🟢"
         cb = 'خاموش'
         emoji_cb = "🔴"
@@ -11883,7 +11883,7 @@ def call_NSCLS(bot, query):
         emoji = "🔴"
         cb = 'روشن'
         emoji_cb = "🟢"
-    if settings['phone_notification'] == "روشن":
+    if settings['phone_notification'] == "on":
         emoji_2 = "🟢"
         cb_2 = 'خاموش'
         emoji_cb_2 = "🔴"
@@ -11891,7 +11891,7 @@ def call_NSCLS(bot, query):
         emoji_2 = "🔴"
         cb_2 = 'روشن'
         emoji_cb_2 = "🟢"
-    if settings['buy_notification'] == "روشن":
+    if settings['buy_notification'] == "on":
         emoji_3 = "🟢"
         cb_3 = 'خاموش'
         emoji_cb_3 = "🔴"
@@ -11899,7 +11899,7 @@ def call_NSCLS(bot, query):
         emoji_3 = "🔴"
         cb_3 = 'روشن'
         emoji_cb_3 = "🟢"
-    if settings['notify_test_account'] == "روشن":
+    if settings['notify_test_account'] == "on":
         emoji_4 = "🟢"
         cb_4 = 'خاموش'
         emoji_cb_4 = "🔴"
@@ -12042,7 +12042,7 @@ def call_RWUAD(bot, query):
         query.answer("Access denied", show_alert=True)
         return
     settings = get_settings()
-    if settings['delete_user'] == "روشن":
+    if settings['delete_user'] == "on":
         emoji = "🟢"
         cb = 'خاموش'
         emoji_cb = "🔴"
@@ -12050,7 +12050,7 @@ def call_RWUAD(bot, query):
         emoji = "🔴"
         cb = 'روشن'
         emoji_cb = "🟢"
-    if settings['select_server_users'] == "روشن":
+    if settings['select_server_users'] == "on":
         emoji_2 = "🟢"
         cb_2 = 'خاموش'
         emoji_cb_2 = "🔴"
@@ -12058,7 +12058,7 @@ def call_RWUAD(bot, query):
         emoji_2 = "🔴"
         cb_2 = 'روشن'
         emoji_cb_2 = "🟢"
-    if settings['dropbear'] == "روشن":
+    if settings['dropbear'] == "on":
         emoji_3 = "🟢"
         cb_3 = 'خاموش'
         emoji_cb_3 = "🔴"
@@ -12066,7 +12066,7 @@ def call_RWUAD(bot, query):
         emoji_3 = "🔴"
         cb_3 = 'روشن'
         emoji_cb_3 = "🟢"
-    if settings['info_service'] == "روشن":
+    if settings['info_service'] == "on":
         emoji_4 = "🟢"
         cb_4 = 'خاموش'
         emoji_cb_4 = "🔴"
@@ -12074,7 +12074,7 @@ def call_RWUAD(bot, query):
         emoji_4 = "🔴"
         cb_4 = 'روشن'
         emoji_cb_4 = "🟢"
-    if settings['tuic'] == "روشن":
+    if settings['tuic'] == "on":
         emoji_5 = "🟢"
         cb_5 = 'خاموش'
         emoji_cb_5 = "🔴"
@@ -12082,7 +12082,7 @@ def call_RWUAD(bot, query):
         emoji_5 = "🔴"
         cb_5 = 'روشن'
         emoji_cb_5 = "🟢"
-    if settings['online_access'] == "روشن":
+    if settings['online_access'] == "on":
         emoji_6 = "🟢"
         cb_6 = 'خاموش'
         emoji_cb_6 = "🔴"
@@ -12090,7 +12090,7 @@ def call_RWUAD(bot, query):
         emoji_6 = "🔴"
         cb_6 = 'روشن'
         emoji_cb_6 = "🟢"
-    if settings['change_password'] == "روشن":
+    if settings['change_password'] == "on":
         emoji_7 = "🟢"
         cb_7 = 'خاموش'
         emoji_cb_7 = "🔴"
