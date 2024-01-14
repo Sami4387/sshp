@@ -1397,7 +1397,7 @@ def backup_cmd(bot, message):
     if backup_command[0] is False:
         backup_command[0] = True
         chat_id = message.chat.id
-        msg = message.reply_text("منتظر بمانید...").id
+        msg = message.reply_text("Wait...").id
         files = ["All.txt", "ssh.db", "data.json", "Pannels.txt", "logs.txt", "nohup.out"]
         media = []
         for file in files:
@@ -1565,7 +1565,7 @@ def forward(bot, message):
 def start_admin(bot, message):
     if botusername == []:
         botusername.append((bot.get_me()).username)
-    text = '<b>پنل ربات</b>\n\n/backup'
+    text = '🔻<b>Tools</b>\n\n/backup'
     chat_id = message.chat.id
     if check_cache(chat_id) is True:
         delete_cache(chat_id)
@@ -1584,7 +1584,7 @@ def start_user(bot, message):
         if chat_id in seller_id:
             delete_collector(chat_id)
     if chat_id in seller_id:
-        text = '<b>پنل ربات</b>'
+        text = '🔻<b>Tools</b>'
         message.reply_text(text, reply_markup=Seller_Tools_keys(), parse_mode=enums.ParseMode.HTML)
     else:
         settings = get_settings()
@@ -1618,7 +1618,7 @@ def start_user(bot, message):
                 for admin in admin_id:
                     try:
                         mention = "<a href='tg://user?id=" + str(chat_id) + "'>" + name + "</a>"
-                        text = f"⚪️ کاربر جدید:\n\n👨‍💼اسم کاربر: {mention}\n\n▫️آیدی کاربر: <code>{str(chat_id)}</code>\n\n⚡️ نام کاربری: {username}\n\nدر حال عضویت در ربات می باشد."
+                        text = f"⚪️ کاربر جدید: {mention} با آیدی عددی <code>{str(chat_id)}</code> و یوزرنیم  {username}"
                         bot.send_message(admin, text, parse_mode=enums.ParseMode.HTML)
                     except:
                         pass
@@ -1677,7 +1677,7 @@ def text_private(bot, message):
                 host = None
                 user = None
             if host is not None:
-                msg = message.reply_text("منتظر بمانید...").id
+                msg = message.reply_text("Wait...").id
                 port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
                 try:
                     Session = samisshbot.PANNEL(host, username, password, port, panel, 'User', user)
@@ -2179,8 +2179,8 @@ def text_private(bot, message):
                         username = "@" + message.from_user.username
                     except:
                         username = 'Null'
-                    t1 = f"💲فروشنده💲\nخرید \n🚦سرور: {host}\n✏️ نام اکانت: {user}\n⏰ مدت سرویس: {days} روز\n🔋حجم سرویس: {traffic} گیگ\n🧑‍💻 محدودیت: {connection_limit}"
-                    text = "▫️آیدی کاربر: <code>" + str(chat_id) + "</code>\n👨‍💼اسم کاربر: " + name + '\n⚡️ نام کاربری: ' + username + "\n\n📝 اطلاعت خرید:\n" + t1
+                    t1 = f"💲فروشنده💲\nخرید \nserver: {host}\nuser: {user}\ndays: {days}\nGB: {traffic}\nConnection: {connection_limit}"
+                    text = "id: <code>" + str(chat_id) + "</code>\nName: " + name + '\nUsername: ' + username + "\n\ninfo buy:\n" + t1
                     cb = "Confirmed_" + code
                     no = "رد❌_" + code
                     keyboard = [[InlineKeyboardButton("تایید✅", callback_data=cb), InlineKeyboardButton("رد❌", callback_data=no)], [InlineKeyboardButton("پیام به کاربر ✉️", callback_data='ANS_' + str(chat_id))]]
@@ -2194,7 +2194,7 @@ def text_private(bot, message):
                     add_code_buy(chat_id, code, "check", cache_list)
                     message.reply_text("ادمین ها بزودی درخواستتون بررسی میکنن.", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back')]]))
                 else:
-                    msg = message.reply_text("منتظر بمانید...").id
+                    msg = message.reply_text("Wait...").id
                     passw = get_password_by_settings()
                     port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
                     try:
@@ -2206,7 +2206,7 @@ def text_private(bot, message):
                         HOST = ((text.split("SSH Host : ")[1]).split("\n")[0]).replace("<pre>", "").replace("</pre>", "").replace("<code>", "").replace("</code>", "").replace(" ", "")
                         url = f'ssh://{cache_list[1]}:{passw}@{HOST}:{port}#{cache_list[1]}'
                         photo = QR_Maker(url)
-                        text += "\n\n🌐 لینک اتصال خودکار:\n\n " + "<code>" + url + "</code>"
+                        text += "\n\nURL: " + "<code>" + url + "</code>"
                         bot.send_photo(chat_id, open(photo, 'rb'), text, parse_mode=enums.ParseMode.HTML)
                         os.remove(photo)
                         cb = "IDADMIN_" + host + "$" + cache_list[1]
@@ -2458,7 +2458,7 @@ def text_private(bot, message):
         elif status == "days":
             try:
                 int(link)
-                msg = message.reply_text("منتظر بمانید...").id
+                msg = message.reply_text("Wait...").id
                 cache_list, host_cahce = get_collector_cache(chat_id)
                 host = cache_list[0]
                 user_id = cache_list[3]
@@ -2475,7 +2475,7 @@ def text_private(bot, message):
                     HOST = ((text.split("SSH Host : ")[1]).split("\n")[0]).replace("<pre>", "").replace("</pre>", "").replace("<code>", "").replace("</code>", "").replace(" ", "")
                     url = f'ssh://{cache_list[1]}:{passw}@{HOST}:{port}#{cache_list[1]}'
                     photo = QR_Maker(url)
-                    text += "\n\n🌐 لینک اتصال خودکار:\n\n " + "<code>" + url + "</code>"
+                    text += "\n\nURL: " + "<code>" + url + "</code>"
                     bot.send_photo(chat_id, open(photo, 'rb'), text, parse_mode=enums.ParseMode.HTML)
                     os.remove(photo)
                     cb = "IDADMIN_" + host + "$" + cache_list[1]
@@ -2492,7 +2492,7 @@ def text_private(bot, message):
                 message.reply_text("فقط میتونی عدد بفرستی")
 
         elif "remove_" in status:
-            msg = message.reply_text("منتظر بمانید...").id
+            msg = message.reply_text("Wait...").id
             user = link
             host = status.split("remove_")[1]
             try:
@@ -2589,8 +2589,8 @@ def text_private(bot, message):
                         username = "@" + message.from_user.username
                     except:
                         username = 'Null'
-                    t1 = f"💲فروشنده💲\nتمدید\n⏰ مدت سرویس: {days} روز\n🔋حجم سرویس: {traffic} گیگ\n🧑‍💻 محدودیت: {connection_limit} کاربره\n🚦سرور: {host}\n✏️ نام اکانت: {user}"
-                    text = "▫️آیدی کاربر: <code>" + str(chat_id) + "</code>\n👨‍💼اسم کاربر: " + name + '\n⚡️ نام کاربری: ' + username + "\n\n📝 اطلاعت خرید:\n" + t1
+                    t1 = f"💲فروشنده💲\nتمدید\ndays: {days}\nGB: {traffic}\nConnection: {connection_limit}\nHost: {host}\nUser: {user}"
+                    text = "id: <code>" + str(chat_id) + "</code>\nName: " + name + '\nUsername: ' + username + "\n\ninfo buy:\n" + t1
                     cb = "ConfirmUPGRADE_" + code
                     no = "رد❌_" + code
                     keyboard = [[InlineKeyboardButton("تایید✅", callback_data=cb), InlineKeyboardButton("رد❌", callback_data=no)], [InlineKeyboardButton("پیام به کاربر ✉️", callback_data='ANS_' + str(chat_id))]]
@@ -2604,7 +2604,7 @@ def text_private(bot, message):
                     add_code_buy(chat_id, code, "checkup", cache_list)
                     message.reply_text("ادمین ها بزودی درخواستتون بررسی میکنن.", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back')]]))
                 else:
-                    msg = message.reply_text("منتظر بمانید...").id
+                    msg = message.reply_text("Wait...").id
                     port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
                     try:
                         Session = samisshbot.PANNEL(host, username, password, port, panel, 'User', cache_list[1])
@@ -2659,8 +2659,8 @@ def text_private(bot, message):
                         username = "@" + message.from_user.username
                     except:
                         username = 'Null'
-                    t1 = f"💲فروشنده💲\nافزایش ترافیک 🔃\n\n🔋حجم سرویس: {str(traffic)} گیگ\n🚦سرور: {host}\n✏️ نام اکانت: {user}"
-                    text = "▫️آیدی کاربر: <code>" + str(chat_id) + "</code>\n👨‍💼اسم کاربر: " + name + '\n⚡️ نام کاربری: ' + username + "\n\n📝 اطلاعت خرید:\n" + t1
+                    t1 = f"💲فروشنده💲\nافزایش ترافیک 🔃\n\nGB: {str(traffic)}\nHost: {host}\nUser: {user}"
+                    text = "id: <code>" + str(chat_id) + "</code>\nName: " + name + '\nUsername: ' + username + "\n\ninfo buy:\n" + t1
                     cb = "ConfirmTraffic_" + code
                     no = "رد❌_" + code
                     keyboard = [[InlineKeyboardButton("تایید✅", callback_data=cb), InlineKeyboardButton("رد❌", callback_data=no)], [InlineKeyboardButton("پیام به کاربر ✉️", callback_data='ANS_' + str(chat_id))]]
@@ -2674,7 +2674,7 @@ def text_private(bot, message):
                     add_code_buy(chat_id, code, "checkup", cache_list)
                     message.reply_text("ادمین ها بزودی درخواستتون بررسی میکنن.", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back')]]))
                 else:
-                    msg = message.reply_text("منتظر بمانید...").id
+                    msg = message.reply_text("Wait...").id
                     port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
                     try:
                         Session = samisshbot.PANNEL(host, username, password, port, panel, 'User', user)
@@ -2697,7 +2697,7 @@ def text_private(bot, message):
                 message.reply_text("این آدرس پنل وجود نداره, آدرس درستو بفرستین ")
 
         elif "userinfo_" in status:
-            msg = message.reply_text("منتظر بمانید...").id
+            msg = message.reply_text("Wait...").id
             user = link
             host = status.split("userinfo_")[1]
             try:
@@ -2984,7 +2984,7 @@ def text_private(bot, message):
             delete_cache(chat_id)
 
         elif ("disable_" in status) or ("enable_" in status):
-            msg = message.reply_text("منتظر بمانید...").id
+            msg = message.reply_text("Wait...").id
             try:
                 if "disable" in status:
                     host = status.split("disable_")[1]
@@ -3068,7 +3068,7 @@ def text_private(bot, message):
                 message.reply_text("فقط میتونی عدد بفرستی")
 
         elif "Kill_" in status:
-            msg = message.reply_text("منتظر بمانید...").id
+            msg = message.reply_text("Wait...").id
             keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='Manager')]]
             reply_markup = InlineKeyboardMarkup(keyboard)
             try:
@@ -8455,7 +8455,7 @@ def call_TTRS(bot, query):
     hosts, remarks = samisshbot.HOSTS()
     if host in hosts:
         try:
-            query.edit_message_text(text='Login test منتظر بمانید...')
+            query.edit_message_text(text='Login test Wait...')
             port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
             if panel in ssh_panels:
                 status = samisshbot.ssh_status(host, port, username, password)
@@ -9212,7 +9212,7 @@ def call_SMT(bot, query):
     ]
     keyboard.append([InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back_admin')])
     reply_markup = InlineKeyboardMarkup(keyboard)
-    text = '<b>🖥 مدیریت سرور ها</b>' + "\n\n-دکمه مانیتور و اطلاعات کامل یک سرور:\nمیتونین اطلاعات کامل سرور ببینین و کاربرای آنلاین و غیرفعال و نزدیک به منقضی شدن ببینین. اگه سرور شما لایسنس دار باشه امکانات بیشتری داره\n-دکمه ظرفیت سرورها:\nبهتون میگه رو هر سرور چند کاربر وجود داره\nتغییر تغییر پورت اس اس اچ و یو دی پی فقط برای ایکس پنل هست\n\nبرای تغییر سرور هم کافیه دکمه تغییر آدرس و یوزنیم و پسورد بزنین که کاربرارو انتقال بدین به اون آدرس... دقت کنین که فقط کاربرای داخل ربات آدرس سرورشون عوض میشه مواقعی که انتقال دادین کاربرا به ی سرور دیگه از این گزینه استفاده کنین یا یوزرنیم و پسورد یا آدرس سرور رو تغییر دادین"
+    text = '<b>🖥 Server Manager</b>' + "\n\n-دکمه مانیتور و اطلاعات کامل یک سرور:\nمیتونین اطلاعات کامل سرور ببینین و کاربرای آنلاین و غیرفعال و نزدیک به منقضی شدن ببینین. اگه سرور شما لایسنس دار باشه امکانات بیشتری داره\n-دکمه ظرفیت سرورها:\nبهتون میگه رو هر سرور چند کاربر وجود داره\nتغییر تغییر پورت اس اس اچ و یو دی پی فقط برای ایکس پنل هست\n\nبرای تغییر سرور هم کافیه دکمه تغییر آدرس و یوزنیم و پسورد بزنین که کاربرارو انتقال بدین به اون آدرس... دقت کنین که فقط کاربرای داخل ربات آدرس سرورشون عوض میشه مواقعی که انتقال دادین کاربرا به ی سرور دیگه از این گزینه استفاده کنین یا یوزرنیم و پسورد یا آدرس سرور رو تغییر دادین"
     query.edit_message_text(text=text, reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
 
 
@@ -9297,7 +9297,7 @@ def call_QRCODE(bot, query):
     host = (data.split("_")[1]).split("$")[0]
     user = data.split("$")[1]
     cb = host + "$" + user
-    msg = query.edit_message_text(text='منتظر بمانید...').id
+    msg = query.edit_message_text(text='Wait...').id
     keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='back')]]
     reply_markup = InlineKeyboardMarkup(keyboard)
     try:
@@ -9343,7 +9343,7 @@ def call_DJXVY(bot, query):
     host = (data.split("_")[1]).split("$")[0]
     user = data.split("$")[1]
     cb = host + "$" + user
-    query.edit_message_text(text='منتظر بمانید...')
+    query.edit_message_text(text='Wait...')
     keyboard = [[InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='service')]]
     reply_markup = InlineKeyboardMarkup(keyboard)
     try:
@@ -9409,7 +9409,7 @@ def call_ID(bot, query):
     user = data.split("$")[1]
     cb = host + "$" + user
     if check_exist_user(host, user) is True:
-        query.edit_message_text(text="منتظر بمانید...")
+        query.edit_message_text(text="wait...")
         if True:
             port, username, password, panel, route_path, sshport, udgpw, remark = samisshbot.HOST_INFO(host)
             Session = samisshbot.PANNEL(host, username, password, port, panel, 'User', user)
@@ -9504,7 +9504,7 @@ def call_test(bot, query):
     else:
         if check_test_exists(chat_id) is False:
             try:
-                msg = query.edit_message_text(text="منتظر بمانید...").id
+                msg = query.edit_message_text(text="Wait...").id
                 host = get_random_server()
                 if host is None:
                     query.answer("ظرفیت پر شده بعدا امتحان کنین", show_alert=True)
@@ -9903,7 +9903,7 @@ def call_bkon(bot, query):
                     else:
                         break
             else:
-                query.answer("فعال است", show_alert=True)
+                query.answer("Already ON", show_alert=True)
 
 
 @app.on_callback_query(filters.regex('BKupOFF'))
@@ -9921,7 +9921,7 @@ def call_bkoff(bot, query):
         reply_markup = InlineKeyboardMarkup(keyboard)
         query.edit_message_text(text="متوقف شد.", reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
     else:
-        query.answer("غیرفعال است", show_alert=True)
+        query.answer("Already OFF", show_alert=True)
 
 
 @app.on_callback_query(filters.regex('BKupBot'))
@@ -9973,9 +9973,9 @@ def call_backup(bot, query):
     ]
     settings = get_settings()
     if backup[0] is False:
-        backup_status = "خاموش ❌"
+        backup_status = "OFF ❌"
     else:
-        backup_status = "روشن ✅"
+        backup_status = "ON ✅"
     text = '<b>تنظیمات بکاب گیری</b>\n\n(فقط برای ادمینی که این گزینه رو روشن میکنه کار میکنه)' + "\n\nآموزش انتقال ربات به سرور جدید:\n-اول کامند /backup داخل بات بزنید\n-وارد سروری که همین الان ربات رانه بشین و این کامندو بزنین:\npkill -9 python3\nوارد سرور جدید بشین و ربات نصب کنین اطلاعات ایدی عددی ادمین و توکن ربات...\nبعد برید به قسمت تنظیمات > بکاپ > آپلود بکاپ فایلای درخواستی رو فوروارد کنین" + "\n\n🔄Status\n\n" + "Backup: " + backup_status + "\n" + "🕔Timer: " + str(settings['backup']) + " hours"
     keyboard.append([InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='settings')])
     reply_markup = InlineKeyboardMarkup(keyboard)
@@ -10029,7 +10029,7 @@ def call_WLMSG(bot, query):
         cb = 'on'
         emoji_cb = "🟢"
     keyboard = [
-        [InlineKeyboardButton("Edit✏️", callback_data='ELMSG')],
+        [InlineKeyboardButton("ویرایش ✏️", callback_data='ELMSG')],
         [InlineKeyboardButton(f"Show Button: {cb} {emoji_cb}", callback_data=f'OWQZQ_{cb}')]
     ]
     text = '<b>Price MSG Settings</b>\n\n' + "Text:\n\n" + settings['list'] + "\n\nStatus: " + settings['list_status'] + " " + emoji
@@ -10148,7 +10148,7 @@ def call_USD(bot, query):
     if chat_id not in admin_id:
         query.answer("Access denied", show_alert=True)
         return
-    query.edit_message_text(text="منتظر بمانید...")
+    query.edit_message_text(text="wait...")
     chat_id = query.message.chat.id
     delete_cache(chat_id)
     keyboard = [
@@ -10218,11 +10218,11 @@ def call_ZQUC(bot, query):
     settings = get_settings()
     if settings['upgrade_days'] == "on":
         emoji = "🟢"
-        cb = 'off'
+        cb = 'خاموش'
         emoji_cb = "🔴"
     else:
         emoji = "🔴"
-        cb = 'on'
+        cb = 'روشن'
         emoji_cb = "🟢"
     keyboard = [
         [InlineKeyboardButton(f"{cb} {emoji_cb}", callback_data=f'JDXSF_{cb}')],
@@ -10288,11 +10288,11 @@ def call_ZBSHP(bot, query):
     settings = get_settings()
     if settings['first_connect'] == "on":
         emoji = "🟢"
-        cb = 'off'
+        cb = 'خاموش'
         emoji_cb = "🔴"
     else:
         emoji = "🔴"
-        cb = 'on'
+        cb = 'روشن'
         emoji_cb = "🟢"
     keyboard = [
         [InlineKeyboardButton("💵 ولت ترون", callback_data='wallet'), InlineKeyboardButton("💳 کارت", callback_data='Card')],
@@ -10308,7 +10308,7 @@ def call_ZBSHP(bot, query):
         [InlineKeyboardButton("🔑تنظیم پسورد", callback_data='DKSJJHJ')]
     ]
     t0 = "\n\nCurrent: " + settings['first_connect'] + " " + emoji
-    text = '<b>تنظیمات فروشگاه</b>\n\n' + "تنظیمات خرید و تمدید اکانت و ترافیک\n\nاگه گزینه روشن باشه 🟢 روشن کاربر یا فروشنده وقتی اکانتی رو میخره از اولین اتصال روز اکانت درست میشه و اگه خاموش باشه از همون لحظه شروع میشه " + t0
+    text = '<b>تنظیمات فروشگاه</b>\n\n' + "تنظیمات خرید و تمدید اکانت و ترافیک\n\nاگه گزینه روشن باشه 🟢 on کاربر یا فروشنده وقتی اکانتی رو میخره از اولین اتصال روز اکانت درست میشه و اگه خاموش باشه از همون لحظه شروع میشه " + t0
     keyboard.append([InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='settings')])
     reply_markup = InlineKeyboardMarkup(keyboard)
     query.edit_message_text(text=text, reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
@@ -10330,10 +10330,10 @@ def call_CSNDF(bot, query):
     settings = get_settings()
     if settings['random_price'] == "on":
         emoji = "🟢"
-        cb = 'off'
+        cb = 'خاموش'
     else:
         emoji = "🔴"
-        cb = 'on'
+        cb = 'روشن'
     keyboard = [
         [InlineKeyboardButton(f"قیمت رندوم : {settings['random_price']} {emoji}", callback_data=f'CSNDF_{cb}')],
         [InlineKeyboardButton("🔄 تغییر قیمت رندوم", callback_data='JLDKH')],
@@ -10370,7 +10370,7 @@ def call_DKSJJHJ(bot, query):
     settings = get_settings()
     if "_" in data:
         data = data.split("_")[1]
-        if data in ["روشن", "خاموش"]:
+        if data in ["on", "off"]:
             settings['default_password_status'] = data
         elif "PM" in data:
             if settings['password_method'] == "عدد":
@@ -10383,15 +10383,15 @@ def call_DKSJJHJ(bot, query):
     settings = get_settings()
     if settings['default_password_status'] == "on":
         emoji = "🟢"
-        cb = 'off'
+        cb = 'خاموش'
     else:
         emoji = "🔴"
-        cb = 'on'
-    if settings['password_method'] == "number":
+        cb = 'روشن'
+    if settings['password_method'] == "عدد":
         cb_c = "عدد"
-    elif settings['password_method'] == "letters":
+    elif settings['password_method'] == "حروف":
         cb_c = "حروف"
-    elif settings['password_method'] == "number&letters":
+    elif settings['password_method'] == "حروف و عدد":
         cb_c = "عدد و حروف"
     keyboard = [
         [InlineKeyboardButton(f"رمز پیشفرض: {settings['default_password_status']} {emoji}", callback_data=f'DKSJJHJ_{cb}')],
@@ -10461,19 +10461,19 @@ def call_BSOPtion(bot, query):
     settings = get_settings()
     if settings['buy'] == "on":
         emoji = "🟢"
-        cb = 'off'
+        cb = 'خاموش'
         emoji_cb = "🔴"
     else:
         emoji = "🔴"
-        cb = 'on'
+        cb = 'روشن'
         emoji_cb = "🟢"
     if settings['buy_only_customers'] == "on":
         emoji_2 = "🟢"
-        cb_2 = 'off'
+        cb_2 = 'خاموش'
         emoji_cb_2 = "🔴"
     else:
         emoji_2 = "🔴"
-        cb_2 = 'on'
+        cb_2 = 'روشن'
         emoji_cb_2 = "🟢"
     keyboard = [
         [InlineKeyboardButton(f"وضعیت خرید {cb} {emoji_cb}", callback_data=f'EBS_{cb}')],
@@ -10687,7 +10687,7 @@ def call_FLCHON(bot, query):
                     else:
                         break
             else:
-                query.answer("فعال است", show_alert=True)
+                query.answer("Already ON", show_alert=True)
 
 
 @app.on_callback_query(filters.regex('FLCHOFF'))
@@ -10705,7 +10705,7 @@ def call_FLCHOFF(bot, query):
         reply_markup = InlineKeyboardMarkup(keyboard)
         query.edit_message_text(text="متوقف شد.", reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
     else:
-        query.answer("غیرفعال است", show_alert=True)
+        query.answer("Already OFF", show_alert=True)
 
 
 @app.on_callback_query(filters.regex('FLCHTI'))
@@ -10802,7 +10802,7 @@ def call_NUSYS(bot, query):
         return
     keyboard = [
         [InlineKeyboardButton("روشن 🟢", callback_data='SNON')],
-        [InlineKeyboardButton("خاموش 🔴", callback_data='SNFF')]
+        [InlineKeyboardButton("OFF 🔴", callback_data='SNFF')]
     ]
     if notify_system[0] is False:
         status = "خاموش ❌"
@@ -10913,7 +10913,7 @@ def call_SNON(bot, query):
                     else:
                         break
             else:
-                query.answer("فعال است", show_alert=True)
+                query.answer("Already ON", show_alert=True)
 
 
 @app.on_callback_query(filters.regex('SNFF'))
@@ -10933,7 +10933,7 @@ def call_SNFF(bot, query):
         reply_markup = InlineKeyboardMarkup(keyboard)
         query.edit_message_text(text="متوقف شد.", reply_markup=reply_markup, parse_mode=enums.ParseMode.HTML)
     else:
-        query.answer("غیرفعال است", show_alert=True)
+        query.answer("Already OFF", show_alert=True)
 
 
 @app.on_callback_query(filters.regex('INVS'))
@@ -10946,11 +10946,11 @@ def call_INVS(bot, query):
     settings = get_settings()
     if settings['invite'] == "on":
         emoji = "🟢"
-        cb = 'off'
+        cb = 'خاموش'
         emoji_cb = "🔴"
     else:
         emoji = "🔴"
-        cb = 'on'
+        cb = 'روشن'
         emoji_cb = "🟢"
     keyboard = [
         [InlineKeyboardButton("✏️تغییر مبلغ دعوت", callback_data='ENVS')],
@@ -11020,24 +11020,24 @@ def call_SID(bot, query):
     settings = get_settings()
     if settings['support_status'] == "on":
         emoji = "🟢"
-        cb = 'off'
+        cb = 'خاموش'
         emoji_cb = "🔴"
     else:
         emoji = "🔴"
-        cb = 'on'
+        cb = 'روشن'
         emoji_cb = "🟢"
     if settings['support_chat'] == "on":
         emoji_2 = "🟢"
-        cb_2 = 'off'
+        cb_2 = 'خاموش'
         emoji_cb_2 = "🔴"
     else:
         emoji_2 = "🔴"
-        cb_2 = 'on'
+        cb_2 = 'روشن'
         emoji_cb_2 = "🟢"
     keyboard = [
-        [InlineKeyboardButton("Edit✏️", callback_data='EAID'), InlineKeyboardButton("Delete✖️", callback_data='DAID')],
-        [InlineKeyboardButton(f"Support: {cb} {emoji_cb}", callback_data=f'VSQBX_{cb}')],
-        [InlineKeyboardButton(f"Chat: {cb_2} {emoji_cb_2}", callback_data=f'DHKNNL_{cb_2}')]
+        [InlineKeyboardButton("ویرایش ✏️", callback_data='EAID'), InlineKeyboardButton("حذف ✖️", callback_data='DAID')],
+        [InlineKeyboardButton(f"پشتیبانی: {cb} {emoji_cb}", callback_data=f'VSQBX_{cb}')],
+        [InlineKeyboardButton(f"چت: {cb_2} {emoji_cb_2}", callback_data=f'DHKNNL_{cb_2}')]
     ]
     text = '<b>تنظیمات پشتیبانی</b>\n\n' + "میتونین یه پیام پشتیبانی رو قرار بدین و وقتی کاربر دکمه پشتیبانی رو بزنه پیامی که تنظیم کردین نمایش داده بشه\n\nگزینه دوم خاموش باشه به کاربر گزینه پشتیبانی نمایش داده نمیشه\n\nگزینه سوم چت هست با خاموش کردن دیگه کاربر نمیتونه از داخل ربات بهتون پیام بده و فقط پیام پشتیبانی براش نمایش داده میشه\n\nCurrent: " + settings['support'] + "\n\nپشتیبانی: " + settings['support_status'] + " " + emoji + "\nچت: " + settings['support_chat'] + " " + emoji_2
     keyboard.append([InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='settings')])
@@ -11141,10 +11141,10 @@ def call_CVM(bot, query):
         update_settings(settings)
     if settings['custom_tutorial_only_button'] == "on":
         emoji = "🟢"
-        cb = 'off'
+        cb = 'خاموش'
     else:
         emoji = "🔴"
-        cb = 'on'
+        cb = 'روشن'
     keyboard = [
         [InlineKeyboardButton(f"Button: {settings['custom_tutorial_only_button']} {emoji}", callback_data=f'CVM_{cb}')],
         [InlineKeyboardButton("ویرایش ✏️", callback_data='EVM')]
@@ -11207,10 +11207,10 @@ def call_CTI(bot, query):
         update_settings(settings)
     if settings['tutorial_ios'] == "on":
         emoji = "🟢"
-        cb = 'off'
+        cb = 'خاموش'
     else:
         emoji = "🔴"
-        cb = 'on'
+        cb = 'روشن'
     keyboard = [
         [InlineKeyboardButton(f"Button: {settings['tutorial_ios']} {emoji}", callback_data=f'CTI_{cb}')],
         [InlineKeyboardButton("ویرایش ✏️", callback_data='ETI')]
@@ -11252,10 +11252,10 @@ def call_CTA(bot, query):
         update_settings(settings)
     if settings['tutorial_android'] == "on":
         emoji = "🟢"
-        cb = 'off'
+        cb = 'خاموش'
     else:
         emoji = "🔴"
-        cb = 'on'
+        cb = 'روشن'
     keyboard = [
         [InlineKeyboardButton(f"Button: {settings['tutorial_android']} {emoji}", callback_data=f'CTA_{cb}')],
         [InlineKeyboardButton("ویرایش ✏️", callback_data='ETA')]
@@ -11297,10 +11297,10 @@ def call_CTM(bot, query):
         update_settings(settings)
     if settings['tutorial_mac'] == "on":
         emoji = "🟢"
-        cb = 'off'
+        cb = 'خاموش'
     else:
         emoji = "🔴"
-        cb = 'on'
+        cb = 'روشن'
     keyboard = [
         [InlineKeyboardButton(f"Button: {settings['tutorial_mac']} {emoji}", callback_data=f'CTM_{cb}')],
         [InlineKeyboardButton("ویرایش ✏️", callback_data='ETM')]
@@ -11342,10 +11342,10 @@ def call_CTW(bot, query):
         update_settings(settings)
     if settings['tutorial_windows'] == "on":
         emoji = "🟢"
-        cb = 'off'
+        cb = 'خاموش'
     else:
         emoji = "🔴"
-        cb = 'on'
+        cb = 'روشن'
     keyboard = [
         [InlineKeyboardButton(f"Button: {settings['tutorial_windows']} {emoji}", callback_data=f'CTW_{cb}')],
         [InlineKeyboardButton("ویرایش ✏️", callback_data='ETW')]
@@ -11380,11 +11380,11 @@ def call_TASET(bot, query):
     settings = get_settings()
     if settings['test'] == "on":
         emoji = "🟢"
-        cb = 'off'
+        cb = 'خاموش'
         emoji_cb = "🔴"
     else:
         emoji = "🔴"
-        cb = 'on'
+        cb = 'روشن'
         emoji_cb = "🟢"
     keyboard = [
         [InlineKeyboardButton(f"{cb} {emoji_cb}", callback_data=f'ETOR_{cb}')],
@@ -11464,11 +11464,11 @@ def call_BTOPtion(bot, query):
     settings = get_settings()
     if settings['buy-traffic'] == "on":
         emoji = "🟢"
-        cb = 'off'
+        cb = 'خاموش'
         emoji_cb = "🔴"
     else:
         emoji = "🔴"
-        cb = 'on'
+        cb = 'روشن'
         emoji_cb = "🟢"
     keyboard = [
         [InlineKeyboardButton(f"{cb} {emoji_cb}", callback_data=f'EBT_{cb}')],
@@ -11579,24 +11579,24 @@ def call_PNS(bot, query):
     settings = get_settings()
     if settings['phone'] == "on":
         emoji = "🟢"
-        cb = 'off'
+        cb = 'خاموش'
         emoji_cb = "🔴"
     else:
         emoji = "🔴"
-        cb = 'on'
+        cb = 'روشن'
         emoji_cb = "🟢"
 
     if settings['irphone'] == "on":
         emoji_2 = "🟢"
-        cb_2 = 'off'
+        cb_2 = 'خاموش'
         emoji_cb_2 = "🔴"
     else:
         emoji_2 = "🔴"
-        cb_2 = 'on'
+        cb_2 = 'روشن'
         emoji_cb_2 = "🟢"
     keyboard = [
-        [InlineKeyboardButton(f"Phone {cb} {emoji_cb}", callback_data=f'EWPN_{cb}')],
-        [InlineKeyboardButton(f"IRAN {cb_2} {emoji_cb_2}", callback_data=f'EIPN_{cb_2}')],
+        [InlineKeyboardButton(f"شماره تلفن {cb} {emoji_cb}", callback_data=f'EWPN_{cb}')],
+        [InlineKeyboardButton(f"شماره ایرانی {cb_2} {emoji_cb_2}", callback_data=f'EIPN_{cb_2}')],
     ]
     text = f"<b>تنظبمات شماره تلفن</b>\n\nبا روشن بودن گزینه phone کاربرا باید برای استفاده از ربات شمارشون بفرستن و با روشن بودن گزینه iran فقط کاربرای ایرانی میتونن از امکانات ربات استفاده کنن  \n\n<b>Current</b>\nدریافت شماره تلفن: {settings['phone']} {emoji}\nفقط شماره تلفن ایرانی: {settings['irphone']} {emoji_2} "
     keyboard.append([InlineKeyboardButton("⤵️ برگرد به منوی قبلی", callback_data='settings')])
@@ -11660,8 +11660,8 @@ def call_XSM(bot, query):
         cb_2 = 'on'
         emoji_cb_2 = "🟢"
     keyboard = [
-        [InlineKeyboardButton(f"Custom: {cb} {emoji_cb}", callback_data=f'ESM_{cb}')],
-        [InlineKeyboardButton(f"Server selection: {cb_2} {emoji_cb_2}", callback_data=f'OSKSC_{cb_2}')],
+        [InlineKeyboardButton(f"آزادانه: {cb} {emoji_cb}", callback_data=f'ESM_{cb}')],
+        [InlineKeyboardButton(f"انتخاب سرور: {cb_2} {emoji_cb_2}", callback_data=f'OSKSC_{cb_2}')],
         [InlineKeyboardButton("لیست قیمت خرید و تمدید اکانت", callback_data='SPBAL')],
         [InlineKeyboardButton("لیست خرید ترافیک", callback_data='SPBTL')],
     ]
@@ -11877,42 +11877,42 @@ def call_NSCLS(bot, query):
     settings = get_settings()
     if settings['notification'] == "on":
         emoji = "🟢"
-        cb = 'off'
+        cb = 'خاموش'
         emoji_cb = "🔴"
     else:
         emoji = "🔴"
-        cb = 'on'
+        cb = 'روشن'
         emoji_cb = "🟢"
     if settings['phone_notification'] == "on":
         emoji_2 = "🟢"
-        cb_2 = 'off'
+        cb_2 = 'خاموش'
         emoji_cb_2 = "🔴"
     else:
         emoji_2 = "🔴"
-        cb_2 = 'on'
+        cb_2 = 'روشن'
         emoji_cb_2 = "🟢"
     if settings['buy_notification'] == "on":
         emoji_3 = "🟢"
-        cb_3 = 'off'
+        cb_3 = 'خاموش'
         emoji_cb_3 = "🔴"
     else:
         emoji_3 = "🔴"
-        cb_3 = 'on'
+        cb_3 = 'روشن'
         emoji_cb_3 = "🟢"
     if settings['notify_test_account'] == "on":
         emoji_4 = "🟢"
-        cb_4 = 'off'
+        cb_4 = 'خاموش'
         emoji_cb_4 = "🔴"
     else:
         emoji_4 = "🔴"
-        cb_4 = 'on'
+        cb_4 = 'روشن'
         emoji_cb_4 = "🟢"
     keyboard = [
-        [InlineKeyboardButton(f"New user: {cb} {emoji_cb}", callback_data=f'NSCXZ_{cb}')],
-        [InlineKeyboardButton(f"Phone: {cb_2} {emoji_cb_2}", callback_data=f'SVJLD_{cb_2}')],
-        [InlineKeyboardButton(f"Buy: {cb_3} {emoji_cb_3}", callback_data=f'SWHFlN_{cb_3}')],
-        [InlineKeyboardButton(f"Test: {cb_4} {emoji_cb_4}", callback_data=f'vogrog_{cb_4}')],
-        [InlineKeyboardButton("🗒پیام قبل استارت", callback_data='QPAEOI')]
+        [InlineKeyboardButton(f"کاربر جدید: {cb} {emoji_cb}", callback_data=f'NSCXZ_{cb}')],
+        [InlineKeyboardButton(f"شماره تلفن: {cb_2} {emoji_cb_2}", callback_data=f'SVJLD_{cb_2}')],
+        [InlineKeyboardButton(f"خرید: {cb_3} {emoji_cb_3}", callback_data=f'SWHFlN_{cb_3}')],
+        [InlineKeyboardButton(f"اکانت تست: {cb_4} {emoji_cb_4}", callback_data=f'vogrog_{cb_4}')],
+        [InlineKeyboardButton("🗒پیام قبل از عضویت", callback_data='QPAEOI')]
     ]
     t0 = "\n\nCurrent: \nپیغام کاربر جدید: " + settings['notification'] + " " + emoji + "\nشماره تلفن کاربر: " + settings['phone_notification'] + " " + emoji_2 + "\nپیغام خرید کاربر: " + settings['buy_notification'] + " " + emoji_3 + "\nپیغام دریافت اکانت تست: " + settings['notify_test_account'] + " " + emoji_4
     text = '<b>تنظیمات اعلانات</b>\n\n' + 'بهتون اطلاع میده کی عضو ربات شده \n\nگزینه دوم وقتی کاربر شمارشو میده به شما اطلاع بده\n\nگزینه سوم وقتی کاربر یا فروشنده از طریق کیف پول خریدی انجام دادن به شما اطلاع رسانی بشه فرقی نداره که خرید یا تمدید باشه\n\nگزینه چهارم برای اطلاع رسانی اکانت تست هست هرکی که دریافت کنه اطلاع میده بهتون\n\nگزینه پنجم میتونین برای کاربر یه پیامی رو تنظیم کنین که بعد از استارت نمایش داده بشه و فقط یکبار نشون داده میشه' + t0
@@ -12044,68 +12044,68 @@ def call_RWUAD(bot, query):
     settings = get_settings()
     if settings['delete_user'] == "on":
         emoji = "🟢"
-        cb = 'off'
+        cb = 'خاموش'
         emoji_cb = "🔴"
     else:
         emoji = "🔴"
-        cb = 'on'
+        cb = 'روشن'
         emoji_cb = "🟢"
     if settings['select_server_users'] == "on":
         emoji_2 = "🟢"
-        cb_2 = 'off'
+        cb_2 = 'خاموش'
         emoji_cb_2 = "🔴"
     else:
         emoji_2 = "🔴"
-        cb_2 = 'on'
+        cb_2 = 'روشن'
         emoji_cb_2 = "🟢"
     if settings['dropbear'] == "on":
         emoji_3 = "🟢"
-        cb_3 = 'off'
+        cb_3 = 'خاموش'
         emoji_cb_3 = "🔴"
     else:
         emoji_3 = "🔴"
-        cb_3 = 'on'
+        cb_3 = 'روشن'
         emoji_cb_3 = "🟢"
     if settings['info_service'] == "on":
         emoji_4 = "🟢"
-        cb_4 = 'off'
+        cb_4 = 'خاموش'
         emoji_cb_4 = "🔴"
     else:
         emoji_4 = "🔴"
-        cb_4 = 'on'
+        cb_4 = 'روشن'
         emoji_cb_4 = "🟢"
     if settings['tuic'] == "on":
         emoji_5 = "🟢"
-        cb_5 = 'off'
+        cb_5 = 'خاموش'
         emoji_cb_5 = "🔴"
     else:
         emoji_5 = "🔴"
-        cb_5 = 'on'
+        cb_5 = 'روشن'
         emoji_cb_5 = "🟢"
     if settings['online_access'] == "on":
         emoji_6 = "🟢"
-        cb_6 = 'off'
+        cb_6 = 'خاموش'
         emoji_cb_6 = "🔴"
     else:
         emoji_6 = "🔴"
-        cb_6 = 'on'
+        cb_6 = 'روشن'
         emoji_cb_6 = "🟢"
     if settings['change_password'] == "on":
         emoji_7 = "🟢"
-        cb_7 = 'off'
+        cb_7 = 'خاموش'
         emoji_cb_7 = "🔴"
     else:
         emoji_7 = "🔴"
-        cb_7 = 'on'
+        cb_7 = 'روشن'
         emoji_cb_7 = "🟢"
     keyboard = [
-        [InlineKeyboardButton(f"Delete: {cb} {emoji_cb}", callback_data=f'JDOSSK_{cb}')],
-        [InlineKeyboardButton(f"Server selection: {cb_2} {emoji_cb_2}", callback_data=f'CJSLC_{cb_2}')],
-        [InlineKeyboardButton(f"Dropbear Port: {cb_3} {emoji_cb_3}", callback_data=f'Dropbear_{cb_3}')],
-        [InlineKeyboardButton(f"Account info button: {cb_4} {emoji_cb_4}", callback_data=f'ISCSO_{cb_4}')],
-        [InlineKeyboardButton(f"Tuic: {cb_5} {emoji_cb_5}", callback_data=f'TCOAD_{cb_5}')],
-        [InlineKeyboardButton(f"online access: {cb_6} {emoji_cb_6}", callback_data=f'PWFDI_{cb_6}')],
-        [InlineKeyboardButton(f"Change Password: {cb_7} {emoji_cb_7}", callback_data=f'KJGNSD_{cb_7}')]
+        [InlineKeyboardButton(f"حذف اکانت: {cb} {emoji_cb}", callback_data=f'JDOSSK_{cb}')],
+        [InlineKeyboardButton(f"انتخاب سرور: {cb_2} {emoji_cb_2}", callback_data=f'CJSLC_{cb_2}')],
+        [InlineKeyboardButton(f"پورت دراپ بیر: {cb_3} {emoji_cb_3}", callback_data=f'Dropbear_{cb_3}')],
+        [InlineKeyboardButton(f"اطلاعات سرویس: {cb_4} {emoji_cb_4}", callback_data=f'ISCSO_{cb_4}')],
+        [InlineKeyboardButton(f"توییک: {cb_5} {emoji_cb_5}", callback_data=f'TCOAD_{cb_5}')],
+        [InlineKeyboardButton(f"وضعیت آنلاین: {cb_6} {emoji_cb_6}", callback_data=f'PWFDI_{cb_6}')],
+        [InlineKeyboardButton(f"تغییر پسورد: {cb_7} {emoji_cb_7}", callback_data=f'KJGNSD_{cb_7}')]
     ]
     t0 = "\n\nCurrent: \nحذف کلی اکانت: " + settings['delete_user'] + " " + emoji + "\nانتخاب سرور: " + settings['select_server_users'] + " " + emoji_2 + "\nپورت درآپ بیر: " + settings['dropbear'] + " " + emoji_3 + "\nاطلاعات سرویس: " + settings['info_service'] + " " + emoji_4 + "\nتوییک: " + settings['tuic'] + " " + emoji_5 + "\nوضعیت آنلاین: " + settings['online_access'] + " " + emoji_6 + "\nتغییر پسوورد: " + settings['change_password'] + " " + emoji_7
     text = '<b>تنظیمات دسترسی کاربران</b>\n\n' + "با گزینه اول میتونین دسترسی کاربر برای دلیت اکانت محدود کنین که خاموش باشه دکمه حذف اکانت برای کاربر نمایش داده نمیشه و نمیتونه حذف کنه اکانت خودشو و اگه روشن باشه میتونه اینکارو انجام بده\n\nگزینه دوم اگه روشن باشه کاربر میتونه سرور دلبخواه رو انتخاب کنه و اگه خاموش باشه بصورت رندوم بهش داده میشه (هیچ آدرسی فرستاده نمیشه قبل خرید)\n\nگزینه سوم برای پورت دراپ بیر هست که اگه روشن باشه پورت دراپ بیر برای کاربر میفرسته\n\nگزینه چهارم برای دکمه اطلاعات سرویس هست که نمایش داده بشه یا نه\n\nگزینه پنجم توییک هستش که فرستاده بشه یا نه (اگه روشن باشه هم برای کاربر هم برای ادمین و فروشنده ارسال میشه)\n\nگزینه شیشم کاربرا میتونن آنلاینی های اکانتشون ببینن\n\nگزینه هفتم مجوز تغییر پسورد توسط کاربر " + t0
@@ -12539,8 +12539,8 @@ def image_users(bot, message):
             code, cache_list = get_code_buy_info(chat_id, "add")
             delete_all_buy(chat_id, "add")
             add_code_buy(chat_id, code, "add", cache_list)
-            t1 = f"🚦سرور: {cache_list[6]}\n✏️ نام اکانت: {cache_list[5]}\n⏰ مدت سرویس: {cache_list[0]}\n🔋حجم سرویس: {cache_list[1]} گیگ\n🧑‍💻 محدودیت: {cache_list[2]} کاربره\n💰مبلغ پرداختی: {cache_list[3]} تومان\n📱 پرداخت: {cache_list[7]}"
-            text = "🪪 آیدی کاربر: <code>" + str(chat_id) + "</code>\n👨‍💼 اسم کاربر: " + name + '\n⚡️ نام کاربری: ' + username + "\n\n❗️|💳 خرید جدید\n\n" + t1
+            t1 = f"server: {cache_list[6]}\nuser: {cache_list[5]}\ndays: {cache_list[0]}\nGB: {cache_list[1]}\nConnection: {cache_list[2]}\nPrice: {cache_list[3]} Toman\nPayment: {cache_list[7]}"
+            text = "id: <code>" + str(chat_id) + "</code>\nName: " + name + '\nUsername: ' + username + "\n\nاطلاعات خرید اکانت\n" + t1
             cb = "Confirmed_" + code
             no = "رد❌_" + code
             keyboard = [[InlineKeyboardButton("تایید✅", callback_data=cb), InlineKeyboardButton("رد❌", callback_data=no)], [InlineKeyboardButton("پیام به کاربر ✉️", callback_data='ANS_' + str(chat_id))]]
@@ -12563,8 +12563,8 @@ def image_users(bot, message):
             code, cache_list = get_code_buy_info(chat_id, "upgrade")
             delete_all_buy(chat_id, "upgrade")
             add_code_buy(chat_id, code, "upgrade", cache_list)
-            t1 = f"♻ تمدید سرویس\n⏰ مدت سرویس: {cache_list[0]}\n🔋حجم سرویس: {cache_list[1]} گیگ\n🧑‍💻 محدودیت: {cache_list[2]} کاربره\n💰مبلغ پرداختی: {cache_list[3]} تومان\n🚦سرور: {cache_list[5]}\n✏️ نام اکانت: {cache_list[4]}\n📱 پرداخت: {cache_list[6]}"
-            text = "🪪 آیدی کاربر: <code>" + str(chat_id) + "</code>\n👨‍💼 اسم کاربر: " + name + '\n⚡️ نام کاربری: ' + username + "\n\n♻️ تمدید سرویس \n\n" + t1
+            t1 = f"♻ تمدید سرویس\ndays: {cache_list[0]}\nGB: {cache_list[1]}\nConnection: {cache_list[2]}\nprice: {cache_list[3]} Toman\nPayment: {cache_list[6]}\nHost: {cache_list[5]}\nUser: {cache_list[4]}"
+            text = "id: <code>" + str(chat_id) + "</code>\nName: " + name + '\nUsername: ' + username + "\n\nاطلاعات تمدید:\n" + t1
             cb = "ConfirmUPGRADE_" + code
             no = "رد❌_" + code
             keyboard = [[InlineKeyboardButton("تایید✅", callback_data=cb), InlineKeyboardButton("رد❌", callback_data=no)], [InlineKeyboardButton("پیام به کاربر ✉️", callback_data='ANS_' + str(chat_id))]]
@@ -12587,8 +12587,8 @@ def image_users(bot, message):
             code, cache_list = get_code_buy_info(chat_id, "traffic")
             delete_all_buy(chat_id, "traffic")
             add_code_buy(chat_id, code, "traffic", cache_list)
-            t1 = f"🔄افزایش ترافیک:\n\n🔋حجم سرویس: {cache_list[0]}\n💰مبلغ پرداختی: {cache_list[1]} Toman\n📱 پرداخت: {cache_list[4]}\n🚦سرور: {cache_list[3]}\n✏️ نام اکانت: {cache_list[2]}"
-            text = "id: <code>" + str(chat_id) + "</code>\nName: " + name + '\nUsername: ' + username + "\n\n🔄افزایش ترافیک:\n\n" + t1
+            t1 = f"🔄افزایش ترافیک\n\nGB: {cache_list[0]}\nprice: {cache_list[1]} Toman\nPayment: {cache_list[4]}\nHost: {cache_list[3]}\nUser: {cache_list[2]}"
+            text = "id: <code>" + str(chat_id) + "</code>\nName: " + name + '\nUsername: ' + username + "\n\nاطلاعات تمدید:\n" + t1
             cb = "ConfirmTraffic_" + code
             no = "رد❌_" + code
             keyboard = [[InlineKeyboardButton("تایید✅", callback_data=cb), InlineKeyboardButton("رد❌", callback_data=no)]]
@@ -12611,8 +12611,8 @@ def image_users(bot, message):
             code, cache_list = get_code_buy_info(chat_id, "userdeposit")
             delete_all_buy(chat_id, "userdeposit")
             add_code_buy(chat_id, code, "userdeposit", cache_list)
-            t1 = f"💵افزایش موجودی کیف پول\n\n💰مبلغ پرداختی: {cache_list[0]} تومان\n📱 پرداخت: {cache_list[1]}"
-            text = "🪪 آیدی کاربر: <code>" + str(chat_id) + "</code>\n👨‍💼 اسم کاربر: " + name + '\n⚡️ نام کاربری: ' + username + "\n\n💵افزایش موجودی کیف پول\n\n" + t1
+            t1 = f"💵افزایش موجودی کیف پول\n\nPrice: {cache_list[0]}\nPayment: {cache_list[1]}"
+            text = "id: <code>" + str(chat_id) + "</code>\nName: " + name + '\nUsername: ' + username + "\n\nاطلاعات خرید:\n" + t1
             cb = "ConfirmDeposit_" + code
             no = "رد❌_" + code
             keyboard = [[InlineKeyboardButton("تایید✅", callback_data=cb), InlineKeyboardButton("رد❌", callback_data=no)], [InlineKeyboardButton("پیام به کاربر ✉️", callback_data='ANS_' + str(chat_id))]]
@@ -12629,4 +12629,3 @@ def image_users(bot, message):
         delete_cache(chat_id)
 
 app.run()
-
