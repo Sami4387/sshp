@@ -3245,7 +3245,7 @@ def text_private(bot, message):
                 update_settings(settings)
                 message.reply_text("✅😊 انجام شد", reply_markup=reply_markup)
                 delete_cache(chat_id)
-            else:
+                        else:
                 message.reply_text("این پیام خیلی طولانیه! پیام دیگه ای رو بفرستین یا /cancel", reply_markup=reply_markup)
 
         elif "ETTR" == status:
